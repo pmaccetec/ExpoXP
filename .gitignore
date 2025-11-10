@@ -1,0 +1,41 @@
+# IDE specific files
+.idea/
+.vscode/
+*.iml
+*.iws
+.settings/
+.project
+.classpath
+
+# Build and dependency directories
+target/
+build/
+dist/
+node_modules/
+bin/
+out/
+
+# System and temporary files
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.tmp/
+temp/
+
+# Compiled files
+*.class
+*.jar
+*.war
+*.ear
+*.pyc
+*.o
+*.obj
+
+# Logs and local configurations
+*.log
+logs/
+.env
+.env.local
+application-*.properties
+nohup.out
