@@ -230,6 +230,24 @@ h1 .lab { color: var(--lab-lime); }
 
 .gabarito-controls.on { display: flex; }
 
+/* opção destacada antes de avançar (modo leitura) */
+.choice.escolhida {
+  border-color: var(--lab-lime);
+  border-style: solid;
+  background: rgba(174, 234, 0, 0.12);
+  transform: translateX(4px);
+}
+
+.choice.escolhida::after {
+  content: "◀ a opção escolhida";
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--lab-lime);
+  margin-top: 6px;
+  letter-spacing: 0.06em;
+}
+
 .gbtn {
   font-family: var(--font);
   font-size: 13px;
@@ -675,27 +693,41 @@ h1 .lab { color: var(--lab-lime); }
     // Modo leitura (?gabarito): reprodução automática + roteiro completo.
     // Uso interno da CETEC para revisar o texto sem jogar escolha por escolha.
     const GABARITO = new URLSearchParams(location.search).has("gabarito");
-    let autoTimer = null;
+    let autoLigado = false;
+    let geracaoAuto = 0;
     let autoClicando = false;
+    const AUTO_LEITURA_MS = 4000;  // tempo de leitura de cada entrada
+    const AUTO_ESCOLHA_MS = 1500;  // tempo pra assimilar a opção escolhida
 
     function pararAuto() {
-      if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+      autoLigado = false;
+      geracaoAuto++;
       document.getElementById("btnAuto").textContent = "▶︎ Reproduzir automático";
     }
 
-    function avancar() {
+    // destaca a opção, espera um instante e avança
+    function avancarComDestaque(gen) {
       const btn = document.querySelector(".choice");
-      if (btn) { autoClicando = true; btn.click(); autoClicando = false; }
-      else { pararAuto(); } // chegou ao fim (recap na tela)
+      if (!btn) { pararAuto(); return; } // chegou ao fim (recap na tela)
+      btn.classList.add("escolhida");
+      setTimeout(() => {
+        if (gen !== undefined && gen !== geracaoAuto) return; // pausou/trocou antes do clique
+        btn.classList.remove("escolhida");
+        autoClicando = true; btn.click(); autoClicando = false;
+      }, AUTO_ESCOLHA_MS);
     }
 
     function iniciarAuto() {
       pararAuto();
+      autoLigado = true;
       document.getElementById("btnAuto").textContent = "⏸ Pausar";
-      autoTimer = setInterval(() => {
+      const gen = ++geracaoAuto;
+      setTimeout(function ciclo() {
+        if (!autoLigado || gen !== geracaoAuto) return;
         if (!screens.entry.classList.contains("active")) { pararAuto(); return; }
-        avancar();
-      }, 4000);
+        avancarComDestaque(gen);
+        setTimeout(ciclo, AUTO_LEITURA_MS + AUTO_ESCOLHA_MS);
+      }, AUTO_LEITURA_MS);
     }
 
     function montarRoteiro() {
@@ -729,9 +761,9 @@ h1 .lab { color: var(--lab-lime); }
       montarRoteiro();
 
       document.getElementById("btnAuto").addEventListener("click", () => {
-        if (autoTimer) { pararAuto(); } else { iniciarAuto(); }
+        if (autoLigado) { pararAuto(); } else { iniciarAuto(); }
       });
-      document.getElementById("btnPular").addEventListener("click", () => { pararAuto(); avancar(); });
+      document.getElementById("btnPular").addEventListener("click", () => { pararAuto(); avancarComDestaque(); });
       document.getElementById("btnRoteiro").addEventListener("click", () => {
         pararAuto();
         document.getElementById("roteiroOverlay").classList.add("open");
@@ -773,7 +805,7 @@ h1 .lab { color: var(--lab-lime); }
           b.innerHTML = c.t + (c.h ? '<span class="choice-hint">' + c.h + "</span>" : "");
           b.addEventListener("click", () => {
             // no modo leitura, escolher manualmente pausa a reprodução automática
-            if (GABARITO && autoTimer && !autoClicando) { pararAuto(); }
+            if (GABARITO && autoLigado && !autoClicando) { pararAuto(); }
             if (c.set) flags[c.set] = true;
             caminho.push(node.d + " — " + node.t);
             render(c.to);
