@@ -251,7 +251,8 @@ h1 .lab { color: var(--lab-lime); }
 /* alternativas preteridas durante o destaque da escolha */
 .choice.preterida { opacity: 0.45; }
 
-/* Timeline do modo leitura (feedback de progresso da reprodução) */
+/* Timeline do modo leitura: feedback de que a reprodução está rodando
+   (faixa fluida em loop = em execução; apagada e parada = pausada) */
 .reading-timeline { display: none; margin-top: 16px; }
 
 .reading-timeline.on { display: block; }
@@ -266,7 +267,6 @@ h1 .lab { color: var(--lab-lime); }
 }
 
 .rt-label.lendo { color: var(--lab-lime); }
-.rt-label.escolhendo { color: var(--lab-blue); }
 
 .rt-track {
   height: 6px;
@@ -275,8 +275,30 @@ h1 .lab { color: var(--lab-lime); }
   overflow: hidden;
 }
 
-.rt-fill { height: 100%; width: 0%; border-radius: 999px; background: var(--lab-lime); }
-.rt-fill.escolha { background: var(--lab-blue); }
+.rt-fill {
+  height: 100%;
+  width: 30%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--lab-lime), transparent);
+  animation: rtFlui 1.6s ease-in-out infinite;
+}
+
+@keyframes rtFlui {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(440%); }
+}
+
+.rt-fill.parada {
+  animation: none;
+  transform: none;
+  width: 100%;
+  opacity: 0.35;
+  background: var(--lab-lime);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rt-fill { animation: none; width: 100%; opacity: 0.5; background: var(--lab-lime); }
+}
 
 .gbtn {
   font-family: var(--font);
@@ -732,7 +754,7 @@ h1 .lab { color: var(--lab-lime); }
     let autoLigado = false;
     let geracaoAuto = 0;
     let autoClicando = false;
-    const AUTO_ESCOLHA_MS = 3000;  // tempo pra comparar a escolha com as preteridas
+    const AUTO_ESCOLHA_MS = 4500;  // tempo pra comparar a escolha com as preteridas
 
     function pararAuto() {
       autoLigado = false;
@@ -743,10 +765,10 @@ h1 .lab { color: var(--lab-lime); }
     }
 
     // tempo de leitura proporcional ao tamanho do texto da entrada atual
-    // (base 2,5s + 40ms por caractere, entre 4s e 22s)
+    // (base 3s + 55ms por caractere, entre 5s e 28s)
     function tempoLeitura() {
       const chars = (el.text.innerText || "").length;
-      return Math.max(4000, Math.min(22000, 2500 + chars * 40));
+      return Math.max(5000, Math.min(28000, 3000 + chars * 55));
     }
 
     function limparDestaque() {
@@ -767,29 +789,21 @@ h1 .lab { color: var(--lab-lime); }
       }, AUTO_ESCOLHA_MS);
     }
 
-    // ---- Timeline da reprodução ----
+    // ---- Timeline do modo leitura: batimento de "está rodando" ----
     function rtEl() { return { fill: document.getElementById("rtFill"), label: document.getElementById("rtLabel"), box: document.getElementById("readingTimeline") }; }
 
-    function rtCorre(ms, fase) {
+    function rtAtiva() {
       const { fill, label, box } = rtEl();
       box.classList.add("on");
-      fill.className = "rt-fill" + (fase === "escolhendo" ? " escolha" : "");
-      fill.style.transition = "none";
-      fill.style.width = "0%";
-      void fill.offsetWidth;
-      fill.style.transition = "width " + ms + "ms linear";
-      fill.style.width = "100%";
-      label.textContent = fase === "lendo" ? "⏳ lendo…" : "◀ assimilando a escolha…";
-      label.className = "rt-label " + (fase === "lendo" ? "lendo" : "escolhendo");
+      fill.classList.remove("parada");
+      label.textContent = "▶︎ modo leitura em execução";
+      label.className = "rt-label lendo";
     }
 
     function rtCongelar() {
       const { fill, label, box } = rtEl();
       if (!box.classList.contains("on")) return;
-      const track = fill.parentElement.getBoundingClientRect().width;
-      const pct = track ? Math.min(100, (fill.getBoundingClientRect().width / track) * 100) : 0;
-      fill.style.transition = "none";
-      fill.style.width = pct + "%";
+      fill.classList.add("parada");
       label.textContent = "⏸ pausado";
       label.className = "rt-label";
     }
@@ -802,18 +816,16 @@ h1 .lab { color: var(--lab-lime); }
       pararAuto();
       autoLigado = true;
       document.getElementById("btnAuto").textContent = "⏸ Pausar";
+      rtAtiva();
       const gen = ++geracaoAuto;
       const ciclo = () => {
         if (!autoLigado || gen !== geracaoAuto) return;
         if (!screens.entry.classList.contains("active")) { pararAuto(); return; }
-        rtCorre(AUTO_ESCOLHA_MS, "escolhendo");
         avancarComDestaque(gen, () => {
           if (!autoLigado || gen !== geracaoAuto) return;
-          rtCorre(tempoLeitura(), "lendo");
           setTimeout(ciclo, tempoLeitura());
         });
       };
-      rtCorre(tempoLeitura(), "lendo");
       setTimeout(ciclo, tempoLeitura());
     }
 
