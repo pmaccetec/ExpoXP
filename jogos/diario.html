@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Diário de uma Cientista — história interativa: acompanhe a jornada de uma pessoa estudante de Arraial do Cabo da visita à Expo XP 2026 até uma carreira científica real. Jogos da Ciência · Expo XP 2026.">
+    <title>Diário de uma Cientista — Jogos da Ciência · Expo XP 2026</title>
+    <style>
+:root {
+  --lab-navy: #0B1420;
+  --lab-navy-2: #111F30;
+  --lab-lime: #AEEA00;
+  --lab-blue: #4FC3F7;
+  --text: #F2F6F9;
+  --text-dim: rgba(242, 246, 249, 0.65);
+  --radius: 14px;
+  --font: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-diario: Georgia, "Times New Roman", serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font);
+  background:
+    linear-gradient(rgba(174, 234, 0, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(174, 234, 0, 0.035) 1px, transparent 1px),
+    radial-gradient(ellipse at 50% -20%, #16324e 0%, var(--lab-navy) 60%);
+  background-size: 32px 32px, 32px 32px, 100% 100%;
+  background-attachment: fixed;
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.topbar a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.topbar a:hover { color: var(--lab-lime); }
+
+.topbar .brand { color: var(--text); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+.topbar .brand span { color: var(--lab-lime); }
+
+.stage { flex: 1; width: 100%; max-width: 720px; margin: 0 auto; padding: 8px 20px 48px; }
+
+.card {
+  background: var(--lab-navy-2);
+  border: 1px solid rgba(174, 234, 0, 0.22);
+  border-radius: var(--radius);
+  padding: 30px 26px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+}
+
+.screen { display: none; }
+.screen.active { display: block; animation: entrada 400ms ease; }
+
+@keyframes entrada { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+h1 { font-size: clamp(28px, 6vw, 40px); text-align: center; line-height: 1.15; margin-bottom: 8px; }
+h1 .lab { color: var(--lab-lime); }
+
+.subtitle { text-align: center; color: var(--text-dim); font-size: 16px; margin-bottom: 26px; line-height: 1.6; }
+
+.center { text-align: center; }
+
+.btn {
+  display: inline-block;
+  font-family: var(--font);
+  font-size: 17px;
+  font-weight: 700;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 30px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 150ms ease, filter 150ms ease;
+}
+
+.btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+.btn-primary { background: var(--lab-lime); color: #0B1420; }
+.btn-ghost { background: transparent; color: var(--text); border: 2px solid rgba(242, 246, 249, 0.4); }
+
+/* Entrada do diário */
+.entry-date {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--lab-lime);
+  margin-bottom: 6px;
+}
+
+.entry-title { font-size: 22px; font-weight: 800; margin-bottom: 14px; line-height: 1.3; }
+
+.entry-text {
+  font-family: var(--font-diario);
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.75;
+  margin-bottom: 20px;
+}
+
+.entry-text strong { color: var(--lab-lime); font-style: normal; }
+
+.entry-extra {
+  border-left: 3px solid var(--lab-lime);
+  padding-left: 14px;
+  margin-top: 14px;
+  opacity: 0.95;
+}
+
+/* Escolhas */
+.choices { display: flex; flex-direction: column; gap: 12px; }
+
+.choice {
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--lab-navy);
+  border: 2px solid rgba(242, 246, 249, 0.16);
+  border-radius: 12px;
+  padding: 15px 18px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 150ms ease, transform 150ms ease;
+  line-height: 1.45;
+}
+
+.choice:hover { border-color: var(--lab-lime); transform: translateX(4px); }
+
+.choice-hint { display: block; font-size: 12px; font-weight: 400; color: var(--text-dim); margin-top: 4px; }
+
+/* Assinatura */
+.assina { display: flex; gap: 12px; align-items: center; justify-content: center; margin: 22px 0 26px; }
+
+.assina input {
+  font-family: var(--font);
+  font-size: 16px;
+  color: var(--text);
+  background: var(--lab-navy);
+  border: 2px solid rgba(242, 246, 249, 0.18);
+  border-radius: 10px;
+  padding: 11px 14px;
+  max-width: 260px;
+}
+
+.assina input:focus { outline: none; border-color: var(--lab-lime); }
+.assina span { color: var(--text-dim); font-size: 14px; }
+
+/* Recap do diário */
+.recap-title { font-size: 22px; font-weight: 800; text-align: center; margin: 8px 0 20px; }
+
+.recap-list { list-style: none; margin-bottom: 24px; }
+
+.recap-list li {
+  font-family: var(--font-diario);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--text-dim);
+  padding: 8px 0 8px 18px;
+  border-left: 2px solid rgba(174, 234, 0, 0.35);
+  margin-left: 12px;
+  line-height: 1.5;
+}
+
+.recap-list li b { color: var(--text); font-style: normal; font-family: var(--font); font-size: 13px; display: block; }
+
+.carimbo {
+  text-align: center;
+  border: 2px dashed var(--lab-lime);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 24px;
+  transform: rotate(-1.5deg);
+}
+
+.carimbo .carimbo-emoji { font-size: 34px; display: block; margin-bottom: 6px; }
+
+.carimbo .carimbo-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-dim); }
+
+.carimbo .carimbo-carreira { font-size: 20px; font-weight: 800; color: var(--lab-lime); margin-top: 4px; }
+
+.recap-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+.progresso { text-align: center; font-size: 12px; color: var(--text-dim); margin-top: 18px; letter-spacing: 0.06em; }
+
+.footer-note { text-align: center; color: var(--text-dim); font-size: 12px; padding: 20px; line-height: 1.6; }
+.footer-note a { color: var(--text-dim); }
+
+@media (max-width: 600px) {
+  .card { padding: 24px 18px; }
+  .entry-text { font-size: 17px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen.active { animation: none; }
+  .choice:hover { transform: none; }
+  .btn:hover { transform: none; }
+}
+</style>
+</head>
+<body>
+    <div class="topbar">
+        <a href="index.html">← Jogos</a>
+        <div class="brand">Expo XP <span>2026</span> · Mulheres na Ciência</div>
+        <a href="../index.html">Esquenta ↑</a>
+    </div>
+
+    <main class="stage">
+        <!-- Abertura -->
+        <section class="card screen active" id="screenStart">
+            <span style="font-size:56px; text-align:center; display:block; margin-bottom:12px;" aria-hidden="true">📔</span>
+            <h1>Diário de uma <span class="lab">Cientista</span></h1>
+            <p class="subtitle">Uma história interativa em que <strong>você</strong> escreve o futuro. Tudo começa num caderno ganho na Expo XP 2026 — e termina numa carreira científica de verdade, aqui em Arraial do Cabo.</p>
+
+            <ul style="list-style:none; margin:0 auto 22px; max-width:440px; display:flex; flex-direction:column; gap:10px;">
+                <li style="display:flex; gap:10px; color:var(--text-dim); font-size:15px;"><span>✍️</span><span>Suas escolhas mudam a história — e o final</span></li>
+                <li style="display:flex; gap:10px; color:var(--text-dim); font-size:15px;"><span>🌊</span><span>Três caminhos reais: oceano, computação e engenharia</span></li>
+                <li style="display:flex; gap:10px; color:var(--text-dim); font-size:15px;"><span>🔁</span><span>No fim, releia seu diário e jogue por outro caminho</span></li>
+            </ul>
+
+            <div class="assina">
+                <span>Assinar como</span>
+                <input type="text" id="assinaInput" maxlength="24" placeholder="Estudante de Arraial" autocomplete="off">
+            </div>
+
+            <div class="center">
+                <button class="btn btn-primary" id="btnComecar">Abrir o caderno 📖</button>
+            </div>
+        </section>
+
+        <!-- Entrada do diário -->
+        <section class="card screen" id="screenEntry">
+            <div class="entry-date" id="entryDate">22/10/2026</div>
+            <h2 class="entry-title" id="entryTitle">Título</h2>
+            <div class="entry-text" id="entryText" aria-live="polite"></div>
+            <div class="choices" id="choices"></div>
+        </section>
+
+        <!-- Fim: meu diário -->
+        <section class="card screen" id="screenEnd">
+            <div class="recap-title" id="recapTitle">Meu diário</div>
+            <ul class="recap-list" id="recapList"></ul>
+            <div class="carimbo">
+                <span class="carimbo-emoji" id="carimboEmoji">🌊</span>
+                <div class="carimbo-label">carreira alcançada</div>
+                <div class="carimbo-carreira" id="carimboCarreira">Oceanografia</div>
+            </div>
+            <p class="subtitle" id="recapSub" style="margin-bottom:22px;"></p>
+            <div class="recap-actions">
+                <button class="btn btn-primary" id="btnReplay">Viver outro caminho 🔁</button>
+                <a class="btn btn-ghost" href="index.html">Mais jogos</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-note">
+        Jogos da Ciência · Secretaria de Educação, Ciência e Tecnologia de Arraial do Cabo<br>
+        Expo XP 2026 — Mulheres na Ciência · <a href="../index.html">expoxp.arraial.rj.gov.br</a>
+    </footer>
+
+    <script>
+    // ============================================================
+    // Roteiro — cada nó é uma entrada do diário.
+    // d: data · t: título · x: texto (aspas = fala) · c: escolhas
+    //   escolha: { t: texto do botão, h: dica opcional, to: destino, set: flag }
+    //   ex: linhas extras por flag [{f, t}] · end: {emoji, carreira, sub} = final
+    // Protagonista escrita em 1ª pessoa neutra; as mentoras da história
+    // são mulheres — o tema da edição é delas.
+    // ============================================================
+    const NODES = {
+      // ---------- PRÓLOGO COMUM ----------
+      abertura: {
+        d: "22/10/2026", t: "O caderno da vó",
+        x: "Hoje a Expo XP tomou a Praça Victorino Carriço inteira. Andei entre estandes com o coração batendo forte, e a vó me deu este caderno: <strong>\"quem pergunta muito, escreve para não esquecer\"</strong>. Então aqui vou eu. Tem estande pra todo lado — preciso escolher por onde começar.",
+        c: [
+          { t: "🍽️ Ir no estande do mar, com a pesquisadora do IEAPM", h: "tanques, amostras e microscópio", to: "mar1" },
+          { t: "💻 Ir na arena gamer, onde programam um jogo ao vivo", h: "tela grande, código rolando", to: "ada1" },
+          { t: "🏗️ Ir no estande de engenharia, com a ponte de palitinhos", h: "pesos, réguas e very engineering", to: "eng1" }
+        ]
+      },
+      mar1: {
+        d: "22/10/2026", t: "Água turva, água viva",
+        x: "A Dra. Marina, pesquisadora do IEAPM, segurava dois potes: um com água turva da chuva de ontem, outro com água cristalina. No microscópio, uma gota da água limpa revelava <strong>um mundo inteiro se mexendo</strong> — o plâncton, a base da vida no mar. \"Isso aí é a cidade invisível de Arraial\", ela disse. Anotei três vezes pra não esquecer.",
+        c: [ { t: "Continuar explorando a feira", to: "feira_fim" } ]
+      },
+      ada1: {
+        d: "22/10/2026", t: "A tela que obedece",
+        x: "Na arena gamer, uma equipe programava um jogo na tela grande, linha por linha. Uma das programadoras me deixou apertar uma tecla — e o boneco <strong>pulou</strong>. \"Foi você que mandou\", ela riu. Mandei de novo. E de novo. Parece mágica, mas ela mostrou: são instruções, uma depois da outra. Dá pra aprender a escrever isso.",
+        c: [ { t: "Continuar explorando a feira", to: "feira_fim" } ]
+      },
+      eng1: {
+        d: "22/10/2026", t: "A ponte que aguenta",
+        x: "No estande de engenharia, uma ponte de palitinhos aguentava dois celulares de peso — e rachou só no terceiro. A engenheira comemorou o estrago: <strong>\"rachar aqui é bom: é a ponte nos contando onde ela é fraca\"</strong>. Ela desenhou o erro no caderno dela e recomeçou a base. Gente que comemora o erro pra consertar o mundo? Quero entender isso.",
+        c: [ { t: "Continuar explorando a feira", to: "feira_fim" } ]
+      },
+      feira_fim: {
+        d: "22/10/2026 · fim de tarde", t: "O que me fisgou",
+        x: "O sol caiu atrás do Farol e a feira acendeu as luzinhas. Sentei no calçadão pra reler o que anotei. Tem uma coisa, entre todas, que não sai da minha cabeça. Acho que é nela que eu quero me aprofundar.",
+        c: [
+          { t: "🌊 O mar — aquela cidade invisível debaixo da água", h: "caminho do oceano", to: "o1", set: "oceano" },
+          { t: "💻 As máquinas — aquela tela que obedece a instruções", h: "caminho da computação", to: "a1", set: "maquinas" },
+          { t: "🏗️ As obras — aquela ponte que ensina com os erros", h: "caminho da engenharia", to: "e1", set: "construir" }
+        ]
+      },
+
+      // ---------- CAMINHO DO OCEANO ----------
+      o1: {
+        d: "28/10/2026", t: "Cultura oceânica na aula",
+        x: "A prof. Helena trouxe o tema da feira pra sala: como Arraial vive do mar e com o mar. Minha mão subiu sozinha pra contar o que vi no microscópio.",
+        ex: [ { f: "oceano", t: "(Releio a página da feira: \"cidade invisível de Arraial\" — a Dra. Marina ia adorar esta aula.)" } ],
+        c: [
+          { t: "Contar pra turma inteira o que vi na feira", h: "ciência também é compartilhar", to: "o2a" },
+          { t: "Esperar a aula acabar e falar só com a professora", to: "o2b" }
+        ]
+      },
+      o2a: {
+        d: "28/10/2026", t: "A turma também quis ver",
+        x: "Falei do plâncton e a sala fez \"uou\" em coro. O menino da última fileira perguntou se tem plâncton na praia dos Anjos (tem!). No fim, montamos um grupo de estudo do mar — <strong>eu que não falava em público</strong>. A prof. Helena anotou os nomes sorrindo.",
+        c: [ { t: "Aceitar o convite que vem aí", to: "o3" } ]
+      },
+      o2b: {
+        d: "28/10/2026", t: "O livro emprestado",
+        x: "No fim da aula, a prof. Helena me emprestou um livro do IEAPM sobre o litoral de Arraial. Li no Farol Velho, com o vento virando a página antes de mim. Tem mais anotação minha do que texto original, juro.",
+        c: [ { t: "Aceitar o convite que vem aí", to: "o3" } ]
+      },
+      o3: {
+        d: "12/11/2026", t: "Portas abertas no IEAPM",
+        x: "A prof. Helena anunciou: <strong>dia de portas abertas no Instituto de Estudos do Mar</strong>, ali na Praia dos Anjos. Vai ter tanque de circulação, laboratório e pesquisadoras contando o que fazem. Eu já ia. A questão é como.",
+        c: [
+          { t: "Ir com a turma, caderno na mão, anotando tudo", to: "o4", set: "anotador" },
+          { t: "Ir com mil perguntas engolidas — melhor perguntar depois", to: "o4" }
+        ]
+      },
+      o4: {
+        d: "14/11/2026", t: "Dentro do Instituto",
+        x: "O IEAPM por dentro é um laboratório com voz de mar: tanques borbulhando, cheiro de salmora, amostras etiquetadas. E lá estava ela, explicando um gráfico de temperatura da água: <strong>a Dra. Marina, a mesma da feira</strong>.",
+        ex: [ { f: "anotador", t: "(Meu caderno já tem quatro páginas. A turma riu que eu anoto até a cor das canetas.)" } ],
+        c: [
+          { t: "Me apresentar: \"eu vi a senhora na Expo XP!\"", to: "o5a" },
+          { t: "Só observar de longe, com o coração acelerado", to: "o5b" }
+        ]
+      },
+      o5a: {
+        d: "14/11/2026", t: "Ela lembrou do potes",
+        x: "\"Você é quem anotou o plâncton!\" — ela lembrou de mim. Contei do grupo de estudo do mar, e ela fechou o caderno dela: <strong>\"gosta mesmo, né? Então vem: temos iniciação científica júnior. Precisamos de gente de Arraial estudando o mar de Arraial\"</strong>. Eu disse sim antes de ela terminar a frase.",
+        c: [ { t: "Começar o projeto", to: "o6" } ]
+      },
+      o5b: {
+        d: "14/11/2026", t: "A pergunta no fim do corredor",
+        x: "Deixei ela terminar, deixei a turma ir na frente… e no corredor, com o coração na boca, a pergunta saiu sozinha: \"como a senhora chegou aqui?\". Ela respondeu rindo: <strong>\"fazendo essa mesma pergunta, só que mais vezes\"</strong>. E me convidou pra iniciação científica júnior. No ônibus, escrevi a resposta três vezes pra acreditar.",
+        c: [ { t: "Começar o projeto", to: "o6" } ]
+      },
+      o6: {
+        d: "2027 · março", t: "Meu primeiro projeto",
+        x: "Projeto júnior do IEAPM: <strong>monitorar a qualidade da água da Praia dos Anjos</strong>, mês a mês, com kit de coleta de verdade. A Dra. Marina só deu uma regra: \"o ponto de coleta é sua primeira decisão científica. Escolha com motivo.\"",
+        c: [
+          { t: "Coletar perto dos barcos de pesca", h: "gente e mar no mesmo lugar", to: "o7a" },
+          { t: "Coletar lá no Pontal do Atalaia", h: "água mais distante da cidade", to: "o7b" }
+        ]
+      },
+      o7a: {
+        d: "2027 · abril", t: "Espuma entre os barcos",
+        x: "Perto dos barcos, a água apareceu com indícios de detergente. Não é culpa de ninguém específico — é a cidade inteira se lavando no mar. Meu dado é pequeno, mas é <strong>meu</strong>, e conta uma história que ninguém estava contando.",
+        c: [ { t: "Hora de apresentar os resultados", to: "o8" } ]
+      },
+      o7b: {
+        d: "2027 · abril", t: "Água limpa, trilha suja",
+        x: "Lá no Pontal, a água saiu cristalina nos testes — mas a trilha que desce pra praia tava cheia de sacola de mercado. O mar tá ótimo; <strong>o caminho até ele, não</strong>. Anotei as duas coisas. Ciência é anotar o que está bom também.",
+        c: [ { t: "Hora de apresentar os resultados", to: "o8" } ]
+      },
+      o8: {
+        d: "2027 · junho", t: "A apresentação (e o dado feio)",
+        x: "Feira de ciências da escola, plateia cheia. Meu gráfico ficou bonito — exceto <strong>uma coleta que deu errado</strong>, com resultado esquisito que não bate com nada. Dá pra apagar a linha e ninguém percebe. Dá.",
+        c: [
+          { t: "Mostrar tudo — inclusive o dado feio", h: "e explicar por que ele existe", to: "o9a", set: "honesto" },
+          { t: "Mostrar só o gráfico bonito", h: "ninguém vai notar…", to: "o9b" }
+        ]
+      },
+      o9a: {
+        d: "2027 · junho", t: "\"Dado errado é dado\"",
+        x: "Mostrei a linha esquisita e contei a hipótese: coleta feita logo depois da chuva. A Dra. Marina, na plateia, veio me falar depois: <strong>\"você acabou de fazer ciência de verdade: dado errado é dado, e explicar o porquê é o trabalho\"</strong>. A prof. Helena pediu pra colar meu gráfico na sala dela.",
+        c: [ { t: "Seguir em frente", to: "o10" } ]
+      },
+      o9b: {
+        d: "2027 · junho", t: "O que eu não mostrei",
+        x: "A apresentação foi um sucesso. E eu passei a semana com a linha apagada zunindo na cabeça. Na sexta, contei pra Dra. Marina. Ela riu — do jeito bom — e me ensinou sobre <strong>revisão por pares</strong>: \"ciência existe pra ninguém carregar sozinho o que esconde\". Refiz o gráfico com tudo. Dormi melhor.",
+        c: [ { t: "Seguir em frente", to: "o10" } ]
+      },
+      o10: {
+        d: "2028 · dezembro", t: "A escolha do curso",
+        x: "Fim do ensino médio. Na parede do meu quarto: o gráfico da Praia dos Anjos, a foto do IEAPM e a página da feira de 2026. Hora de escolher. O mar tem dois lados que me puxam.",
+        c: [
+          { t: "Oceanografia biológica — os bichos e a vida do mar", to: "o11" },
+          { t: "Oceanografia física — as correntes e a água em si", to: "o11" }
+        ]
+      },
+      o11: {
+        d: "2029–2033", t: "Universidade, navio e estrelas",
+        x: "Universidade no litoral fluminense: aulas de madrugada, maré de quadratura, e meu primeiro navio de pesquisa — passei mal, curei, amei. Vi golfinhos no amanhecer da bóia oceanográfica e fiz vigília de estrelas no convés com a equipe. <strong>Meu trabalho de conclusão foi sobre a desova na região dos Lagos</strong>. A cidade invisível, agora, eu enxergo inteira.",
+        c: [ { t: "Voltar pra casa", to: "o_end" } ]
+      },
+      o_end: {
+        d: "2034", t: "De volta à Praia dos Anjos",
+        x: "Entrei para o time de pesquisa do IEAPM — o mesmo corredor onde um dia fiz minha primeira pergunta engulida. Hoje o kit de coleta tem meu nome na etiqueta, e o projeto da Praia dos Anjos ensina escolas inteiras a ler a água. Quando uma turma pergunta <strong>\"como você chegou até aqui?\"</strong>, eu respondo a verdade: \"começou com um caderno na Expo XP\".",
+        end: { emoji: "🌊", carreira: "Oceanografia — IEAPM", sub: "Quem estuda o mar cuida da cidade inteira. Arraial do Cabo tem ciência morando na Praia dos Anjos." }
+      },
+
+      // ---------- CAMINHO DA COMPUTAÇÃO ----------
+      a1: {
+        d: "29/10/2026", t: "Clube de programação",
+        x: "A escola abriu um clube de programação com notebooks doados. A prof. Helena leu meu caderno da feira e disse: \"anotar direitinho é meio caminho pra programar — <strong>algoritmo é receita escrita pra máquina</strong>\". Na primeira aula, meu \"OLÁ MUNDO\" apareceu na tela em letras garrafais.",
+        ex: [ { f: "maquinas", t: "(Aquele pulo do boneco na arena… eu quis revê-lo o mês inteiro.)" } ],
+        c: [ { t: "Escolher meu primeiro projeto", to: "a2" } ]
+      },
+      a2: {
+        d: "2026 · novembro", t: "Primeiro projeto",
+        x: "A regra do clube: cada pessoa escolhe um projeto pra chamar de seu. Duas ideias empates no meu caderno.",
+        c: [
+          { t: "🎮 Fazer um joguinho simples", h: "pulos, pontos e telinha", to: "a3", set: "jogo" },
+          { t: "🌐 Fazer um site pra feira de ciências da escola", to: "a3", set: "site" }
+        ]
+      },
+      a3: {
+        d: "2027 · fevereiro", t: "A mulher que programou antes das máquinas",
+        x: "Na aula de história, o bicho pegou: a prof. contou de <strong>Ada Lovelace, que escreveu o primeiro algoritmo da história ANTES de existir computador eletrônico</strong> — no século XIX, pra uma máquina que era só projeto. Copiei a história no diário. Se ela programou no papel, eu posso programar num notebook sem tela boa.",
+        c: [ { t: "Continuar", to: "a4" } ]
+      },
+      a4: {
+        d: "2027 · abril", t: "O notebook que morreu",
+        x: "Duas semanas antes da feira, <strong>o notebook do clube não liga mais</strong>. São poucos aparelhos; sem ele, meu projeto não existe. O técnico só vem mês que vem. Fico olhando a tela preta como quem olha maré vazia.",
+        c: [
+          { t: "Pedir ajuda: professora, técnico, quem for", h: "comunidade também é tecnologia", to: "a5a" },
+          { t: "Abrir o notebook e olhar dentro", h: "com coragem e sem garantia nenhuma", to: "a5b" }
+        ]
+      },
+      a5a: {
+        d: "2027 · abril", t: "Ajuda é ferramenta",
+        x: "A prof. Helena acionou o técnico por vídeo chamada, e eu segui as instruções com a chave de fenda: era o conector da memória, solto. <strong>\"Na tecnologia ninguém resolve nada sem ajuda — nem as pessoas mais experientes\"</strong>, disse o técnico. Lição anotada duas vezes: uma no diário, uma na parede.",
+        c: [ { t: "Seguir em frente", to: "a6" } ]
+      },
+      a5b: {
+        d: "2027 · abril", t: "Dentro da máquina",
+        x: "Abri com cuidado, fotografei cada parafuso (a ideia foi do caderno da vó: \"escreve pra não esquecer\"). Vi o conector da memória meio fora do encaixe — apertei, fechei, rezei, apertei o botão. <strong>LIGOU.</strong> Gritei tão alto que a turma do coral ouviu. É meu conserto. Meu.",
+        c: [ { t: "Seguir em frente", to: "a6" } ]
+      },
+      a6: {
+        d: "2027 · maio", t: "A feira que joga",
+        x: "Meu projeto estreou na feira da escola — e as pessoas fizeram fila. Mas o melhor veio depois: o IFRJ anunciou <strong>vagas para o curso técnico em informática</strong>, e a prof. Helena colocou meu nome na lista de inscrição sem pedir licença. \"Você já é do ramo\", disse ela.",
+        c: [ { t: "Fazer a inscrição", to: "a7" } ]
+      },
+      a7: {
+        d: "2029", t: "IFRJ: código de verdade",
+        x: "Curso técnico em informática: lógica, banco de dados, rede. No hackathon do curso, nossa equipe decidiu fazer um jogo educativo. Escolhi o tema com o coração e o caderno aberto na página de 2026.",
+        c: [
+          { t: "🎮 Um quiz sobre mulheres na ciência", h: "quem foi ela? você sabe!", to: "a8", set: "quiz" },
+          { t: "📔 Uma história interativa com diário e escolhas", h: "igualzinho a este aqui…", to: "a8", set: "diario" }
+        ]
+      },
+      a8: {
+        d: "2030", t: "Estágio e o boomerang",
+        x: "Estágio numa empresa de tecnologia da Região dos Lagos, mantendo sistemas que servem escolas. Num deles, reconheci a tela: <strong>era o portal de jogos da Expo XP, ainda no ar</strong>. Mandei mensagem pra prof. Helena: \"a senhora lembra do clube?\". Ela respondeu com um emoji de coração e outro de robô. Entendi tudo.",
+        c: [ { t: "Seguir em frente", to: "a_end" } ]
+      },
+      a_end: {
+        d: "2034", t: "Tecnologia que ensina",
+        x: "Hoje desenvolvo tecnologia educacional usada na rede municipal — a mesma rede onde um notebook doado me mostrou o primeiro OLÁ MUNDO. O jogo que vi na arena em 2026 me inspirou; agora eu escrevo os saltos que inspiram outras pessoas. <strong>As instruções são minhas, mas a mágica é de quem joga.</strong>",
+        end: { emoji: "💻", carreira: "Ciência da Computação", sub: "De OLÁ MUNDO a sistemas que ensinam a cidade inteira — tudo começa escrevendo a primeira instrução." }
+      },
+
+      // ---------- CAMINHO DA ENGENHARIA ----------
+      e1: {
+        d: "29/10/2026", t: "A obra da escola",
+        x: "Começou a reforma da escola, e eu fiquei olhando a engenheira explicar a planta pra todo mundo que passava. Capacete, prancheta e uma frase que copiei no diário: <strong>\"obra é matemática virando coisa\"</strong>.",
+        ex: [ { f: "construir", t: "(A ponte de palitinhos da feira rachou no terceiro celular. Quero saber por que não rachou no segundo.)" } ],
+        c: [ { t: "Continuar", to: "e2" } ]
+      },
+      e2: {
+        d: "2026 · dezembro", t: "A rua que virou lagoa",
+        x: "Depois da chuva forte, a rua de casa alagou — de novo. Todo mundo reclamando no grupo do condomínio, e eu ali com o caderno: <strong>pra onde essa água deveria ir?</strong> É pergunta de obra? É pergunta de engenharia? Preciso saber.",
+        c: [
+          { t: "Pesquisar sozinho no caderno: esgoto, drenagem, solo", h: "biblioteca e vídeos", to: "e3", set: "pesquisador" },
+          { t: "Perguntar direto à engenheira da obra da escola", h: "ela responde qualquer um", to: "e3" }
+        ]
+      },
+      e3: {
+        d: "2027 · março", t: "Enedina, 1945",
+        x: "A prof. Helena contou: <strong>Enedina Alves Marques, primeira engenheira negra do Brasil, formou-se em 1945</strong> — quando quase nenhuma mulher podia nem entrar numa sala de aula de engenharia. Ela trabalhou em obras hidrelétricas. Se a Enedina abriu a porta em 1945, o mínimo que eu faço é chegar até ela.",
+        c: [ { t: "Continuar", to: "e4" } ]
+      },
+      e4: {
+        d: "2027 · maio", t: "Projeto pra feira: e se a escola colhesse a chuva?",
+        x: "Problema da rua alagada + feira de ciências chegando = minha chance. Projeto: <strong>captação da água da chuva do telhado da escola</strong>. Água que alagaria a rua pode regar a horta e descargar os banheiros. Escolho o desenho do sistema.",
+        c: [
+          { t: "Usar tubos de PVC reutilizados de obras", h: "barato, ecológico e engenhocável", to: "e5", set: "pvc" },
+          { t: "Jardim de chuva: uma área verde que absorve tudo", h: "bonito e naturão", to: "e5" }
+        ]
+      },
+      e5: {
+        d: "2027 · junho", t: "Errei a conta (e refiz)",
+        x: "A conta de vazão não fechou: choveu 40mm e meu sistema comportava 25. Erro feio. Refiz três vezes, achei o erro de unidade — <strong>litro pra mililitro, maldita vírgula</strong> — e a maquete aguentou o balde d'água inteiro. A ponte de palitinhos de 2026 teria orgulho.",
+        c: [ { t: "Apresentar na feira", to: "e6" } ]
+      },
+      e6: {
+        d: "2027 · junho", t: "Da maquete pro pátio",
+        x: "Na feira, o coordenador ficou dez minutos só olhando a água escorrer direitinho. Aí falou a frase: <strong>\"ano que vem, a gente tenta no pátio de verdade\"</strong>. Um piloto. Na escola. Minha maquete virou projeto com nome e ata.",
+        c: [ { t: "Escolher a formação", to: "e7" } ]
+      },
+      e7: {
+        d: "2028 · dezembro", t: "Que engenharia?",
+        x: "Fim do ensino médio. O caderno tem dois amores: as estruturas e a água.",
+        c: [
+          { t: "Engenharia civil — estruturas, obras, a cidade física", to: "e8" },
+          { t: "Engenharia ambiental — água, drenagem, o planeta", to: "e8" }
+        ]
+      },
+      e8: {
+        d: "2029–2033", t: "Canteiro de obra e faculdade",
+        x: "Faculdade, estágio num canteiro da Região dos Lagos, capacete com meu nome escrito com caneta — como a Enedina, que ficou famosa justamente por tratar obra como escola. Aprendi a ler chuva como projeto e a negociar prazos como quem negocia maré. <strong>Meu trabalho final foi sobre drenagem urbana em cidades costeiras.</strong>",
+        c: [ { t: "Voltar pra casa", to: "e_end" } ]
+      },
+      e_end: {
+        d: "2034", t: "A rua que não alaga mais",
+        x: "Voltei pra Arraial pra coordenar obras de saneamento e drenagem — e o projeto do meu bairro ficou pronto: a rua que virava lagoa agora escorre, coleciona e devolve a água limpa pro ciclo. Na inauguração, uma criança perguntou como a água some. Abri o caderno: <strong>\"senta aqui que eu te conto. Foi assim que tudo começou pra mim, numa feira…\"</strong>",
+        end: { emoji: "🏗️", carreira: "Engenharia", sub: "A cidade física é o maior laboratório que existe — e Arraial do Cabo é um projeto em construção." }
+      }
+    };
+
+    // ---------- Motor ----------
+    const screens = {
+      start: document.getElementById("screenStart"),
+      entry: document.getElementById("screenEntry"),
+      end: document.getElementById("screenEnd")
+    };
+
+    const el = {
+      assina: document.getElementById("assinaInput"),
+      date: document.getElementById("entryDate"),
+      title: document.getElementById("entryTitle"),
+      text: document.getElementById("entryText"),
+      choices: document.getElementById("choices"),
+      recapTitle: document.getElementById("recapTitle"),
+      recapList: document.getElementById("recapList"),
+      recapSub: document.getElementById("recapSub"),
+      carimboEmoji: document.getElementById("carimboEmoji"),
+      carimboCarreira: document.getElementById("carimboCarreira")
+    };
+
+    let assinatura = "Estudante de Arraial";
+    let node = null;
+    let flags = {};
+    let caminho = [];
+
+    function show(name) {
+      Object.values(screens).forEach(s => s.classList.remove("active"));
+      screens[name].classList.add("active");
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+
+    function render(id) {
+      node = NODES[id];
+
+      el.date.textContent = node.d;
+      el.title.textContent = node.t;
+      el.text.innerHTML = node.x;
+
+      if (node.ex) {
+        node.ex.forEach(e => {
+          if (flags[e.f]) {
+            const div = document.createElement("div");
+            div.className = "entry-extra";
+            div.innerHTML = e.t;
+            el.text.appendChild(div);
+          }
+        });
+      }
+
+      el.choices.innerHTML = "";
+      if (node.c && node.c.length) {
+        node.c.forEach(c => {
+          const b = document.createElement("button");
+          b.className = "choice";
+          b.innerHTML = c.t + (c.h ? '<span class="choice-hint">' + c.h + "</span>" : "");
+          b.addEventListener("click", () => {
+            if (c.set) flags[c.set] = true;
+            caminho.push(node.d + " — " + node.t);
+            render(c.to);
+          });
+          el.choices.appendChild(b);
+        });
+        show("entry");
+      } else if (node.end) {
+        caminho.push(node.d + " — " + node.t);
+        finish(node.end);
+      }
+    }
+
+    function finish(end) {
+      el.recapTitle.textContent = "Diário de " + assinatura;
+      el.recapList.innerHTML = "";
+      caminho.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        el.recapList.appendChild(li);
+      });
+      el.carimboEmoji.textContent = end.emoji;
+      el.carimboCarreira.textContent = end.carreira;
+      el.recapSub.textContent = end.sub;
+      show("end");
+    }
+
+    document.getElementById("btnComecar").addEventListener("click", () => {
+      assinatura = el.assina.value.trim() || "Estudante de Arraial";
+      flags = {};
+      caminho = [];
+      render("abertura");
+    });
+
+    document.getElementById("btnReplay").addEventListener("click", () => {
+      flags = {};
+      caminho = [];
+      el.assina.value = "";
+      show("start");
+    });
+    </script>
+</body>
+</html>
