@@ -248,6 +248,36 @@ h1 .lab { color: var(--lab-lime); }
   letter-spacing: 0.06em;
 }
 
+/* alternativas preteridas durante o destaque da escolha */
+.choice.preterida { opacity: 0.45; }
+
+/* Timeline do modo leitura (feedback de progresso da reprodução) */
+.reading-timeline { display: none; margin-top: 16px; }
+
+.reading-timeline.on { display: block; }
+
+.rt-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  margin-bottom: 5px;
+}
+
+.rt-label.lendo { color: var(--lab-lime); }
+.rt-label.escolhendo { color: var(--lab-blue); }
+
+.rt-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(242, 246, 249, 0.1);
+  overflow: hidden;
+}
+
+.rt-fill { height: 100%; width: 0%; border-radius: 999px; background: var(--lab-lime); }
+.rt-fill.escolha { background: var(--lab-blue); }
+
 .gbtn {
   font-family: var(--font);
   font-size: 13px;
@@ -361,6 +391,12 @@ h1 .lab { color: var(--lab-lime); }
                 <button class="gbtn" id="btnAuto">▶︎ Reproduzir automático</button>
                 <button class="gbtn" id="btnPular">⏭ Próxima entrada</button>
                 <button class="gbtn" id="btnRoteiro">📜 Roteiro completo</button>
+            </div>
+
+            <!-- Timeline da reprodução automática -->
+            <div class="reading-timeline" id="readingTimeline">
+                <div class="rt-label" id="rtLabel">⏳ lendo…</div>
+                <div class="rt-track"><div class="rt-fill" id="rtFill"></div></div>
             </div>
         </section>
 
@@ -696,32 +732,70 @@ h1 .lab { color: var(--lab-lime); }
     let autoLigado = false;
     let geracaoAuto = 0;
     let autoClicando = false;
-    const AUTO_ESCOLHA_MS = 1500;  // tempo pra assimilar a opção escolhida
+    const AUTO_ESCOLHA_MS = 3000;  // tempo pra comparar a escolha com as preteridas
 
     function pararAuto() {
       autoLigado = false;
       geracaoAuto++;
       document.getElementById("btnAuto").textContent = "▶︎ Reproduzir automático";
+      limparDestaque();
+      rtCongelar();
     }
 
     // tempo de leitura proporcional ao tamanho do texto da entrada atual
-    // (base 2s + ~30ms por caractere, entre 3,5s e 18s)
+    // (base 2,5s + 40ms por caractere, entre 4s e 22s)
     function tempoLeitura() {
       const chars = (el.text.innerText || "").length;
-      return Math.max(3500, Math.min(18000, 2000 + chars * 30));
+      return Math.max(4000, Math.min(22000, 2500 + chars * 40));
     }
 
-    // destaca a opção, espera um instante e avança; `depois` roda após o clique
+    function limparDestaque() {
+      document.querySelectorAll(".choice.escolhida").forEach(b => b.classList.remove("escolhida"));
+      document.querySelectorAll(".choice.preterida").forEach(b => b.classList.remove("preterida"));
+    }
+
+    // destaca a opção, esmaece as alternativas e avança; `depois` roda após o clique
     function avancarComDestaque(gen, depois) {
       const btn = document.querySelector(".choice");
       if (!btn) { pararAuto(); return; } // chegou ao fim (recap na tela)
       btn.classList.add("escolhida");
+      document.querySelectorAll(".choice").forEach(b => { if (b !== btn) b.classList.add("preterida"); });
       setTimeout(() => {
-        if (gen !== undefined && gen !== geracaoAuto) return; // pausou/trocou antes do clique
-        btn.classList.remove("escolhida");
+        if (gen !== undefined && gen !== geracaoAuto) { limparDestaque(); return; } // pausou antes do clique
         autoClicando = true; btn.click(); autoClicando = false;
         if (depois) depois();
       }, AUTO_ESCOLHA_MS);
+    }
+
+    // ---- Timeline da reprodução ----
+    function rtEl() { return { fill: document.getElementById("rtFill"), label: document.getElementById("rtLabel"), box: document.getElementById("readingTimeline") }; }
+
+    function rtCorre(ms, fase) {
+      const { fill, label, box } = rtEl();
+      box.classList.add("on");
+      fill.className = "rt-fill" + (fase === "escolhendo" ? " escolha" : "");
+      fill.style.transition = "none";
+      fill.style.width = "0%";
+      void fill.offsetWidth;
+      fill.style.transition = "width " + ms + "ms linear";
+      fill.style.width = "100%";
+      label.textContent = fase === "lendo" ? "⏳ lendo…" : "◀ assimilando a escolha…";
+      label.className = "rt-label " + (fase === "lendo" ? "lendo" : "escolhendo");
+    }
+
+    function rtCongelar() {
+      const { fill, label, box } = rtEl();
+      if (!box.classList.contains("on")) return;
+      const track = fill.parentElement.getBoundingClientRect().width;
+      const pct = track ? Math.min(100, (fill.getBoundingClientRect().width / track) * 100) : 0;
+      fill.style.transition = "none";
+      fill.style.width = pct + "%";
+      label.textContent = "⏸ pausado";
+      label.className = "rt-label";
+    }
+
+    function rtOcultar() {
+      rtEl().box.classList.remove("on");
     }
 
     function iniciarAuto() {
@@ -732,12 +806,14 @@ h1 .lab { color: var(--lab-lime); }
       const ciclo = () => {
         if (!autoLigado || gen !== geracaoAuto) return;
         if (!screens.entry.classList.contains("active")) { pararAuto(); return; }
-        // avança e agenda o próximo ciclo já com o tempo de leitura da NOVA entrada
+        rtCorre(AUTO_ESCOLHA_MS, "escolhendo");
         avancarComDestaque(gen, () => {
           if (!autoLigado || gen !== geracaoAuto) return;
+          rtCorre(tempoLeitura(), "lendo");
           setTimeout(ciclo, tempoLeitura());
         });
       };
+      rtCorre(tempoLeitura(), "lendo");
       setTimeout(ciclo, tempoLeitura());
     }
 
@@ -774,7 +850,7 @@ h1 .lab { color: var(--lab-lime); }
       document.getElementById("btnAuto").addEventListener("click", () => {
         if (autoLigado) { pararAuto(); } else { iniciarAuto(); }
       });
-      document.getElementById("btnPular").addEventListener("click", () => { pararAuto(); avancarComDestaque(); });
+      document.getElementById("btnPular").addEventListener("click", () => { pararAuto(); rtOcultar(); avancarComDestaque(); });
       document.getElementById("btnRoteiro").addEventListener("click", () => {
         pararAuto();
         document.getElementById("roteiroOverlay").classList.add("open");
