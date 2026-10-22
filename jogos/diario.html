@@ -696,7 +696,6 @@ h1 .lab { color: var(--lab-lime); }
     let autoLigado = false;
     let geracaoAuto = 0;
     let autoClicando = false;
-    const AUTO_LEITURA_MS = 4000;  // tempo de leitura de cada entrada
     const AUTO_ESCOLHA_MS = 1500;  // tempo pra assimilar a opção escolhida
 
     function pararAuto() {
@@ -705,8 +704,15 @@ h1 .lab { color: var(--lab-lime); }
       document.getElementById("btnAuto").textContent = "▶︎ Reproduzir automático";
     }
 
-    // destaca a opção, espera um instante e avança
-    function avancarComDestaque(gen) {
+    // tempo de leitura proporcional ao tamanho do texto da entrada atual
+    // (base 2s + ~30ms por caractere, entre 3,5s e 18s)
+    function tempoLeitura() {
+      const chars = (el.text.innerText || "").length;
+      return Math.max(3500, Math.min(18000, 2000 + chars * 30));
+    }
+
+    // destaca a opção, espera um instante e avança; `depois` roda após o clique
+    function avancarComDestaque(gen, depois) {
       const btn = document.querySelector(".choice");
       if (!btn) { pararAuto(); return; } // chegou ao fim (recap na tela)
       btn.classList.add("escolhida");
@@ -714,6 +720,7 @@ h1 .lab { color: var(--lab-lime); }
         if (gen !== undefined && gen !== geracaoAuto) return; // pausou/trocou antes do clique
         btn.classList.remove("escolhida");
         autoClicando = true; btn.click(); autoClicando = false;
+        if (depois) depois();
       }, AUTO_ESCOLHA_MS);
     }
 
@@ -722,12 +729,16 @@ h1 .lab { color: var(--lab-lime); }
       autoLigado = true;
       document.getElementById("btnAuto").textContent = "⏸ Pausar";
       const gen = ++geracaoAuto;
-      setTimeout(function ciclo() {
+      const ciclo = () => {
         if (!autoLigado || gen !== geracaoAuto) return;
         if (!screens.entry.classList.contains("active")) { pararAuto(); return; }
-        avancarComDestaque(gen);
-        setTimeout(ciclo, AUTO_LEITURA_MS + AUTO_ESCOLHA_MS);
-      }, AUTO_LEITURA_MS);
+        // avança e agenda o próximo ciclo já com o tempo de leitura da NOVA entrada
+        avancarComDestaque(gen, () => {
+          if (!autoLigado || gen !== geracaoAuto) return;
+          setTimeout(ciclo, tempoLeitura());
+        });
+      };
+      setTimeout(ciclo, tempoLeitura());
     }
 
     function montarRoteiro() {
