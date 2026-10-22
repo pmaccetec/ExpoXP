@@ -295,6 +295,33 @@ h1 .lab { color: var(--lab-lime); }
 .option.correct { border-color: var(--success); background: rgba(174, 213, 129, 0.16); opacity: 1; }
 .option.wrong { border-color: var(--error); background: rgba(255, 107, 119, 0.14); opacity: 1; }
 
+/* Modo gabarito (?gabarito): dica pré-resposta só para testes */
+.option.gabarito-hint {
+  border-style: dashed;
+  border-color: var(--lab-lime);
+}
+
+.option.gabarito-hint::before {
+  content: "✓ ";
+  color: var(--lab-lime);
+}
+
+.gabarito-badge {
+  display: none;
+  margin: 0 auto 8px;
+  width: max-content;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--lab-lime);
+  border: 1px dashed var(--lab-lime);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+.gabarito-badge.on { display: block; }
+
 /* Timer */
 .timer-wrap { display: none; align-items: center; gap: 10px; margin-bottom: 18px; }
 .timer-wrap.visible { display: flex; }
@@ -381,6 +408,7 @@ h1 .lab { color: var(--lab-lime); }
     </div>
 
     <main class="stage">
+        <div class="gabarito-badge" id="gabaritoBadge">👀 Modo gabarito — só para testes</div>
         <!-- Placar fixo (aparece durante a partida) -->
         <div class="scoreboard" id="scoreboard" aria-live="polite">
             <div class="player-score p1" id="scoreP1">
@@ -621,6 +649,10 @@ h1 .lab { color: var(--lab-lime); }
     const FAST_SECONDS = 10;
     const MAX_POINTS = 8;         // 5 normais + 1 rápida (2) por pessoa
 
+    // Modo gabarito: abrir com duelo.html?gabarito — marca a opção correta
+    // antes de responder (uso interno da CETEC para testar; público não vê)
+    const GABARITO = new URLSearchParams(location.search).has("gabarito");
+
     const screens = {
       start: document.getElementById("screenStart"),
       names: document.getElementById("screenNames"),
@@ -657,6 +689,10 @@ h1 .lab { color: var(--lab-lime); }
     let current = 0;            // quem joga agora: 0 ou 1
     let timerId = null;
     let timeoutAt = 0;
+
+    if (GABARITO) {
+      document.getElementById("gabaritoBadge").classList.add("on");
+    }
 
     function show(name) {
       Object.values(screens).forEach(s => s.classList.remove("active"));
@@ -742,7 +778,7 @@ h1 .lab { color: var(--lab-lime); }
       el.options.innerHTML = "";
       q.options.forEach((opt, i) => {
         const b = document.createElement("button");
-        b.className = "option";
+        b.className = "option" + (GABARITO && opt.ok ? " gabarito-hint" : "");
         b.textContent = opt.t;
         b.addEventListener("click", () => answer(i));
         el.options.appendChild(b);
