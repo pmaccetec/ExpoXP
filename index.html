@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Esquenta da Arraial Expo XP 2026 — 3ª edição da Feira de Ciência e Tecnologia de Arraial do Cabo com o tema Mulheres na Ciência. Contagem regressiva, cientistas inspiradoras e quiz interativo.">
+    <meta name="description" content="Arraial Expo XP 2026 — 3ª edição da Feira de Ciência e Tecnologia de Arraial do Cabo com o tema Mulheres na Ciência. Contagem regressiva, cientistas inspiradoras e jogos educacionais.">
     <meta name="keywords" content="Expo XP 2026, Mulheres na Ciência, Arraial do Cabo, Ciência, Tecnologia, Educação, Quiz">
     <meta property="og:title" content="Arraial Expo XP 2026 — Mulheres na Ciência">
-    <meta property="og:description" content="Esquenta da 3ª edição da Feira de Ciência e Tecnologia de Arraial do Cabo. Contagem regressiva, cientistas inspiradoras e quiz Quem é ela?">
+    <meta property="og:description" content="3ª edição da Feira de Ciência e Tecnologia de Arraial do Cabo — Mulheres na Ciência. Contagem regressiva, cientistas inspiradoras e jogos educacionais.">
     <meta property="og:type" content="website">
     <title>Arraial Expo XP 2026 — Mulheres na Ciência | Esquenta</title>
     <script>
@@ -730,67 +730,78 @@ body {
   text-decoration: none;
 }
 
-/* ============ Quiz ============ */
-.quiz-section {
+/* ============ Jogos da Ciência ============ */
+.games-section {
   background:
     radial-gradient(ellipse at 10% 0%, rgba(174, 234, 0, 0.06) 0%, transparent 50%),
     radial-gradient(ellipse at 90% 100%, rgba(2, 119, 189, 0.06) 0%, transparent 50%);
 }
 
-[data-theme="dark"] .quiz-section {
+[data-theme="dark"] .games-section {
   background:
     radial-gradient(ellipse at 10% 0%, rgba(174, 234, 0, 0.09) 0%, transparent 50%),
     radial-gradient(ellipse at 90% 100%, rgba(2, 119, 189, 0.14) 0%, transparent 50%);
 }
 
-.quiz-box {
-  max-width: 720px;
-  margin: 0 auto;
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-20);
+  max-width: 760px;
+  margin: 0 auto var(--space-24);
+}
+
+.game-cta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
   background: var(--color-surface);
   border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
+  padding: var(--space-20);
+  text-decoration: none;
+  color: var(--color-text);
+  transition: transform var(--duration-normal) var(--ease-standard), border-color var(--duration-normal) var(--ease-standard), box-shadow var(--duration-normal) var(--ease-standard);
+}
+
+.game-cta:hover {
+  transform: translateY(-3px);
+  border-color: var(--lab-lime);
   box-shadow: var(--shadow-lg);
-  padding: var(--space-32);
 }
 
-.quiz-header {
-  text-align: center;
-  margin-bottom: var(--space-24);
+.game-emoji {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--lab-lime-soft);
+  border: 1px solid var(--lab-lime-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
 }
 
-.quiz-header h3 {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  margin-bottom: var(--space-8);
+.game-cta h3 {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-4);
 }
 
-.quiz-header p {
+.game-cta p {
+  font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
+  line-height: 1.5;
 }
 
-.quiz-screen {
-  display: none;
+.game-arrow {
+  margin-left: auto;
+  color: var(--color-primary);
+  font-size: 20px;
+  flex-shrink: 0;
 }
 
-.quiz-screen.active {
-  display: block;
-}
-
-.quiz-start-emoji {
-  font-size: 56px;
-  text-align: center;
-  display: block;
-  margin-bottom: var(--space-16);
-}
-
-.quiz-start-info {
-  text-align: center;
-  color: var(--color-text-secondary);
-  margin-bottom: var(--space-24);
-  line-height: 1.7;
-}
-
-.quiz-center {
+.games-portal {
   text-align: center;
 }
 
@@ -804,18 +815,14 @@ body {
   padding: 14px 32px;
   border-radius: var(--radius-full);
   cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
   transition: background var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
 }
 
 .quiz-btn:hover {
   background: var(--color-primary-hover);
   transform: translateY(-2px);
-}
-
-.quiz-btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-  transform: none;
 }
 
 .quiz-btn.secondary {
@@ -826,144 +833,6 @@ body {
 
 .quiz-btn.secondary:hover {
   background: rgba(2, 119, 189, 0.1);
-}
-
-.quiz-progress {
-  display: flex;
-  align-items: center;
-  gap: var(--space-12);
-  margin-bottom: var(--space-20);
-}
-
-.quiz-counter {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
-  white-space: nowrap;
-}
-
-.progress-track {
-  flex: 1;
-  height: 8px;
-  background: var(--color-border);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--lab-lime), var(--expo-blue-medium));
-  border-radius: var(--radius-full);
-  transition: width var(--duration-normal) var(--ease-standard);
-}
-
-.quiz-question-emoji {
-  font-size: 40px;
-  text-align: center;
-  display: block;
-  margin-bottom: var(--space-12);
-}
-
-.quiz-question {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
-  text-align: center;
-  margin-bottom: var(--space-24);
-  line-height: 1.5;
-}
-
-.quiz-options {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-12);
-  margin-bottom: var(--space-20);
-}
-
-.quiz-option {
-  background: var(--color-background);
-  border: 2px solid var(--color-card-border);
-  border-radius: var(--radius-md);
-  font-family: inherit;
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text);
-  padding: var(--space-16);
-  cursor: pointer;
-  transition: border-color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard), background var(--duration-fast) var(--ease-standard);
-}
-
-.quiz-option:hover:not(:disabled) {
-  border-color: var(--color-primary);
-  transform: translateY(-2px);
-}
-
-.quiz-option:disabled {
-  cursor: default;
-}
-
-.quiz-option.correct {
-  border-color: var(--color-success);
-  background: rgba(85, 139, 47, 0.12);
-}
-
-.quiz-option.wrong {
-  border-color: var(--color-error);
-  background: rgba(192, 21, 47, 0.1);
-}
-
-.quiz-feedback {
-  border-radius: var(--radius-md);
-  padding: var(--space-16);
-  font-size: var(--font-size-base);
-  line-height: 1.6;
-  margin-bottom: var(--space-20);
-  display: none;
-}
-
-.quiz-feedback.correct {
-  display: block;
-  background: rgba(85, 139, 47, 0.12);
-  border: 1px solid rgba(85, 139, 47, 0.4);
-}
-
-.quiz-feedback.wrong {
-  display: block;
-  background: rgba(192, 21, 47, 0.08);
-  border: 1px solid rgba(192, 21, 47, 0.3);
-}
-
-.quiz-actions {
-  text-align: center;
-}
-
-.quiz-result-emoji {
-  font-size: 60px;
-  text-align: center;
-  display: block;
-  margin-bottom: var(--space-16);
-}
-
-.quiz-result-score {
-  font-size: var(--font-size-4xl);
-  font-weight: var(--font-weight-bold);
-  text-align: center;
-  color: var(--color-primary);
-  margin-bottom: var(--space-8);
-}
-
-.quiz-result-message {
-  text-align: center;
-  font-size: var(--font-size-lg);
-  margin-bottom: var(--space-24);
-  line-height: 1.6;
-}
-
-.quiz-result-actions {
-  display: flex;
-  gap: var(--space-12);
-  justify-content: center;
-  flex-wrap: wrap;
 }
 
 /* ============ Cadastro ============ */
@@ -1188,10 +1057,6 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .quiz-options {
-    grid-template-columns: 1fr;
-  }
-
   .section {
     padding: var(--space-48) 0;
   }
@@ -1246,7 +1111,7 @@ body {
             <nav class="nav" id="navMenu" aria-label="Navegação principal">
                 <a href="#tema">O Tema</a>
                 <a href="#cientistas">Cientistas</a>
-                <a href="#quiz">Quiz</a>
+                <a href="#jogos">Jogos</a>
                 <a href="#edicoes">Edições</a>
                 <!-- [PLANO A] item "Cadastro" volta quando o formulário real estiver pronto -->
             </nav>
@@ -1301,9 +1166,9 @@ body {
                 <p class="hero-subtitle">A Feira de Ciência e Tecnologia de Arraial do Cabo volta em 2026 para celebrar as mulheres que transformam o mundo através da ciência — dos laboratórios ao oceano, das salas de aula ao espaço.</p>
 
                 <div class="hero-ctas">
-                    <a href="#quiz" class="cta-button">
+                    <a href="#jogos" class="cta-button">
                         <span aria-hidden="true">🎮</span>
-                        Jogar o Quiz "Quem é ela?"
+                        Jogar os jogos da Expo XP
                     </a>
                     <!-- [PLANO A] CTA "Receber novidades" volta com o formulário real -->
                 </div>
@@ -1541,64 +1406,33 @@ body {
             </div>
         </section>
 
-        <!-- Quiz -->
-        <section id="quiz" class="section quiz-section">
+        <!-- Jogos da Ciência -->
+        <section id="jogos" class="section games-section">
             <div class="container">
-                <h2 class="section-title">Quiz: Quem é ela?</h2>
-                <p class="section-subtitle">Um aquecimento para os jogos da Expo XP 2026. Será que você descobre quem é a cientista por trás de cada pista?</p>
+                <h2 class="section-title">Jogos da Ciência</h2>
+                <p class="section-subtitle">Feitos pela Subsecretaria de Ciência e Tecnologia para a 3ª edição — jogue, aprenda e compartilhe</p>
 
-                <div class="quiz-box">
-                    <!-- Tela inicial -->
-                    <div class="quiz-screen active" id="quizStart">
-                        <span class="quiz-start-emoji" aria-hidden="true">🕵️‍♀️</span>
-                        <div class="quiz-header">
-                            <h3>8 enigmas, 8 cientistas</h3>
-                            <p>Dica: vire os cards da seção acima antes de começar!</p>
+                <div class="games-grid">
+                    <a class="game-cta" href="jogos/duelo.html">
+                        <div class="game-emoji" aria-hidden="true">⚗️</div>
+                        <div>
+                            <h3>Duelo de Laboratório</h3>
+                            <p>Duas pessoas, um celular e a rodada Reação Rápida valendo 2 pontos. O clássico do jogo em dupla.</p>
                         </div>
-                        <p class="quiz-start-info">Leia a pista, escolha o nome da cientista e aprenda uma curiosidade em cada resposta. No final, compartilhe seu resultado!</p>
-                        <div class="quiz-center">
-                            <button class="quiz-btn" id="quizStartBtn">Começar o desafio 🚀</button>
+                        <div class="game-arrow" aria-hidden="true">→</div>
+                    </a>
+                    <a class="game-cta" href="jogos/diario.html">
+                        <div class="game-emoji" aria-hidden="true">📔</div>
+                        <div>
+                            <h3>Diário de Cientista</h3>
+                            <p>Uma história interativa com três finais: suas escolhas levam de um caderno na Expo XP a uma carreira científica.</p>
                         </div>
-                    </div>
+                        <div class="game-arrow" aria-hidden="true">→</div>
+                    </a>
+                </div>
 
-                    <!-- Tela de perguntas -->
-                    <div class="quiz-screen" id="quizQuestions">
-                        <div class="quiz-progress">
-                            <span class="quiz-counter" id="quizCounter">1/8</span>
-                            <div class="progress-track" role="progressbar" aria-label="Progresso do quiz" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                                <div class="progress-fill" id="quizProgressFill"></div>
-                            </div>
-                        </div>
-
-                        <span class="quiz-question-emoji" id="quizEmoji" aria-hidden="true">🔬</span>
-                        <p class="quiz-question" id="quizQuestion">Pergunta</p>
-
-                        <div class="quiz-options" id="quizOptions"></div>
-
-                        <div class="quiz-feedback" id="quizFeedback" role="status"></div>
-
-                        <div class="quiz-actions">
-                            <button class="quiz-btn" id="quizNextBtn" disabled>Próxima pista →</button>
-                        </div>
-                    </div>
-
-                    <!-- Tela de resultado -->
-                    <div class="quiz-screen" id="quizResult">
-                        <span class="quiz-result-emoji" id="resultEmoji" aria-hidden="true">🏆</span>
-                        <div class="quiz-result-score" id="resultScore">8/8</div>
-                        <p class="quiz-result-message" id="resultMessage">Mensagem</p>
-                        <div class="quiz-result-actions">
-                            <button class="quiz-btn" id="quizShareBtn">Compartilhar resultado 📣</button>
-                            <button class="quiz-btn secondary" id="quizRestartBtn">Jogar de novo ↻</button>
-                        </div>
-                    </div>
-
-                    <!-- Ponte para o portal de jogos 2026 -->
-                    <div class="past-actions" style="margin-top: 32px;">
-                        <a href="jogos/duelo.html" class="quiz-btn">⚗️ Duelo de Laboratório — jogue em dupla!</a>
-                        <a href="jogos/diario.html" class="quiz-btn">📔 Diário de Cientista</a>
-                        <a href="jogos/" class="quiz-btn secondary">Portal Jogos da Ciência →</a>
-                    </div>
+                <div class="games-portal">
+                    <a href="jogos/" class="quiz-btn secondary">Portal Jogos da Ciência →</a>
                 </div>
             </div>
         </section>
@@ -1806,212 +1640,8 @@ body {
             });
         });
 
-        // ---------- Quiz "Quem é ela?" ----------
-        const questions = [
-            {
-                emoji: '⚛️',
-                question: 'Única pessoa da história a ganhar o Prêmio Nobel em duas ciências diferentes (Física em 1903 e Química em 1911). Quem é ela?',
-                options: ['Rosalind Franklin', 'Marie Curie', 'Mayana Zatz', 'Katherine Johnson'],
-                correctIndex: 1,
-                feedback: 'Marie Curie! Ela abriu as portas da física moderna com suas pesquisas sobre radioatividade — e suas filhas também seguiram carreira científica.'
-            },
-            {
-                emoji: '💻',
-                question: 'No século XIX, escreveu o que é considerado o primeiro algoritmo da história, para a máquina analítica de Charles Babbage. Quem é ela?',
-                options: ['Grace Hopper', 'Hedy Lamarr', 'Ada Lovelace', 'Mae Jemison'],
-                correctIndex: 2,
-                feedback: 'Ada Lovelace! Ela imaginou que máquinas poderiam ir além de cálculos — a ideia que sustenta os computadores de hoje.'
-            },
-            {
-                emoji: '🚀',
-                question: 'Matemática da NASA cujos cálculos foram essenciais para as missões Apollo. Sua história virou o filme "Estrelas Além do Tempo". Quem é ela?',
-                options: ['Katherine Johnson', 'Marie Curie', 'Jaqueline Goes', 'Bertha Lutz'],
-                correctIndex: 0,
-                feedback: 'Katherine Johnson! Seus cálculos de trajetória ajudaram a levar os primeiros astronautas ao espaço — e a trazê-los de volta.'
-            },
-            {
-                emoji: '🧬',
-                question: 'Sua imagem de raios-X do DNA, a Foto 51, foi decisiva para a descoberta da dupla hélice. Quem é ela?',
-                options: ['Nise da Silveira', 'Mayana Zatz', 'Rosalind Franklin', 'Ada Lovelace'],
-                correctIndex: 2,
-                feedback: 'Rosalind Franklin! Sem a Foto 51, produzida no seu laboratório, a estrutura do DNA teria demorado muito mais a ser revelada.'
-            },
-            {
-                emoji: '🐸',
-                question: 'Bióloga brasileira do Museu Nacional que descreveu dezenas de espécies de anfíbios — e também liderou a luta pelo voto feminino no Brasil. Quem é ela?',
-                options: ['Bertha Lutz', 'Enedina Alves Marques', 'Jaqueline Goes', 'Nise da Silveira'],
-                correctIndex: 0,
-                feedback: 'Bertha Lutz! Cientista e ativista: seu nome está ligado tanto à zoologia quanto à conquista dos direitos políticos das mulheres no país.'
-            },
-            {
-                emoji: '🌱',
-                question: 'Agrônoma naturalizada brasileira cujas pesquisas com bactérias fixadoras de nitrogênio ajudaram o Brasil a se tornar referência mundial na produção de soja. Quem é ela?',
-                options: ['Mayana Zatz', 'Johanna Döbereiner', 'Bertha Lutz', 'Rosalind Franklin'],
-                correctIndex: 1,
-                feedback: 'Johanna Döbereiner! As bactérias que ela estudou "capturam" nitrogênio do ar e alimentam as plantas — ciência que reduziu o uso de adubos no campo.'
-            },
-            {
-                emoji: '🏗️',
-                question: 'Primeira engenheira negra do Brasil, formada em 1945. Quem é ela?',
-                options: ['Enedina Alves Marques', 'Mae Jemison', 'Katherine Johnson', 'Bertha Lutz'],
-                correctIndex: 0,
-                feedback: 'Enedina Alves Marques! Formada em engenharia civil pelo Paraná, trabalhou em grandes obras hidrelétricas e abriu caminho para muitas mulheres na engenharia.'
-            },
-            {
-                emoji: '📡',
-                question: 'Atriz e inventora austríaca que criou, na década de 1940, a técnica do salto de frequência — base do Wi-Fi e do Bluetooth. Quem é ela?',
-                options: ['Ada Lovelace', 'Grace Hopper', 'Hedy Lamarr', 'Marie Curie'],
-                correctIndex: 2,
-                feedback: 'Hedy Lamarr! Hollywood à noite, laboratório de manhã: a patente dela virou base para as comunicações sem fio que usamos até hoje.'
-            }
-        ];
-
-        const quizStartScreen = document.getElementById('quizStart');
-        const quizQuestionsScreen = document.getElementById('quizQuestions');
-        const quizResultScreen = document.getElementById('quizResult');
-        const quizStartBtn = document.getElementById('quizStartBtn');
-        const quizCounter = document.getElementById('quizCounter');
-        const quizProgressFill = document.getElementById('quizProgressFill');
-        const quizProgressBar = quizProgressFill.parentElement;
-        const quizEmoji = document.getElementById('quizEmoji');
-        const quizQuestion = document.getElementById('quizQuestion');
-        const quizOptions = document.getElementById('quizOptions');
-        const quizFeedback = document.getElementById('quizFeedback');
-        const quizNextBtn = document.getElementById('quizNextBtn');
-        const resultEmoji = document.getElementById('resultEmoji');
-        const resultScore = document.getElementById('resultScore');
-        const resultMessage = document.getElementById('resultMessage');
-        const quizShareBtn = document.getElementById('quizShareBtn');
-        const quizRestartBtn = document.getElementById('quizRestartBtn');
-
-        let currentQuestionIndex = 0;
-        let correctAnswers = 0;
-
-        function showScreen(screen) {
-            [quizStartScreen, quizQuestionsScreen, quizResultScreen].forEach(s => s.classList.remove('active'));
-            screen.classList.add('active');
-        }
-
-        function startQuiz() {
-            currentQuestionIndex = 0;
-            correctAnswers = 0;
-            showScreen(quizQuestionsScreen);
-            showQuestion();
-        }
-
-        function showQuestion() {
-            const question = questions[currentQuestionIndex];
-
-            quizCounter.textContent = `${currentQuestionIndex + 1}/${questions.length}`;
-            const progress = ((currentQuestionIndex) / questions.length) * 100;
-            quizProgressFill.style.width = `${progress}%`;
-            quizProgressBar.setAttribute('aria-valuenow', String(Math.round(progress)));
-
-            quizEmoji.textContent = question.emoji;
-            quizQuestion.textContent = question.question;
-            quizFeedback.className = 'quiz-feedback';
-            quizFeedback.textContent = '';
-            quizNextBtn.disabled = true;
-            quizNextBtn.textContent = currentQuestionIndex === questions.length - 1 ? 'Ver resultado 🏁' : 'Próxima pista →';
-
-            quizOptions.innerHTML = '';
-            question.options.forEach((optionText, index) => {
-                const button = document.createElement('button');
-                button.className = 'quiz-option';
-                button.textContent = optionText;
-                button.addEventListener('click', () => selectOption(index));
-                quizOptions.appendChild(button);
-            });
-        }
-
-        function selectOption(index) {
-            const question = questions[currentQuestionIndex];
-            const options = quizOptions.querySelectorAll('.quiz-option');
-            const isCorrect = index === question.correctIndex;
-
-            options.forEach(btn => btn.disabled = true);
-            options[question.correctIndex].classList.add('correct');
-            if (!isCorrect) {
-                options[index].classList.add('wrong');
-            } else {
-                correctAnswers++;
-            }
-
-            quizFeedback.className = `quiz-feedback ${isCorrect ? 'correct' : 'wrong'}`;
-            quizFeedback.textContent = isCorrect
-                ? `✅ Isso mesmo! ${question.feedback}`
-                : `❌ Quase! A resposta certa era ${question.options[question.correctIndex]}. ${question.feedback}`;
-
-            quizNextBtn.disabled = false;
-            quizNextBtn.focus();
-        }
-
-        function nextQuestion() {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questions.length) {
-                showQuestion();
-            } else {
-                showResult();
-            }
-        }
-
-        function showResult() {
-            const total = questions.length;
-            const scoreText = `${correctAnswers}/${total}`;
-            resultScore.textContent = scoreText;
-
-            let emoji, message;
-            if (correctAnswers === total) {
-                emoji = '🏆';
-                message = 'Nível Marie Curie! Você conhece as cientistas como quem estuda há anos. A Expo XP 2026 é a sua casa!';
-            } else if (correctAnswers >= 6) {
-                emoji = '🔬';
-                message = 'Cientista de laboratório! Você conhece muito bem as mulheres que fizeram história. Continue investigando!';
-            } else if (correctAnswers >= 4) {
-                emoji = '📚';
-                message = 'Pesquisadora em treinamento! Vire os cards das cientistas acima e tente de novo para subir de nível.';
-            } else {
-                emoji = '✨';
-                message = 'Começando a jornada! Dica: vire todos os cards da seção "Cientistas que inspiram" e depois jogue novamente.';
-            }
-
-            resultEmoji.textContent = emoji;
-            resultMessage.textContent = message;
-
-            const progress = 100;
-            quizProgressFill.style.width = `${progress}%`;
-            quizProgressBar.setAttribute('aria-valuenow', String(progress));
-
-            showScreen(quizResultScreen);
-        }
-
-        async function shareResult() {
-            const shareText = `Fiz ${correctAnswers}/${questions.length} no quiz "Quem é ela?" do esquenta da Expo XP 2026 — Mulheres na Ciência! 🧪💜 Teste você também:`;
-            const shareUrl = window.location.href;
-
-            if (navigator.share) {
-                try {
-                    await navigator.share({ title: 'Expo XP 2026 — Quiz Quem é ela?', text: shareText, url: shareUrl });
-                    return;
-                } catch (err) {
-                    // usuário cancelou ou share falhou — cai para o clipboard
-                }
-            }
-
-            try {
-                await navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
-                quizShareBtn.textContent = 'Resultado copiado! ✅';
-                setTimeout(() => { quizShareBtn.textContent = 'Compartilhar resultado 📣'; }, 2500);
-            } catch (err) {
-                quizShareBtn.textContent = 'Copie o link da página 📋';
-                setTimeout(() => { quizShareBtn.textContent = 'Compartilhar resultado 📣'; }, 2500);
-            }
-        }
-
-        quizStartBtn.addEventListener('click', startQuiz);
-        quizNextBtn.addEventListener('click', nextQuestion);
-        quizRestartBtn.addEventListener('click', startQuiz);
-        quizShareBtn.addEventListener('click', shareResult);
+        // [O quiz "Quem é ela?" saiu da home em 22/10/2026: virou base do Duelo de
+        //  Laboratório (/jogos) e retorna como "modo solo" do portal — ver PLANO-2026]
 
         // [PLANO A] Bloco do formulário de cadastro — a seção está desativada no HTML;
         // a guarda impede erro quando o formulário não existir na página.
