@@ -201,6 +201,90 @@ h1 .lab { color: var(--lab-lime); }
 
 .progresso { text-align: center; font-size: 12px; color: var(--text-dim); margin-top: 18px; letter-spacing: 0.06em; }
 
+/* Modo leitura (?gabarito) — reprodução automática + roteiro completo, só para testes */
+.gabarito-badge {
+  display: none;
+  margin: 0 auto 8px;
+  width: max-content;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--lab-lime);
+  border: 1px dashed var(--lab-lime);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+.gabarito-badge.on { display: block; }
+
+.gabarito-controls {
+  display: none;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(174, 234, 0, 0.35);
+}
+
+.gabarito-controls.on { display: flex; }
+
+.gbtn {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--lab-lime);
+  background: transparent;
+  border: 1px dashed var(--lab-lime);
+  border-radius: 999px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.gbtn:hover { background: rgba(174, 234, 0, 1); color: #0B1420; }
+
+.roteiro-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 9, 15, 0.85);
+  backdrop-filter: blur(4px);
+  z-index: 50;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.roteiro-overlay.open { display: block; }
+
+.roteiro-panel {
+  max-width: 640px;
+  margin: 0 auto;
+  background: var(--lab-navy-2);
+  border: 1px solid rgba(174, 234, 0, 0.3);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.roteiro-panel h3 { font-size: 18px; margin-bottom: 4px; }
+
+.roteiro-secao {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--lab-lime);
+  margin: 22px 0 10px;
+}
+
+.roteiro-item { padding: 10px 0; border-bottom: 1px solid rgba(242, 246, 249, 0.08); }
+
+.roteiro-item .r-date { font-size: 11px; font-weight: 700; color: var(--lab-lime); text-transform: uppercase; letter-spacing: 0.08em; }
+.roteiro-item .r-tit { font-size: 15px; font-weight: 700; margin: 2px 0 6px; }
+.roteiro-item .r-x { font-family: var(--font-diario); font-style: italic; font-size: 14px; line-height: 1.6; color: var(--text-dim); }
+
+.roteiro-fechar { text-align: center; margin-top: 18px; }
+
 .footer-note { text-align: center; color: var(--text-dim); font-size: 12px; padding: 20px; line-height: 1.6; }
 .footer-note a { color: var(--text-dim); }
 
@@ -224,6 +308,7 @@ h1 .lab { color: var(--lab-lime); }
     </div>
 
     <main class="stage">
+        <div class="gabarito-badge" id="gabaritoBadge">👀 Modo leitura — só para testes</div>
         <!-- Abertura -->
         <section class="card screen active" id="screenStart">
             <span style="font-size:56px; text-align:center; display:block; margin-bottom:12px;" aria-hidden="true">📔</span>
@@ -252,6 +337,13 @@ h1 .lab { color: var(--lab-lime); }
             <h2 class="entry-title" id="entryTitle">Título</h2>
             <div class="entry-text" id="entryText" aria-live="polite"></div>
             <div class="choices" id="choices"></div>
+
+            <!-- Controles do modo leitura (?gabarito) -->
+            <div class="gabarito-controls" id="gabaritoControls">
+                <button class="gbtn" id="btnAuto">▶︎ Reproduzir automático</button>
+                <button class="gbtn" id="btnPular">⏭ Próxima entrada</button>
+                <button class="gbtn" id="btnRoteiro">📜 Roteiro completo</button>
+            </div>
         </section>
 
         <!-- Fim: meu diário -->
@@ -270,6 +362,18 @@ h1 .lab { color: var(--lab-lime); }
             </div>
         </section>
     </main>
+
+    <!-- Roteiro completo (modo leitura) -->
+    <div class="roteiro-overlay" id="roteiroOverlay" role="dialog" aria-label="Roteiro completo">
+        <div class="roteiro-panel">
+            <h3>📜 Roteiro completo</h3>
+            <p style="color: var(--text-dim); font-size: 13px;">Todas as entradas de todos os caminhos — para revisão.</p>
+            <div id="roteiroLista"></div>
+            <div class="roteiro-fechar">
+                <button class="gbtn" id="btnFecharRoteiro">Fechar ✕</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="footer-note">
         Jogos da Ciência · Secretaria de Educação, Ciência e Tecnologia de Arraial do Cabo<br>
@@ -568,6 +672,75 @@ h1 .lab { color: var(--lab-lime); }
     let flags = {};
     let caminho = [];
 
+    // Modo leitura (?gabarito): reprodução automática + roteiro completo.
+    // Uso interno da CETEC para revisar o texto sem jogar escolha por escolha.
+    const GABARITO = new URLSearchParams(location.search).has("gabarito");
+    let autoTimer = null;
+    let autoClicando = false;
+
+    function pararAuto() {
+      if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+      document.getElementById("btnAuto").textContent = "▶︎ Reproduzir automático";
+    }
+
+    function avancar() {
+      const btn = document.querySelector(".choice");
+      if (btn) { autoClicando = true; btn.click(); autoClicando = false; }
+      else { pararAuto(); } // chegou ao fim (recap na tela)
+    }
+
+    function iniciarAuto() {
+      pararAuto();
+      document.getElementById("btnAuto").textContent = "⏸ Pausar";
+      autoTimer = setInterval(() => {
+        if (!screens.entry.classList.contains("active")) { pararAuto(); return; }
+        avancar();
+      }, 4000);
+    }
+
+    function montarRoteiro() {
+      const secoes = [
+        { nome: "Prólogo (comum a todos)", ids: ["abertura", "mar1", "ada1", "eng1", "feira_fim"] },
+        { nome: "Caminho do Oceano", ids: ["o1", "o2a", "o2b", "o3", "o4", "o5a", "o5b", "o6", "o7a", "o7b", "o8", "o9a", "o9b", "o10", "o11", "o_end"] },
+        { nome: "Caminho da Computação", ids: ["a1", "a2", "a3", "a4", "a5a", "a5b", "a6", "a7", "a8", "a_end"] },
+        { nome: "Caminho da Engenharia", ids: ["e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e_end"] }
+      ];
+      const lista = document.getElementById("roteiroLista");
+      lista.innerHTML = "";
+      secoes.forEach(sec => {
+        const h = document.createElement("div");
+        h.className = "roteiro-secao";
+        h.textContent = sec.nome;
+        lista.appendChild(h);
+        sec.ids.forEach(id => {
+          const n = NODES[id];
+          if (!n) return;
+          const item = document.createElement("div");
+          item.className = "roteiro-item";
+          item.innerHTML = '<div class="r-date">' + n.d + '</div><div class="r-tit">' + n.t + "</div><div class=\"r-x\">" + n.x + "</div>";
+          lista.appendChild(item);
+        });
+      });
+    }
+
+    if (GABARITO) {
+      document.getElementById("gabaritoBadge").classList.add("on");
+      document.getElementById("gabaritoControls").classList.add("on");
+      montarRoteiro();
+
+      document.getElementById("btnAuto").addEventListener("click", () => {
+        if (autoTimer) { pararAuto(); } else { iniciarAuto(); }
+      });
+      document.getElementById("btnPular").addEventListener("click", () => { pararAuto(); avancar(); });
+      document.getElementById("btnRoteiro").addEventListener("click", () => {
+        pararAuto();
+        document.getElementById("roteiroOverlay").classList.add("open");
+      });
+      document.getElementById("btnFecharRoteiro").addEventListener("click", () => {
+        document.getElementById("roteiroOverlay").classList.remove("open");
+      });
+    }
+
     function show(name) {
       Object.values(screens).forEach(s => s.classList.remove("active"));
       screens[name].classList.add("active");
@@ -599,6 +772,8 @@ h1 .lab { color: var(--lab-lime); }
           b.className = "choice";
           b.innerHTML = c.t + (c.h ? '<span class="choice-hint">' + c.h + "</span>" : "");
           b.addEventListener("click", () => {
+            // no modo leitura, escolher manualmente pausa a reprodução automática
+            if (GABARITO && autoTimer && !autoClicando) { pararAuto(); }
             if (c.set) flags[c.set] = true;
             caminho.push(node.d + " — " + node.t);
             render(c.to);
