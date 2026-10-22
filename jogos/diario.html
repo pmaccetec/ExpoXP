@@ -385,7 +385,7 @@ h1 .lab { color: var(--lab-lime); }
 
         <!-- Entrada do diário -->
         <section class="card screen" id="screenEntry">
-            <div class="entry-date" id="entryDate">22/10/2026</div>
+            <div class="entry-date" id="entryDate">Novembro de 2026</div>
             <h2 class="entry-title" id="entryTitle">Título</h2>
             <div class="entry-text" id="entryText" aria-live="polite"></div>
             <div class="choices" id="choices"></div>
@@ -450,8 +450,8 @@ h1 .lab { color: var(--lab-lime); }
     const NODES = {
       // ---------- PRÓLOGO COMUM ----------
       abertura: {
-        d: "22/10/2026", t: "O caderno da vó",
-        x: "Hoje a Expo XP tomou a Praça Victorino Carriço inteira. Andei entre estandes com o coração batendo forte, e a vó me deu este caderno: <strong>\"quem pergunta muito, escreve para não esquecer\"</strong>. Então aqui vou eu. Tem estande pra todo lado — preciso escolher por onde começar.",
+        d: "Novembro de 2026", t: "O caderno da vó",
+        x: "Hoje foi dia de Expo XP: a feira tomou a cidade inteira, com gente de todas as idades e ciência em cada esquina. Andei entre os estandes com o coração batendo forte, e a vó me deu este caderno: <strong>\"quem pergunta muito, escreve para não esquecer\"</strong>. Então aqui vou eu. Tem estande pra todo lado — preciso escolher por onde começar.",
         c: [
           { t: "🍽️ Ir no estande do mar, com a pesquisadora do IEAPM", h: "tanques, amostras e microscópio", to: "mar1" },
           { t: "💻 Ir na arena gamer, onde programam um jogo ao vivo", h: "tela grande, código rolando", to: "ada1" },
@@ -459,22 +459,22 @@ h1 .lab { color: var(--lab-lime); }
         ]
       },
       mar1: {
-        d: "22/10/2026", t: "Água turva, água viva",
+        d: "Novembro de 2026", t: "Água turva, água viva",
         x: "A Dra. Marina, pesquisadora do IEAPM, segurava dois potes: um com água turva da chuva de ontem, outro com água cristalina. No microscópio, uma gota da água limpa revelava <strong>um mundo inteiro se mexendo</strong> — o plâncton, a base da vida no mar. \"Isso aí é a cidade invisível de Arraial\", ela disse. Anotei três vezes pra não esquecer.",
         c: [ { t: "Continuar explorando a feira", to: "feira_fim" } ]
       },
       ada1: {
-        d: "22/10/2026", t: "A tela que obedece",
+        d: "Novembro de 2026", t: "A tela que obedece",
         x: "Na arena gamer, uma equipe programava um jogo na tela grande, linha por linha. Uma das programadoras me deixou apertar uma tecla — e o boneco <strong>pulou</strong>. \"Foi você que mandou\", ela riu. Mandei de novo. E de novo. Parece mágica, mas ela mostrou: são instruções, uma depois da outra. Dá pra aprender a escrever isso.",
         c: [ { t: "Continuar explorando a feira", to: "feira_fim" } ]
       },
       eng1: {
-        d: "22/10/2026", t: "A ponte que aguenta",
+        d: "Novembro de 2026", t: "A ponte que aguenta",
         x: "No estande de engenharia, uma ponte de palitinhos aguentava dois celulares de peso — e rachou só no terceiro. A engenheira comemorou o estrago: <strong>\"rachar aqui é bom: é a ponte nos contando onde ela é fraca\"</strong>. Ela desenhou o erro no caderno dela e recomeçou a base. Gente que comemora o erro pra consertar o mundo? Quero entender isso.",
         c: [ { t: "Continuar explorando a feira", to: "feira_fim" } ]
       },
       feira_fim: {
-        d: "22/10/2026 · fim de tarde", t: "O que me fisgou",
+        d: "Novembro de 2026 · fim de tarde", t: "O que me fisgou",
         x: "O sol caiu atrás do Farol e a feira acendeu as luzinhas. Sentei no calçadão pra reler o que anotei. Tem uma coisa, entre todas, que não sai da minha cabeça. Acho que é nela que eu quero me aprofundar.",
         c: [
           { t: "🌊 O mar — aquela cidade invisível debaixo da água", h: "caminho do oceano", to: "o1", set: "oceano" },
@@ -485,7 +485,7 @@ h1 .lab { color: var(--lab-lime); }
 
       // ---------- CAMINHO DO OCEANO ----------
       o1: {
-        d: "28/10/2026", t: "Cultura oceânica na aula",
+        d: "Novembro de 2026", t: "Cultura oceânica na aula",
         x: "A prof. Helena trouxe o tema da feira pra sala: como Arraial vive do mar e com o mar. Minha mão subiu sozinha pra contar o que vi no microscópio.",
         ex: [ { f: "oceano", t: "(Releio a página da feira: \"cidade invisível de Arraial\" — a Dra. Marina ia adorar esta aula.)" } ],
         c: [
@@ -494,12 +494,12 @@ h1 .lab { color: var(--lab-lime); }
         ]
       },
       o2a: {
-        d: "28/10/2026", t: "A turma também quis ver",
+        d: "Novembro de 2026", t: "A turma também quis ver",
         x: "Falei do plâncton e a sala fez \"uou\" em coro. O menino da última fileira perguntou se tem plâncton na praia dos Anjos (tem!). No fim, montamos um grupo de estudo do mar — <strong>eu que não falava em público</strong>. A prof. Helena anotou os nomes sorrindo.",
         c: [ { t: "Aceitar o convite que vem aí", to: "o3" } ]
       },
       o2b: {
-        d: "28/10/2026", t: "O livro emprestado",
+        d: "Novembro de 2026", t: "O livro emprestado",
         x: "No fim da aula, a prof. Helena me emprestou um livro do IEAPM sobre o litoral de Arraial. Li no Farol Velho, com o vento virando a página antes de mim. Tem mais anotação minha do que texto original, juro.",
         c: [ { t: "Aceitar o convite que vem aí", to: "o3" } ]
       },
@@ -587,7 +587,7 @@ h1 .lab { color: var(--lab-lime); }
 
       // ---------- CAMINHO DA COMPUTAÇÃO ----------
       a1: {
-        d: "29/10/2026", t: "Clube de programação",
+        d: "Novembro de 2026", t: "Clube de programação",
         x: "A escola abriu um clube de programação com notebooks doados. A prof. Helena leu meu caderno da feira e disse: \"anotar direitinho é meio caminho pra programar — <strong>algoritmo é receita escrita pra máquina</strong>\". Na primeira aula, meu \"OLÁ MUNDO\" apareceu na tela em letras garrafais.",
         ex: [ { f: "maquinas", t: "(Aquele pulo do boneco na arena… eu quis revê-lo o mês inteiro.)" } ],
         c: [ { t: "Escolher meu primeiro projeto", to: "a2" } ]
@@ -649,7 +649,7 @@ h1 .lab { color: var(--lab-lime); }
 
       // ---------- CAMINHO DA ENGENHARIA ----------
       e1: {
-        d: "29/10/2026", t: "A obra da escola",
+        d: "Novembro de 2026", t: "A obra da escola",
         x: "Começou a reforma da escola, e eu fiquei olhando a engenheira explicar a planta pra todo mundo que passava. Capacete, prancheta e uma frase que copiei no diário: <strong>\"obra é matemática virando coisa\"</strong>.",
         ex: [ { f: "construir", t: "(A ponte de palitinhos da feira rachou no terceiro celular. Quero saber por que não rachou no segundo.)" } ],
         c: [ { t: "Continuar", to: "e2" } ]
