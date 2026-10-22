@@ -1271,6 +1271,54 @@ body {
     display: none;
   }
 }
+    /* ===== Esquenta 2026 — banner e CTA ===== */
+    .esquenta-banner {
+      display: block;
+      text-decoration: none;
+      background: linear-gradient(90deg, #013A63 0%, var(--expo-blue-dark) 55%, var(--expo-blue-medium) 100%);
+      border-bottom: 3px solid #AEEA00;
+      color: var(--color-white);
+      text-align: center;
+      padding: 14px var(--space-24);
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-lg);
+      transition: filter var(--duration-fast) var(--ease-standard);
+    }
+
+    .esquenta-banner:hover {
+      filter: brightness(1.15);
+    }
+
+    .esquenta-banner .esquenta-tag {
+      display: inline-block;
+      background: rgba(174, 234, 0, 0.16);
+      border: 1px solid rgba(174, 234, 0, 0.55);
+      border-radius: var(--radius-full);
+      padding: 2px 10px;
+      font-size: var(--font-size-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-right: var(--space-8);
+    }
+
+    [data-theme="dark"] .esquenta-banner {
+      background: linear-gradient(90deg, #081C30 0%, #0a2540 55%, #0d3a5c 100%);
+    }
+
+    .esquenta-cta-box {
+      background: var(--color-surface);
+      border: 1px solid rgba(174, 234, 0, 0.5);
+      border-left: 4px solid #AEEA00;
+      border-radius: var(--radius-lg);
+      padding: var(--space-24);
+      text-align: center;
+      margin: 0 auto var(--space-32);
+      max-width: 640px;
+    }
+
+    .esquenta-cta-box p {
+      margin-bottom: var(--space-16);
+    }
     </style>
 </head>
 <body>
@@ -1293,6 +1341,7 @@ body {
             </button>
             <nav>
                 <ul class="nav-menu" id="navMenu">
+                    <li><a href="esquenta2026.html">Esquenta 2026 ✨</a></li>
                     <li><a href="#inicio">Início</a></li>
                     <li><a href="#sobre">Sobre o Evento</a></li>
                     <li><a href="#edicoes">Edições</a></li>
@@ -1304,6 +1353,12 @@ body {
             </nav>
         </div>
     </header>
+
+    <!-- Banner do esquenta 2026 -->
+    <a class="esquenta-banner" href="esquenta2026.html">
+        <span class="esquenta-tag">2026</span>
+        Esquenta no ar: 3ª edição — <strong>MULHERES NA CIÊNCIA</strong> · contagem regressiva + quiz ✨
+    </a>
 
     <!-- Hero Section -->
     <section id="inicio" class="hero">
@@ -1648,7 +1703,12 @@ body {
         <h2 class="section-title">Futuras Edições</h2>
         <div class="future-content">
             <p>Fique por dentro das próximas edições da Arraial Expo XP! Cadastre-se para receber notificações sobre datas, programação e novidades.</p>
-            
+
+            <div class="esquenta-cta-box">
+                <p>🔔 O <strong>esquenta da 3ª edição — Mulheres na Ciência</strong> já está no ar: contagem regressiva, cientistas inspiradoras e o quiz "Quem é ela?"</p>
+                <a href="esquenta2026.html" class="hero-cta">Acessar o esquenta 2026 ✨</a>
+            </div>
+
             <form class="notification-form" id="notificationForm">
                 <div class="form-group">
                     <label for="name">Nome Completo</label>
