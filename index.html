@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Arraial Expo XP - Feira de Ciência e Tecnologia de Arraial do Cabo. Conheça as edições, atrações e projetos educacionais.">
-    <meta name="keywords" content="Expo XP, Arraial do Cabo, Ciência, Tecnologia, Educação, Sustentabilidade">
-    <title>Arraial Expo XP - Feira de Ciência e Tecnologia</title>
+    <meta name="description" content="Esquenta da Arraial Expo XP 2026 — 3ª edição da Feira de Ciência e Tecnologia de Arraial do Cabo com o tema Mulheres na Ciência. Contagem regressiva, cientistas inspiradoras e quiz interativo.">
+    <meta name="keywords" content="Expo XP 2026, Mulheres na Ciência, Arraial do Cabo, Ciência, Tecnologia, Educação, Quiz">
+    <meta property="og:title" content="Arraial Expo XP 2026 — Mulheres na Ciência">
+    <meta property="og:description" content="Esquenta da 3ª edição da Feira de Ciência e Tecnologia de Arraial do Cabo. Contagem regressiva, cientistas inspiradoras e quiz Quem é ela?">
+    <meta property="og:type" content="website">
+    <title>Arraial Expo XP 2026 — Mulheres na Ciência | Esquenta</title>
     <script>
-        // Previnir flash de tema durante carregamento
+        // Prevenir flash de tema durante carregamento (mesma chave do site principal)
         (function() {
             const savedTheme = localStorage.getItem('expo-xp-theme');
             const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -25,72 +28,44 @@
   --color-gray-300: rgba(167, 169, 169, 1);
   --color-gray-400: rgba(119, 124, 124, 1);
   --color-slate-500: rgba(98, 108, 113, 1);
-  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
   --color-charcoal-700: rgba(31, 33, 33, 1);
   --color-charcoal-800: rgba(38, 40, 40, 1);
-  --color-slate-900: rgba(19, 52, 59, 1);
-  --color-teal-300: rgba(50, 184, 198, 1);
-  --color-teal-400: rgba(45, 166, 178, 1);
-  --color-teal-500: rgba(33, 128, 141, 1);
-  --color-teal-600: rgba(29, 116, 128, 1);
-  --color-teal-700: rgba(26, 104, 115, 1);
-  --color-teal-800: rgba(41, 150, 161, 1);
-  --color-red-400: rgba(255, 84, 89, 1);
   --color-red-500: rgba(192, 21, 47, 1);
-  --color-orange-400: rgba(230, 129, 97, 1);
-  --color-orange-500: rgba(168, 75, 47, 1);
-  --color-brown-600-rgb: 94, 82, 64;
-  --color-teal-500-rgb: 33, 128, 141;
-  --color-slate-900-rgb: 19, 52, 59;
-  --color-slate-500-rgb: 98, 108, 113;
-  --color-red-500-rgb: 192, 21, 47;
-  --color-red-400-rgb: 255, 84, 89;
-  --color-orange-500-rgb: 168, 75, 47;
-  --color-orange-400-rgb: 230, 129, 97;
-  --color-bg-1: rgba(59, 130, 246, 0.08);
-  --color-bg-2: rgba(245, 158, 11, 0.08);
-  --color-bg-3: rgba(34, 197, 94, 0.08);
-  --color-bg-4: rgba(239, 68, 68, 0.08);
-  --color-bg-5: rgba(147, 51, 234, 0.08);
-  --color-bg-6: rgba(249, 115, 22, 0.08);
-  --color-bg-7: rgba(236, 72, 153, 0.08);
-  --color-bg-8: rgba(6, 182, 212, 0.08);
+  --color-red-400: rgba(255, 84, 89, 1);
   --color-background: var(--color-cream-50);
   --color-surface: var(--color-cream-100);
   --color-text: var(--color-slate-900);
   --color-text-secondary: var(--color-slate-500);
-  --color-primary: var(--color-teal-500);
-  --color-primary-hover: var(--color-teal-600);
-  --color-primary-active: var(--color-teal-700);
-  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
-  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
-  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
-  --color-btn-primary-text: var(--color-cream-50);
-  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-primary: #01579B;
+  --color-primary-hover: #0288D1;
+  --color-primary-active: #013A63;
+  --color-border: rgba(94, 82, 64, 0.2);
+  --color-card-border: rgba(94, 82, 64, 0.12);
+  --color-success: #558B2F;
   --color-error: var(--color-red-500);
-  --color-success: var(--color-teal-500);
-  --color-warning: var(--color-orange-500);
-  --color-info: var(--color-slate-500);
-  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
-  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
-  --focus-ring: 0 0 0 3px var(--color-focus-ring);
-  --focus-outline: 2px solid var(--color-primary);
-  --status-bg-opacity: 0.15;
-  --status-border-opacity: 0.25;
-  --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  --color-success-rgb: 33, 128, 141;
-  --color-error-rgb: 192, 21, 47;
-  --color-warning-rgb: 168, 75, 47;
-  --color-info-rgb: 98, 108, 113;
+  --color-btn-primary-text: var(--color-white);
+  --focus-ring: 0 0 0 3px rgba(2, 119, 189, 0.4);
+
+  /* Identidade Expo XP (herdada das edições anteriores) */
+  --expo-blue-light: #4FC3F7;
+  --expo-blue-medium: #0288D1;
+  --expo-blue-dark: #01579B;
+  --expo-green-light: #4DB6AC;
+  --expo-green-medium: #26A69A;
+
+  /* Identidade 2026 — "Laboratório Vivo" */
+  --lab-lime: #AEEA00;
+  --lab-lime-glow: rgba(174, 234, 0, 0.45);
+  --lab-lime-soft: rgba(174, 234, 0, 0.12);
+  --lab-navy: #013A63;
+  --lab-ink: #0B1420;
+  --lab-green: #33691E;
+
   --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-size-xs: 11px;
   --font-size-sm: 12px;
   --font-size-base: 14px;
-  --font-size-md: 14px;
   --font-size-lg: 16px;
   --font-size-xl: 18px;
   --font-size-2xl: 20px;
@@ -100,117 +75,44 @@
   --font-weight-medium: 500;
   --font-weight-semibold: 550;
   --font-weight-bold: 600;
-  --line-height-tight: 1.2;
-  --line-height-normal: 1.5;
-  --letter-spacing-tight: -0.01em;
-  --space-0: 0;
-  --space-1: 1px;
-  --space-2: 2px;
-  --space-4: 4px;
-  --space-6: 6px;
   --space-8: 8px;
-  --space-10: 10px;
   --space-12: 12px;
   --space-16: 16px;
   --space-20: 20px;
   --space-24: 24px;
   --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
   --radius-sm: 6px;
   --radius-base: 8px;
   --radius-md: 10px;
   --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-full: 9999px;
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
-  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
   --duration-fast: 150ms;
   --duration-normal: 250ms;
   --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
-  --container-sm: 640px;
-  --container-md: 768px;
   --container-lg: 1024px;
   --container-xl: 1280px;
-
-  /* Custom Expo XP colors */
-  --expo-blue-light: #4FC3F7;
-  --expo-blue-medium: #0288D1;
-  --expo-blue-dark: #01579B;
-  --expo-green-light: #4DB6AC;
-  --expo-green-medium: #26A69A;
 }
 
-/* Dark mode - controle manual via data-theme */
 [data-theme="dark"] {
-  --color-gray-400-rgb: 119, 124, 124;
-  --color-teal-300-rgb: 50, 184, 198;
-  --color-gray-300-rgb: 167, 169, 169;
-  --color-gray-200-rgb: 245, 245, 245;
-  --color-bg-1: rgba(29, 78, 216, 0.15);
-  --color-bg-2: rgba(180, 83, 9, 0.15);
-  --color-bg-3: rgba(21, 128, 61, 0.15);
-  --color-bg-4: rgba(185, 28, 28, 0.15);
-  --color-bg-5: rgba(107, 33, 168, 0.15);
-  --color-bg-6: rgba(194, 65, 12, 0.15);
-  --color-bg-7: rgba(190, 24, 93, 0.15);
-  --color-bg-8: rgba(8, 145, 178, 0.15);
   --color-background: var(--color-charcoal-700);
   --color-surface: var(--color-charcoal-800);
   --color-text: var(--color-gray-200);
-  --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
-  --color-primary: var(--color-teal-300);
-  --color-primary-hover: var(--color-teal-400);
-  --color-primary-active: var(--color-teal-800);
-  --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
-  --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
-  --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
-  --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+  --color-text-secondary: rgba(167, 169, 169, 0.8);
+  --color-primary: #AEEA00;
+  --color-primary-hover: #C6FF00;
+  --color-primary-active: #98C72E;
+  --color-border: rgba(119, 124, 124, 0.3);
+  --color-card-border: rgba(119, 124, 124, 0.2);
+  --color-success: #AED581;
   --color-error: var(--color-red-400);
-  --color-success: var(--color-teal-300);
-  --color-warning: var(--color-orange-400);
-  --color-info: var(--color-gray-300);
-  --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
-  --color-btn-primary-text: var(--color-slate-900);
-  --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
-  --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
-  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-  --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
-}
-
-/* Light mode - controle manual via data-theme */
-[data-theme="light"] {
-  --color-background: var(--color-cream-50);
-  --color-surface: var(--color-cream-100);
-  --color-text: var(--color-slate-900);
-  --color-text-secondary: var(--color-slate-500);
-  --color-primary: var(--color-teal-500);
-  --color-primary-hover: var(--color-teal-600);
-  --color-primary-active: var(--color-teal-700);
-  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
-  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
-  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
-  --color-error: var(--color-red-500);
-  --color-success: var(--color-teal-500);
-  --color-warning: var(--color-orange-500);
-  --color-info: var(--color-slate-500);
-  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
-  --color-btn-primary-text: var(--color-cream-50);
-  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
-}
-
-/* Transições suaves para mudanças de tema */
-html {
-  transition: background-color var(--duration-normal) var(--ease-standard),
-              color var(--duration-normal) var(--ease-standard);
-}
-
-@font-face {
-  font-family: 'FKGroteskNeue';
-  src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2') format('woff2');
+  --color-btn-primary-text: var(--lab-ink);
+  --focus-ring: 0 0 0 3px rgba(174, 234, 0, 0.4);
 }
 
 * {
@@ -221,216 +123,220 @@ html {
 
 html {
   scroll-behavior: smooth;
-  font-size: var(--font-size-base);
+  scroll-padding-top: 90px;
 }
 
 body {
   font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
   color: var(--color-text);
-  background-color: var(--color-background);
-  line-height: var(--line-height-normal);
-  -webkit-font-smoothing: antialiased;
+  background: var(--color-background);
+  background-image:
+    linear-gradient(rgba(1, 87, 155, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(1, 87, 155, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  transition: background var(--duration-normal) var(--ease-standard), color var(--duration-normal) var(--ease-standard);
 }
 
-/* Header */
+/* Papel quadriculado do laboratório — modo escuro (grade verde-lima fraca) */
+[data-theme="dark"] body {
+  background-image:
+    linear-gradient(rgba(174, 234, 0, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(174, 234, 0, 0.045) 1px, transparent 1px);
+}
+
+.container {
+  max-width: var(--container-lg);
+  margin: 0 auto;
+  padding: 0 var(--space-24);
+}
+
+/* ============ Header ============ */
 .header {
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-card-border);
   position: sticky;
   top: 0;
-  z-index: 1000;
-  box-shadow: var(--shadow-sm);
+  z-index: 100;
+  background: rgba(252, 252, 249, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-card-border);
+  transition: background var(--duration-normal) var(--ease-standard);
 }
 
-.header-container {
-  max-width: 1280px;
+[data-theme="dark"] .header {
+  background: rgba(31, 33, 33, 0.92);
+}
+
+.header-inner {
+  max-width: var(--container-xl);
   margin: 0 auto;
-  padding: var(--space-16) var(--space-24);
+  padding: var(--space-12) var(--space-24);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
   gap: var(--space-16);
 }
 
-.header-logo {
+.brand {
   display: flex;
   align-items: center;
   gap: var(--space-12);
-  flex: 1;
-  min-width: 200px;
+  text-decoration: none;
+  color: var(--color-text);
 }
 
-.logo-icon {
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, var(--expo-blue-medium), var(--expo-green-medium));
+.brand-logo {
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--lab-navy) 0%, var(--expo-blue-medium) 100%);
+  box-shadow: inset 0 0 0 2px var(--lab-lime-glow);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-xl);
+  font-size: 22px;
+  flex-shrink: 0;
 }
 
-.header-title {
-  display: flex;
-  flex-direction: column;
-}
-
-.header-title h1 {
-  font-size: var(--font-size-xl);
+.brand-text h1 {
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
-  color: var(--expo-blue-dark);
+  letter-spacing: 0.02em;
   line-height: 1.2;
 }
 
-.header-title p {
-  font-size: var(--font-size-sm);
+.brand-text span {
+  font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
-  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-20);
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  padding: var(--space-8) var(--space-4);
+  border-bottom: 2px solid transparent;
+  transition: border-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
+}
+
+.nav a:hover,
+.nav a:focus-visible {
+  border-bottom-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
+}
+
+.theme-toggle:hover {
+  transform: scale(1.08);
+  border-color: var(--color-primary);
 }
 
 .nav-toggle {
   display: none;
-  background: var(--color-secondary);
+  background: none;
   border: none;
-  padding: var(--space-8);
-  border-radius: var(--radius-base);
+  font-size: 24px;
   cursor: pointer;
   color: var(--color-text);
-}
-
-.theme-toggle {
-  background: var(--color-secondary);
-  border: 1px solid var(--color-border);
   padding: var(--space-8);
-  border-radius: var(--radius-base);
-  cursor: pointer;
-  color: var(--color-text);
-  transition: all var(--duration-fast) var(--ease-standard);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  position: relative;
-  overflow: hidden;
 }
 
-.theme-toggle:hover {
-  background: var(--color-secondary-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
-}
-
-.theme-toggle:active {
-  transform: translateY(0);
-}
-
-.theme-icon-light,
-.theme-icon-dark {
-  position: absolute;
-  font-size: 18px;
-  transition: all var(--duration-normal) var(--ease-standard);
-}
-
-.theme-icon-light {
-  opacity: 1;
-  transform: rotate(0deg);
-}
-
-.theme-icon-dark {
-  opacity: 0;
-  transform: rotate(-180deg);
-}
-
-/* Light mode styles */
-[data-theme="light"] .theme-icon-light {
-  opacity: 1;
-  transform: rotate(0deg);
-}
-
-[data-theme="light"] .theme-icon-dark {
-  opacity: 0;
-  transform: rotate(-180deg);
-}
-
-/* Dark mode styles */
-[data-theme="dark"] .theme-icon-light {
-  opacity: 0;
-  transform: rotate(180deg);
-}
-
-[data-theme="dark"] .theme-icon-dark {
-  opacity: 1;
-  transform: rotate(0deg);
-}
-
-.nav-menu {
-  display: flex;
-  gap: var(--space-8);
-  list-style: none;
-}
-
-.nav-menu li a {
-  color: var(--color-text);
-  text-decoration: none;
-  padding: var(--space-8) var(--space-16);
-  border-radius: var(--radius-base);
-  transition: all var(--duration-fast) var(--ease-standard);
-  font-weight: var(--font-weight-medium);
-  font-size: var(--font-size-base);
-  display: block;
-}
-
-.nav-menu li a:hover {
-  background: var(--color-secondary);
-  color: var(--color-primary);
-}
-
-/* Hero Section */
+/* ============ Hero ============ */
 .hero {
   position: relative;
-  background: linear-gradient(135deg, var(--expo-blue-dark) 0%, var(--expo-blue-medium) 50%, var(--expo-green-medium) 100%);
-  color: white;
-  padding: 80px var(--space-24) 100px;
+  background: linear-gradient(135deg, var(--lab-navy) 0%, var(--expo-blue-dark) 55%, var(--expo-blue-medium) 100%);
+  color: var(--color-white);
+  padding: var(--space-64) var(--space-24) 90px;
   overflow: hidden;
-  min-height: 500px;
   display: flex;
   align-items: center;
-  transition: background var(--duration-normal) var(--ease-standard);
+  min-height: 460px;
 }
 
-/* Hero Dark Mode */
 [data-theme="dark"] .hero {
-  background: linear-gradient(135deg, #0a2540 0%, #1a3a52 50%, #1e5f5e 100%);
+  background: linear-gradient(135deg, #081C30 0%, #0a2540 55%, #0d3a5c 100%);
 }
 
-
+/* Moléculas de hexágono ( Laboratório Vivo) — nada de bolhas */
 .hero::before {
   content: '';
   position: absolute;
-  top: -50%;
-  right: -10%;
-  width: 600px;
-  height: 600px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50% 40% 60% 50%;
+  top: -10%;
+  right: -6%;
+  width: 420px;
+  height: 380px;
+  background: var(--lab-lime-soft);
+  clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
   animation: float 20s ease-in-out infinite;
 }
 
 .hero::after {
   content: '';
   position: absolute;
-  bottom: -30%;
-  left: -5%;
-  width: 500px;
-  height: 500px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 60% 50% 40% 50%;
+  bottom: -14%;
+  left: -4%;
+  width: 320px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.05);
+  clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
   animation: float 25s ease-in-out infinite reverse;
+}
+
+/* Vidraria em line-art e clusters moleculares decorativos */
+.hero-decor {
+  position: absolute;
+  opacity: 0.22;
+  z-index: 0;
+  display: none;
+  pointer-events: none;
+}
+
+.hero-decor svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hero-decor-left {
+  left: 4%;
+  top: 16%;
+  width: 140px;
+  animation: float 18s ease-in-out infinite;
+}
+
+.hero-decor-right {
+  right: 5%;
+  bottom: 10%;
+  width: 170px;
+  animation: float 22s ease-in-out infinite reverse;
+}
+
+@media (min-width: 1024px) {
+  .hero-decor {
+    display: block;
+  }
 }
 
 @keyframes float {
@@ -439,540 +345,643 @@ body {
 }
 
 .hero-content {
-  max-width: 1280px;
+  max-width: 860px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
   text-align: center;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: var(--lab-lime-soft);
+  border: 1px solid var(--lab-lime-glow);
+  border-radius: var(--radius-full);
+  padding: var(--space-8) var(--space-20);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-20);
 }
 
 .hero h2 {
-  font-size: clamp(32px, 5vw, 48px);
+  font-size: clamp(34px, 6vw, 56px);
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--space-16);
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  line-height: 1.1;
 }
 
-.hero p {
+.hero-subtitle {
   font-size: var(--font-size-xl);
   margin-bottom: var(--space-32);
   opacity: 0.95;
-  max-width: 800px;
+  max-width: 680px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.hero-cta {
-  display: inline-block;
-  background: white;
-  color: var(--expo-blue-dark);
-  padding: var(--space-16) var(--space-32);
-  border-radius: var(--radius-lg);
-  font-weight: var(--font-weight-semibold);
-  text-decoration: none;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  transition: all var(--duration-normal) var(--ease-standard);
-}
-
-.hero-cta:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
-}
-
-/* Container */
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 60px var(--space-24);
-}
-
-.section-title {
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--expo-blue-dark);
-  margin-bottom: var(--space-24);
-  text-align: center;
-}
-
-.section-subtitle {
-  font-size: var(--font-size-lg);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--space-32);
-  text-align: center;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* About Section */
-.about-content {
-  max-width: 900px;
-  margin: 0 auto;
-  line-height: 1.8;
-}
-
-.about-content p {
-  margin-bottom: var(--space-20);
-  font-size: var(--font-size-lg);
-}
-
-.about-objectives {
-  background: var(--color-bg-8);
-  padding: var(--space-24);
-  border-radius: var(--radius-lg);
-  margin-top: var(--space-32);
-  border: 1px solid var(--color-card-border);
-}
-
-.about-objectives h3 {
-  color: var(--expo-blue-dark);
-  margin-bottom: var(--space-16);
-  font-size: var(--font-size-xl);
-}
-
-.about-objectives ul {
-  list-style: none;
-  padding: 0;
-}
-
-.about-objectives li {
-  padding: var(--space-12) 0;
-  padding-left: var(--space-32);
-  position: relative;
-  font-size: var(--font-size-base);
-}
-
-.about-objectives li::before {
-  content: '✓';
-  position: absolute;
-  left: 0;
-  color: var(--expo-green-medium);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-xl);
-}
-
-/* Edition Selector */
-.edition-selector {
+.hero-ctas {
   display: flex;
-  justify-content: center;
   gap: var(--space-16);
-  margin-bottom: var(--space-32);
+  justify-content: center;
   flex-wrap: wrap;
-}
-
-.edition-btn {
-  padding: var(--space-12) var(--space-32);
-  border: 2px solid var(--expo-blue-medium);
-  background: var(--color-surface);
-  color: var(--color-text);
-  border-radius: var(--radius-lg);
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
-  cursor: pointer;
-  transition: all var(--duration-normal) var(--ease-standard);
-}
-
-.edition-btn:hover {
-  background: var(--color-secondary);
-  transform: translateY(-2px);
-}
-
-.edition-btn.active {
-  background: var(--expo-blue-medium);
-  color: white;
-  box-shadow: var(--shadow-md);
-}
-
-.edition-content {
-  display: none;
-  animation: fadeIn 0.5s var(--ease-standard);
-}
-
-.edition-content.active {
-  display: block;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.edition-header {
-  background: var(--color-bg-8);
-  padding: var(--space-32);
-  border-radius: var(--radius-lg);
-  margin-bottom: var(--space-32);
-  border: 1px solid var(--color-card-border);
-}
-
-.edition-header h3 {
-  font-size: var(--font-size-2xl);
-  color: var(--expo-blue-dark);
-  margin-bottom: var(--space-16);
-}
-
-.edition-details {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--space-20);
-  margin-top: var(--space-20);
-}
-
-.detail-item {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-12);
-}
-
-.detail-icon {
-  font-size: var(--font-size-xl);
-  color: var(--expo-green-medium);
-}
-
-.detail-text strong {
-  display: block;
-  color: var(--color-text);
-  font-weight: var(--font-weight-semibold);
-  margin-bottom: var(--space-4);
-}
-
-.detail-text span {
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-base);
-}
-
-/* Attractions Grid */
-.attractions-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--space-24);
-  margin-top: var(--space-32);
-}
-
-.attraction-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-24);
-  transition: all var(--duration-normal) var(--ease-standard);
-  box-shadow: var(--shadow-sm);
-}
-
-.attraction-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--expo-blue-light);
-}
-
-.attraction-icon {
-  font-size: 40px;
-  margin-bottom: var(--space-16);
-}
-
-.attraction-card h4 {
-  color: var(--expo-blue-dark);
-  margin-bottom: var(--space-12);
-  font-size: var(--font-size-lg);
-}
-
-.attraction-card p {
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-base);
-  line-height: 1.6;
-}
-
-/* Science & Technology Section */
-.science-tech-section {
-  background: linear-gradient(135deg, rgba(79, 195, 247, 0.05) 0%, rgba(38, 166, 154, 0.05) 100%);
-  padding: var(--space-32) var(--space-24);
-  margin: var(--space-32) 0;
-  border-radius: var(--radius-lg);
-  position: relative;
-  overflow: hidden;
-}
-
-.science-tech-section::before {
-  content: '';
-  position: absolute;
-  top: -50px;
-  right: -50px;
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(79, 195, 247, 0.1) 0%, transparent 70%);
-  border-radius: 50%;
-  animation: float 20s ease-in-out infinite;
-}
-
-.science-tech-section::after {
-  content: '';
-  position: absolute;
-  bottom: -30px;
-  left: -30px;
-  width: 150px;
-  height: 150px;
-  background: radial-gradient(circle, rgba(38, 166, 154, 0.1) 0%, transparent 70%);
-  border-radius: 50%;
-  animation: float 25s ease-in-out infinite reverse;
-}
-
-.science-tech-intro {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto var(--space-32);
-  font-size: var(--font-size-lg);
-  line-height: 1.7;
-  color: var(--color-text);
-  position: relative;
-  z-index: 1;
-}
-
-
-/* CTA Container */
-.cta-container {
-  text-align: center;
-  position: relative;
-  z-index: 1;
+  margin-bottom: var(--space-48);
 }
 
 .cta-button {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-12);
-  background: linear-gradient(135deg, var(--expo-blue-medium) 0%, var(--expo-green-medium) 100%);
-  color: white;
-  padding: var(--space-20) var(--space-32);
-  border-radius: var(--radius-lg);
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  text-decoration: none;
-  box-shadow: 0 8px 30px rgba(2, 136, 209, 0.3);
-  transition: all var(--duration-normal) var(--ease-standard);
-  position: relative;
-  overflow: hidden;
-}
-
-.cta-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left var(--duration-normal) var(--ease-standard);
-}
-
-.cta-button:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 12px 40px rgba(2, 136, 209, 0.4);
-}
-
-.cta-button:hover::before {
-  left: 100%;
-}
-
-.cta-icon {
-  font-size: 24px;
-}
-
-.cta-arrow {
-  font-size: 20px;
-  transition: transform var(--duration-fast) var(--ease-standard);
-}
-
-.cta-button:hover .cta-arrow {
-  transform: translateX(4px);
-}
-
-.cta-description {
-  margin-top: var(--space-16);
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-base);
-  line-height: 1.5;
-}
-
-/* Dark mode adjustments */
-[data-theme="dark"] .science-tech-section {
-  background: linear-gradient(135deg, rgba(2, 136, 209, 0.1) 0%, rgba(38, 166, 154, 0.1) 100%);
-}
-
-/* Schedule */
-.schedule {
-  margin-top: var(--space-32);
-}
-
-.schedule h4 {
+  gap: var(--space-8);
+  background: var(--color-white);
   color: var(--expo-blue-dark);
-  font-size: var(--font-size-xl);
-  margin-bottom: var(--space-20);
-}
-
-.schedule-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-24);
-}
-
-.schedule-day {
-  background: var(--color-surface);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-24);
-}
-
-.schedule-day h5 {
-  color: var(--expo-blue-medium);
+  text-decoration: none;
+  font-weight: var(--font-weight-bold);
   font-size: var(--font-size-lg);
-  margin-bottom: var(--space-16);
-  padding-bottom: var(--space-12);
-  border-bottom: 2px solid var(--color-card-border);
-}
-
-.schedule-day ul {
-  list-style: none;
-  padding: 0;
-}
-
-.schedule-day li {
-  padding: var(--space-12) 0;
-  color: var(--color-text);
-  font-size: var(--font-size-base);
-  line-height: 1.6;
-  border-bottom: 1px solid var(--color-card-border-inner);
-}
-
-.schedule-day li:last-child {
-  border-bottom: none;
-}
-
-/* Gallery */
-.gallery-filters {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-12);
-  margin-bottom: var(--space-32);
-  flex-wrap: wrap;
-}
-
-.filter-btn {
-  padding: var(--space-8) var(--space-20);
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  color: var(--color-text);
+  padding: 14px 28px;
   border-radius: var(--radius-full);
-  font-size: var(--font-size-base);
-  cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-standard);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  transition: transform var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard);
 }
 
-.filter-btn:hover {
-  background: var(--color-secondary);
+.cta-button:hover,
+.cta-button:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-.filter-btn.active {
-  background: var(--expo-green-medium);
-  color: white;
-  border-color: var(--expo-green-medium);
+.cta-button.secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-white);
+  border: 2px solid rgba(255, 255, 255, 0.6);
 }
 
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: var(--space-16);
-}
-
-.gallery-item {
-  aspect-ratio: 4/3;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  cursor: pointer;
-  transition: all var(--duration-normal) var(--ease-standard);
-  box-shadow: var(--shadow-sm);
-}
-
-.gallery-item:hover {
-  transform: scale(1.05);
-  box-shadow: var(--shadow-md);
-}
-
-.gallery-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.gallery-item.placeholder {
-  background: linear-gradient(135deg, var(--expo-blue-light), var(--expo-green-light));
-  display: flex;
+/* Contagem regressiva */
+.countdown {
+  display: inline-flex;
+  gap: var(--space-12);
   align-items: center;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-lg);
+  padding: var(--space-16) var(--space-24);
+  flex-wrap: wrap;
   justify-content: center;
-  color: white;
+}
+
+.countdown-block {
+  min-width: 78px;
+  text-align: center;
+}
+
+.countdown-number {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.countdown-label {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.85;
+}
+
+.countdown-title {
+  width: 100%;
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  opacity: 0.9;
+  margin-bottom: var(--space-8);
   font-weight: var(--font-weight-semibold);
 }
 
-/* Partners */
-.partners-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--space-24);
-  margin-top: var(--space-32);
+.countdown-note {
+  margin-top: var(--space-12);
+  font-size: var(--font-size-sm);
+  opacity: 0.85;
 }
 
-.partner-card {
+/* ============ Seções ============ */
+.section {
+  padding: var(--space-64) 0;
+}
+
+.section-title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+  margin-bottom: var(--space-12);
+  color: var(--color-text);
+}
+
+.section-subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto var(--space-48);
+}
+
+/* Tema */
+.theme-intro {
+  max-width: 760px;
+  margin: 0 auto;
+  font-size: var(--font-size-lg);
+  line-height: 1.7;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.theme-intro strong {
+  color: var(--expo-blue-dark);
+}
+
+[data-theme="dark"] .theme-intro strong {
+  color: var(--lab-lime);
+}
+
+.theme-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-20);
+  max-width: 860px;
+  margin: var(--space-48) auto 0;
+}
+
+.stat-card {
   background: var(--color-surface);
   border: 1px solid var(--color-card-border);
   border-radius: var(--radius-lg);
   padding: var(--space-24);
   text-align: center;
-  transition: all var(--duration-normal) var(--ease-standard);
   box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-normal) var(--ease-standard), box-shadow var(--duration-normal) var(--ease-standard);
 }
 
-.partner-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
 }
 
-.partner-logo {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto var(--space-16);
-  background: linear-gradient(135deg, var(--expo-blue-light), var(--expo-green-light));
-  border-radius: var(--radius-md);
+.stat-emoji {
+  font-size: 34px;
+  margin-bottom: var(--space-12);
+}
+
+.stat-number {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--expo-blue-dark);
+  margin-bottom: var(--space-4);
+}
+
+[data-theme="dark"] .stat-number {
+  color: var(--lab-lime);
+}
+
+.stat-text {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+}
+
+/* ============ Cards de cientistas ============ */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-20);
+}
+
+.flip-card {
+  display: block;
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0;
+  background: none;
+  border: none;
+  font-family: inherit;
+  perspective: 1000px;
+  cursor: pointer;
+  text-align: center;
+  min-height: 230px;
+  touch-action: manipulation;
+}
+
+.flip-card:focus-visible {
+  outline: none;
+}
+
+.flip-card:focus-visible .flip-card-inner {
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-lg);
+}
+
+.flip-card-inner {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 230px;
+  transition: transform 0.5s var(--ease-standard);
+  transform-style: preserve-3d;
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-card-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-xl);
+  padding: var(--space-16);
 }
 
-.partner-card p {
-  color: var(--color-text);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  line-height: 1.4;
+.flip-card-front {
+  gap: var(--space-8);
 }
 
-/* Future Editions */
-.future-content {
-  max-width: 700px;
-  margin: 0 auto;
+.flip-card-front:hover {
+  box-shadow: var(--shadow-lg);
 }
 
-.future-content p {
-  text-align: center;
-  color: var(--color-text-secondary);
+.flip-card-emoji {
+  font-size: 40px;
+}
+
+.flip-card-name {
   font-size: var(--font-size-lg);
-  margin-bottom: var(--space-32);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
 }
 
-.notification-form {
+.flip-card-area {
+  font-size: var(--font-size-sm);
+  color: var(--lab-green);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+[data-theme="dark"] .flip-card-area {
+  color: var(--lab-lime);
+}
+
+.flip-card-hint {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-4);
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(150deg, var(--lab-navy) 0%, var(--expo-blue-dark) 100%);
+  color: var(--color-white);
+  border-top: 3px solid var(--lab-lime);
+}
+
+.flip-card-fact {
+  font-size: var(--font-size-sm);
+  line-height: 1.55;
+}
+
+.cards-note {
+  text-align: center;
+  margin-top: var(--space-32);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+}
+
+/* ============ Edições anteriores ============ */
+.past-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-20);
+  max-width: 860px;
+  margin: 0 auto var(--space-32);
+}
+
+.past-card {
   background: var(--color-surface);
   border: 1px solid var(--color-card-border);
+  border-top: 3px solid var(--lab-lime);
   border-radius: var(--radius-lg);
-  padding: var(--space-32);
+  padding: var(--space-24);
   box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-normal) var(--ease-standard), box-shadow var(--duration-normal) var(--ease-standard);
+}
+
+.past-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.past-year {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.past-theme {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--expo-blue-dark);
+  margin: var(--space-4) 0 var(--space-8);
+}
+
+[data-theme="dark"] .past-theme {
+  color: var(--lab-lime);
+}
+
+.past-meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-12);
+}
+
+.past-desc {
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+}
+
+.past-actions {
+  display: flex;
+  gap: var(--space-12);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.past-actions a {
+  text-decoration: none;
+}
+
+/* ============ Quiz ============ */
+.quiz-section {
+  background:
+    radial-gradient(ellipse at 10% 0%, rgba(174, 234, 0, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 100%, rgba(2, 119, 189, 0.06) 0%, transparent 50%);
+}
+
+[data-theme="dark"] .quiz-section {
+  background:
+    radial-gradient(ellipse at 10% 0%, rgba(174, 234, 0, 0.09) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 100%, rgba(2, 119, 189, 0.14) 0%, transparent 50%);
+}
+
+.quiz-box {
+  max-width: 720px;
+  margin: 0 auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-32);
+}
+
+.quiz-header {
+  text-align: center;
+  margin-bottom: var(--space-24);
+}
+
+.quiz-header h3 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-8);
+}
+
+.quiz-header p {
+  color: var(--color-text-secondary);
+}
+
+.quiz-screen {
+  display: none;
+}
+
+.quiz-screen.active {
+  display: block;
+}
+
+.quiz-start-emoji {
+  font-size: 56px;
+  text-align: center;
+  display: block;
+  margin-bottom: var(--space-16);
+}
+
+.quiz-start-info {
+  text-align: center;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-24);
+  line-height: 1.7;
+}
+
+.quiz-center {
+  text-align: center;
+}
+
+.quiz-btn {
+  background: var(--color-primary);
+  color: var(--color-btn-primary-text);
+  border: none;
+  font-family: inherit;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  padding: 14px 32px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
+}
+
+.quiz-btn:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-2px);
+}
+
+.quiz-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.quiz-btn.secondary {
+  background: none;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.quiz-btn.secondary:hover {
+  background: rgba(2, 119, 189, 0.1);
+}
+
+.quiz-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  margin-bottom: var(--space-20);
+}
+
+.quiz-counter {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.progress-track {
+  flex: 1;
+  height: 8px;
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--lab-lime), var(--expo-blue-medium));
+  border-radius: var(--radius-full);
+  transition: width var(--duration-normal) var(--ease-standard);
+}
+
+.quiz-question-emoji {
+  font-size: 40px;
+  text-align: center;
+  display: block;
+  margin-bottom: var(--space-12);
+}
+
+.quiz-question {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  margin-bottom: var(--space-24);
+  line-height: 1.5;
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-12);
+  margin-bottom: var(--space-20);
+}
+
+.quiz-option {
+  background: var(--color-background);
+  border: 2px solid var(--color-card-border);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  padding: var(--space-16);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard), background var(--duration-fast) var(--ease-standard);
+}
+
+.quiz-option:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.quiz-option:disabled {
+  cursor: default;
+}
+
+.quiz-option.correct {
+  border-color: var(--color-success);
+  background: rgba(85, 139, 47, 0.12);
+}
+
+.quiz-option.wrong {
+  border-color: var(--color-error);
+  background: rgba(192, 21, 47, 0.1);
+}
+
+.quiz-feedback {
+  border-radius: var(--radius-md);
+  padding: var(--space-16);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  margin-bottom: var(--space-20);
+  display: none;
+}
+
+.quiz-feedback.correct {
+  display: block;
+  background: rgba(85, 139, 47, 0.12);
+  border: 1px solid rgba(85, 139, 47, 0.4);
+}
+
+.quiz-feedback.wrong {
+  display: block;
+  background: rgba(192, 21, 47, 0.08);
+  border: 1px solid rgba(192, 21, 47, 0.3);
+}
+
+.quiz-actions {
+  text-align: center;
+}
+
+.quiz-result-emoji {
+  font-size: 60px;
+  text-align: center;
+  display: block;
+  margin-bottom: var(--space-16);
+}
+
+.quiz-result-score {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+  color: var(--color-primary);
+  margin-bottom: var(--space-8);
+}
+
+.quiz-result-message {
+  text-align: center;
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-24);
+  line-height: 1.6;
+}
+
+.quiz-result-actions {
+  display: flex;
+  gap: var(--space-12);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ============ Cadastro ============ */
+.signup-box {
+  max-width: 620px;
+  margin: 0 auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-32);
+}
+
+.signup-box p {
+  text-align: center;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-24);
+  line-height: 1.6;
 }
 
 .form-group {
@@ -981,8 +990,7 @@ body {
 
 .form-group label {
   display: block;
-  color: var(--color-text);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
   margin-bottom: var(--space-8);
   font-size: var(--font-size-base);
 }
@@ -990,980 +998,1046 @@ body {
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: var(--space-12);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-base);
+  padding: 12px 14px;
+  border: 2px solid var(--color-card-border);
+  border-radius: var(--radius-md);
+  font-family: inherit;
   font-size: var(--font-size-base);
-  background: var(--color-background);
   color: var(--color-text);
-  font-family: var(--font-family-base);
+  background: var(--color-background);
   transition: border-color var(--duration-fast) var(--ease-standard);
 }
 
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: var(--expo-blue-medium);
-  box-shadow: 0 0 0 3px rgba(2, 136, 209, 0.1);
-}
-
-.form-group select {
-  appearance: none;
-  background-image: var(--select-caret-light);
-  background-repeat: no-repeat;
-  background-position: right var(--space-12) center;
-  background-size: 16px;
-  padding-right: var(--space-32);
+  border-color: var(--color-primary);
 }
 
 .submit-btn {
   width: 100%;
-  padding: var(--space-16);
-  background: var(--expo-blue-medium);
-  color: white;
+  background: var(--color-primary);
+  color: var(--color-btn-primary-text);
   border: none;
-  border-radius: var(--radius-base);
+  font-family: inherit;
   font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
+  padding: 14px;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  transition: all var(--duration-normal) var(--ease-standard);
+  transition: background var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
 }
 
 .submit-btn:hover {
-  background: var(--expo-blue-dark);
+  background: var(--color-primary-hover);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
 }
 
 .form-message {
   margin-top: var(--space-16);
-  padding: var(--space-12);
-  border-radius: var(--radius-base);
+  padding: var(--space-16);
+  border-radius: var(--radius-md);
+  display: none;
   text-align: center;
   font-weight: var(--font-weight-medium);
-  display: none;
 }
 
 .form-message.success {
-  background: rgba(77, 182, 172, 0.15);
-  color: var(--expo-green-medium);
-  border: 1px solid var(--expo-green-medium);
+  display: block;
+  background: rgba(85, 139, 47, 0.12);
+  border: 1px solid rgba(85, 139, 47, 0.4);
+  color: var(--color-success);
 }
 
-/* Footer */
+/* ============ Footer ============ */
 .footer {
-  background: var(--expo-blue-dark);
-  color: white;
-  padding: 60px var(--space-24) var(--space-32);
-  margin-top: 80px;
-  transition: background-color var(--duration-normal) var(--ease-standard);
+  background: linear-gradient(135deg, var(--lab-navy) 0%, var(--expo-blue-dark) 100%);
+  color: var(--color-white);
+  padding: var(--space-48) 0 var(--space-24);
 }
 
-/* Footer Dark Mode */
 [data-theme="dark"] .footer {
-  background: #0a1929;
-  color: rgba(255, 255, 255, 0.9);
+  background: linear-gradient(135deg, #081C30 0%, #0a2540 100%);
 }
-
 
 .footer-content {
-  max-width: 1280px;
+  max-width: var(--container-lg);
   margin: 0 auto;
+  padding: 0 var(--space-24) var(--space-32);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: var(--space-32);
-  margin-bottom: var(--space-32);
 }
 
 .footer-section h4 {
-  color: var(--expo-blue-light);
-  margin-bottom: var(--space-16);
   font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-12);
 }
 
-.footer-section p,
-.footer-section a {
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.8;
+.footer-section p {
   font-size: var(--font-size-base);
+  opacity: 0.9;
+  margin-bottom: var(--space-8);
+  line-height: 1.6;
+}
+
+.footer-section a {
+  color: var(--color-white);
   text-decoration: none;
+  opacity: 0.9;
   display: block;
   margin-bottom: var(--space-8);
+  transition: opacity var(--duration-fast) var(--ease-standard);
 }
 
 .footer-section a:hover {
-  color: var(--expo-blue-light);
-  transition: color var(--duration-fast) var(--ease-standard);
-}
-
-/* Footer links dark mode adjustments */
-[data-theme="dark"] .footer-section a:hover {
-  color: var(--expo-green-light);
-}
-
-
-.social-links {
-  display: flex;
-  gap: var(--space-12);
-  margin-top: var(--space-16);
-}
-
-.social-links a {
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all var(--duration-fast) var(--ease-standard);
-}
-
-.social-links a:hover {
-  background: var(--expo-blue-light);
-  transform: translateY(-2px);
-}
-
-.footer-bottom {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding-top: var(--space-24);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  text-align: center;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: var(--font-size-sm);
-}
-
-.footer-bottom a {
-  color: var(--expo-blue-light);
-  text-decoration: none;
-}
-
-.footer-bottom a:hover {
+  opacity: 1;
   text-decoration: underline;
 }
 
-/* Back to top button */
-.back-to-top {
-  position: fixed;
-  bottom: var(--space-32);
-  right: var(--space-32);
-  width: 50px;
-  height: 50px;
-  background: var(--expo-blue-medium);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--font-size-xl);
-  box-shadow: var(--shadow-lg);
-  transition: all var(--duration-normal) var(--ease-standard);
-  z-index: 999;
+.footer-bottom {
+  max-width: var(--container-lg);
+  margin: 0 auto;
+  padding: var(--space-24) var(--space-24) 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  opacity: 0.85;
+  line-height: 1.7;
 }
 
-.back-to-top:hover {
-  background: var(--expo-blue-dark);
-  transform: translateY(-4px);
+/* Voltar ao topo */
+.back-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: var(--color-btn-primary-text);
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity var(--duration-normal) var(--ease-standard), transform var(--duration-normal) var(--ease-standard), visibility var(--duration-normal);
+  z-index: 90;
 }
 
 .back-to-top.visible {
-  display: flex;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
-/* Responsive */
+/* ============ Responsivo ============ */
+@media (max-width: 1024px) {
+  .cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
+  .nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-card-border);
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-16) var(--space-24);
+    gap: var(--space-4);
+  }
+
+  .nav.active {
+    display: flex;
+  }
+
+  .nav a {
+    padding: var(--space-12) var(--space-8);
+    border-bottom: none;
+    border-radius: var(--radius-sm);
+  }
+
+  .nav a:hover {
+    background: rgba(2, 119, 189, 0.08);
+  }
+
   .nav-toggle {
     display: block;
   }
 
-  .nav-menu {
-    display: none;
-    width: 100%;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: var(--color-surface);
-    border-top: 1px solid var(--color-card-border);
-    box-shadow: var(--shadow-md);
-    padding: var(--space-16);
-  }
-
-  .nav-menu.active {
-    display: flex;
-  }
-
-  .header-container {
+  .header-inner {
     position: relative;
   }
 
-  .theme-toggle {
-    order: -1;
-    margin-right: var(--space-8);
-  }
-
-  .hero {
-    padding: 60px var(--space-16) 80px;
-  }
-
-  .container {
-    padding: 40px var(--space-16);
-  }
-
-  .section-title {
-    font-size: var(--font-size-2xl);
-  }
-
-  .attractions-grid,
-  .partners-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .edition-selector {
-    flex-direction: column;
-  }
-
-  .edition-btn {
-    width: 100%;
-  }
-
-  /* Science & Technology Responsive */
-  .science-tech-section {
-    padding: var(--space-24) var(--space-16);
-    margin: var(--space-24) 0;
-  }
-
-  .science-tech-intro {
-    font-size: var(--font-size-base);
-    margin-bottom: var(--space-24);
-  }
-
-  
-  .cta-button {
-    padding: var(--space-16) var(--space-24);
-    font-size: var(--font-size-lg);
+  .header-actions {
+    display: flex;
+    align-items: center;
     gap: var(--space-8);
   }
 
-  .cta-icon {
-    font-size: 20px;
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .cta-arrow {
-    font-size: 16px;
+  .quiz-options {
+    grid-template-columns: 1fr;
   }
 
-  .cta-description {
-    font-size: var(--font-size-sm);
+  .section {
+    padding: var(--space-48) 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-text h1 {
+    font-size: var(--font-size-base);
+  }
+
+  .countdown-block {
+    min-width: 64px;
+  }
+
+  .countdown-number {
+    font-size: var(--font-size-3xl);
   }
 }
 
-/* Print styles */
-@media print {
-  .header,
-  .nav-menu,
-  .hero-cta,
-  .back-to-top,
-  .notification-form {
-    display: none;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero::before,
+  .hero::after {
+    animation: none;
+  }
+
+  .flip-card-inner {
+    transition: none;
   }
 }
-    /* ===== Esquenta 2026 — banner e CTA ===== */
-    .esquenta-banner {
-      display: block;
-      text-decoration: none;
-      background: linear-gradient(90deg, #013A63 0%, var(--expo-blue-dark) 55%, var(--expo-blue-medium) 100%);
-      border-bottom: 3px solid #AEEA00;
-      color: var(--color-white);
-      text-align: center;
-      padding: 14px var(--space-24);
-      font-weight: var(--font-weight-semibold);
-      font-size: var(--font-size-lg);
-      transition: filter var(--duration-fast) var(--ease-standard);
-    }
-
-    .esquenta-banner:hover {
-      filter: brightness(1.15);
-    }
-
-    .esquenta-banner .esquenta-tag {
-      display: inline-block;
-      background: rgba(174, 234, 0, 0.16);
-      border: 1px solid rgba(174, 234, 0, 0.55);
-      border-radius: var(--radius-full);
-      padding: 2px 10px;
-      font-size: var(--font-size-sm);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-right: var(--space-8);
-    }
-
-    [data-theme="dark"] .esquenta-banner {
-      background: linear-gradient(90deg, #081C30 0%, #0a2540 55%, #0d3a5c 100%);
-    }
-
-    .esquenta-cta-box {
-      background: var(--color-surface);
-      border: 1px solid rgba(174, 234, 0, 0.5);
-      border-left: 4px solid #AEEA00;
-      border-radius: var(--radius-lg);
-      padding: var(--space-24);
-      text-align: center;
-      margin: 0 auto var(--space-32);
-      max-width: 640px;
-    }
-
-    .esquenta-cta-box p {
-      margin-bottom: var(--space-16);
-    }
-    </style>
+</style>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
-        <div class="header-container">
-            <div class="header-logo">
-                <div class="logo-icon">AC</div>
-                <div class="header-title">
+        <div class="header-inner">
+            <a href="#inicio" class="brand" aria-label="Arraial Expo XP 2026 — voltar ao início">
+                <div class="brand-logo" aria-hidden="true">🔬</div>
+                <div class="brand-text">
                     <h1>ARRAIAL EXPO XP</h1>
-                    <p>Feira de Ciência e Tecnologia</p>
+                    <span>Esquenta 2026 · Mulheres na Ciência</span>
                 </div>
-            </div>
-            <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema claro/escuro" title="Alternar tema">
-                <span class="theme-icon-light">☀️</span>
-                <span class="theme-icon-dark">🌙</span>
-            </button>
-            <button class="nav-toggle" id="navToggle" aria-label="Menu de navegação">
-                ☰
-            </button>
-            <nav>
-                <ul class="nav-menu" id="navMenu">
-                    <li><a href="esquenta2026.html">Esquenta 2026 ✨</a></li>
-                    <li><a href="#inicio">Início</a></li>
-                    <li><a href="#sobre">Sobre o Evento</a></li>
-                    <li><a href="#edicoes">Edições</a></li>
-                    <li><a href="#jogos">Jogos Oceânicos</a></li>
-                    <li><a href="#galeria">Galeria</a></li>
-                    <li><a href="#parceiros">Parceiros</a></li>
-                    <li><a href="#contato">Contato</a></li>
-                </ul>
+            </a>
+
+            <nav class="nav" id="navMenu" aria-label="Navegação principal">
+                <a href="#tema">O Tema</a>
+                <a href="#cientistas">Cientistas</a>
+                <a href="#quiz">Quiz</a>
+                <a href="#edicoes">Edições</a>
+                <!-- [PLANO A] item "Cadastro" volta quando o formulário real estiver pronto -->
             </nav>
+
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema claro/escuro">☀️</button>
+                <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+            </div>
         </div>
     </header>
 
-    <!-- Banner do esquenta 2026 -->
-    <a class="esquenta-banner" href="esquenta2026.html">
-        <span class="esquenta-tag">2026</span>
-        Esquenta no ar: 3ª edição — <strong>MULHERES NA CIÊNCIA</strong> · contagem regressiva + quiz ✨
-    </a>
-
-    <!-- Hero Section -->
-    <section id="inicio" class="hero">
-        <div class="hero-content">
-            <h2>PLANETA ÁGUA</h2>
-            <p>A cultura oceânica para enfrentar as mudanças climáticas no meu território</p>
-            <a href="#edicoes" class="hero-cta">Conheça a última edição</a>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="sobre" class="container">
-        <h2 class="section-title">Sobre o Evento</h2>
-        <div class="about-content">
-            <p>
-                A <strong>Arraial Expo XP</strong> é a Feira de Ciência e Tecnologia da rede municipal de ensino de Arraial do Cabo, um evento que celebra a criatividade, o conhecimento científico e a inovação dos nossos alunos e professores.
-            </p>
-            <p>
-                Este evento anual reúne estudantes, educadores, famílias e toda a comunidade para explorar projetos escolares inovadores, participar de experiências interativas e se inspirar com palestras e apresentações que conectam ciência, tecnologia e sustentabilidade ao nosso território costeiro único.
-            </p>
-            <div class="about-objectives">
-                <h3>Objetivos do Evento</h3>
-                <ul>
-                    <li>Estimular o interesse pela ciência, tecnologia e inovação entre os estudantes</li>
-                    <li>Promover a consciência ambiental e sustentabilidade em nosso território oceânico</li>
-                    <li>Fortalecer o vínculo entre escola, família e comunidade</li>
-                    <li>Valorizar os projetos e pesquisas desenvolvidos pelos alunos da rede municipal</li>
-                    <li>Criar experiências educativas interativas e memoráveis para todas as idades</li>
-                </ul>
+    <main>
+        <!-- Hero -->
+        <section id="inicio" class="hero">
+            <!-- Decoração Laboratório Vivo: vidraria em line-art + cluster molecular -->
+            <div class="hero-decor hero-decor-left" aria-hidden="true">
+                <svg viewBox="0 0 140 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- tubo de ensaio -->
+                    <path d="M22 12 v104 a10 10 0 0 0 20 0 V12" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="16" y1="34" x2="48" y2="34" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M22 92 v24 a10 10 0 0 0 20 0 V92 Z" fill="rgba(174,234,0,0.4)"/>
+                    <!-- erlenmeyer -->
+                    <path d="M84 16 h28 M92 16 v38 L70 122 a11 11 0 0 0 10 15 h34 a11 11 0 0 0 10-15 L104 54 V16" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M78 98 L70 122 a11 11 0 0 0 10 15 h34 a11 11 0 0 0 10-15 L120 98 Z" fill="rgba(174,234,0,0.4)"/>
+                    <!-- bolhas do líquido (únicas permitidas: dentro da vidraria) -->
+                    <circle cx="92" cy="112" r="2.5" fill="rgba(255,255,255,0.85)"/>
+                    <circle cx="104" cy="120" r="2" fill="rgba(255,255,255,0.7)"/>
+                    <circle cx="98" cy="104" r="1.8" fill="rgba(255,255,255,0.6)"/>
+                </svg>
             </div>
-        </div>
-    </section>
+            <div class="hero-decor hero-decor-right" aria-hidden="true">
+                <svg viewBox="0 0 170 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- cluster molecular: hexágono com nós e ligantes -->
+                    <path d="M85 18 L131 45 L131 99 L85 126 L39 99 L39 45 Z" stroke="rgba(174,234,0,0.9)" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M85 48 L108 61 L108 87 L85 100 L62 87 L62 61 Z" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-linejoin="round"/>
+                    <line x1="131" y1="99" x2="152" y2="126" stroke="rgba(174,234,0,0.9)" stroke-width="2"/>
+                    <line x1="39" y1="45" x2="16" y2="28" stroke="rgba(174,234,0,0.9)" stroke-width="2"/>
+                    <circle cx="85" cy="18" r="6" fill="rgba(174,234,0,0.95)"/>
+                    <circle cx="131" cy="45" r="6" fill="rgba(174,234,0,0.95)"/>
+                    <circle cx="131" cy="99" r="6" fill="rgba(174,234,0,0.95)"/>
+                    <circle cx="85" cy="126" r="6" fill="rgba(174,234,0,0.95)"/>
+                    <circle cx="39" cy="99" r="6" fill="rgba(174,234,0,0.95)"/>
+                    <circle cx="39" cy="45" r="6" fill="rgba(174,234,0,0.95)"/>
+                    <circle cx="152" cy="126" r="5" fill="rgba(255,255,255,0.9)"/>
+                    <circle cx="16" cy="28" r="5" fill="rgba(255,255,255,0.9)"/>
+                    <circle cx="85" cy="72" r="4" fill="rgba(174,234,0,0.8)"/>
+                </svg>
+            </div>
+            <div class="hero-content">
+                <span class="hero-badge">✨ 3ª Edição · Novembro de 2026</span>
+                <h2>MULHERES NA CIÊNCIA</h2>
+                <p class="hero-subtitle">A Feira de Ciência e Tecnologia de Arraial do Cabo volta em 2026 para celebrar as mulheres que transformam o mundo através da ciência — dos laboratórios ao oceano, das salas de aula ao espaço.</p>
 
-    <!-- Editions Section -->
-    <section id="edicoes" class="container">
-        <h2 class="section-title">Edições da Expo XP</h2>
-        <p class="section-subtitle">Explore as diferentes edições da nossa feira de ciência e tecnologia</p>
-        
-        <div class="edition-selector">
-            <button class="edition-btn active" data-edition="2025">2ª Edição - 2025</button>
-            <button class="edition-btn" data-edition="2023">1ª Edição - 2023</button>
-        </div>
+                <div class="hero-ctas">
+                    <a href="#quiz" class="cta-button">
+                        <span aria-hidden="true">🎮</span>
+                        Jogar o Quiz "Quem é ela?"
+                    </a>
+                    <!-- [PLANO A] CTA "Receber novidades" volta com o formulário real -->
+                </div>
 
-        <!-- Edition 2025 -->
-        <div class="edition-content active" id="edition-2025">
-            <div class="edition-header">
-                <h3>2ª Edição - Expo XP 2025</h3>
-                <p style="font-size: var(--font-size-xl); color: var(--expo-green-medium); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-20);">"Planeta Água: A cultura oceânica para enfrentar as mudanças climáticas no meu território"</p>
-                <div class="edition-details">
-                    <div class="detail-item">
-                        <span class="detail-icon">📅</span>
-                        <div class="detail-text">
-                            <strong>Datas</strong>
-                            <span>6 e 7 de novembro de 2025</span>
+                <div class="countdown" id="countdown" aria-live="polite">
+                    <span class="countdown-title">⏳ Contagem regressiva para novembro de 2026</span>
+                    <div class="countdown-block">
+                        <div class="countdown-number" id="cdDays">--</div>
+                        <div class="countdown-label">dias</div>
+                    </div>
+                    <div class="countdown-block">
+                        <div class="countdown-number" id="cdHours">--</div>
+                        <div class="countdown-label">horas</div>
+                    </div>
+                    <div class="countdown-block">
+                        <div class="countdown-number" id="cdMinutes">--</div>
+                        <div class="countdown-label">min</div>
+                    </div>
+                    <div class="countdown-block">
+                        <div class="countdown-number" id="cdSeconds">--</div>
+                        <div class="countdown-label">seg</div>
+                    </div>
+                    <p class="countdown-note">Datas oficiais em breve — fique de olho! 👀</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sobre o tema -->
+        <section id="tema" class="section">
+            <div class="container">
+                <h2 class="section-title">Por que "Mulheres na Ciência"?</h2>
+                <p class="section-subtitle">A ciência sempre teve nome de mulher — mesmo quando a história não contou</p>
+
+                <div class="theme-intro">
+                    <p>Depois de falarmos de <strong>sustentabilidade</strong> em 2023 e de <strong>Planeta Água</strong> em 2025, a Expo XP chega à sua 3ª edição homenageando as cientistas que expandem os limites do conhecimento — e inspirando a próxima geração de meninas e meninos de Arraial do Cabo a perguntar, investigar e descobrir.</p>
+                </div>
+
+                <div class="theme-stats">
+                    <div class="stat-card">
+                        <div class="stat-emoji" aria-hidden="true">🔬</div>
+                        <div class="stat-number">~1/3</div>
+                        <p class="stat-text">das pessoas pesquisadoras no mundo são mulheres, segundo a UNESCO</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-emoji" aria-hidden="true">🏅</div>
+                        <div class="stat-number">2</div>
+                        <p class="stat-text">Prêmios Nobel de Marie Curie — a única pessoa premiada em duas ciências diferentes</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-emoji" aria-hidden="true">📅</div>
+                        <div class="stat-number">11/02</div>
+                        <p class="stat-text">Dia Internacional das Mulheres e Meninas na Ciência, data oficial da ONU</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cientistas -->
+        <section id="cientistas" class="section" style="padding-top: 0;">
+            <div class="container">
+                <h2 class="section-title">Cientistas que inspiram</h2>
+                <p class="section-subtitle">Toque em cada card e descubra a história por trás de cada descoberta</p>
+
+                <div class="cards-grid" id="cardsGrid">
+                    <button class="flip-card" aria-pressed="false">
+                        <span class="flip-card-inner">
+                            <span class="flip-card-front">
+                                <span class="flip-card-emoji" aria-hidden="true">⚛️</span>
+                                <span class="flip-card-name">Marie Curie</span>
+                                <span class="flip-card-area">Física e Química</span>
+                                <span class="flip-card-hint">toque para virar ↻</span>
+                            </span>
+                            <span class="flip-card-back">
+                                <span class="flip-card-fact">Física e química polonesa-naturalizada francesa. Única pessoa a ganhar o Nobel em duas ciências diferentes: Física (1903) e Química (1911).</span>
+                            </span>
+                        </span>
+                    </button>
+
+                    <button class="flip-card" aria-pressed="false">
+                        <span class="flip-card-inner">
+                            <span class="flip-card-front">
+                                <span class="flip-card-emoji" aria-hidden="true">💻</span>
+                                <span class="flip-card-name">Ada Lovelace</span>
+                                <span class="flip-card-area">Computação</span>
+                                <span class="flip-card-hint">toque para virar ↻</span>
+                            </span>
+                            <span class="flip-card-back">
+                                <span class="flip-card-fact">Matemática britânica do século XIX. Escreveu o que é considerado o primeiro algoritmo da história — antes mesmo de existir um computador.</span>
+                            </span>
+                        </span>
+                    </button>
+
+                    <button class="flip-card" aria-pressed="false">
+                        <span class="flip-card-inner">
+                            <span class="flip-card-front">
+                                <span class="flip-card-emoji" aria-hidden="true">🚀</span>
+                                <span class="flip-card-name">Katherine Johnson</span>
+                                <span class="flip-card-area">Matemática · NASA</span>
+                                <span class="flip-card-hint">toque para virar ↻</span>
+                            </span>
+                            <span class="flip-card-back">
+                                <span class="flip-card-fact">Matemática norte-americana da NASA. Seus cálculos foram essenciais para as missões Apollo — história contada no filme "Estrelas Além do Tempo".</span>
+                            </span>
+                        </span>
+                    </button>
+
+                    <button class="flip-card" aria-pressed="false">
+                        <span class="flip-card-inner">
+                            <span class="flip-card-front">
+                                <span class="flip-card-emoji" aria-hidden="true">🧬</span>
+                                <span class="flip-card-name">Rosalind Franklin</span>
+                                <span class="flip-card-area">Biologia Molecular</span>
+                                <span class="flip-card-hint">toque para virar ↻</span>
+                            </span>
+                            <span class="flip-card-back">
+                                <span class="flip-card-fact">Cientista britânica. Sua imagem de raios-X do DNA, a Foto 51, foi decisiva para a descoberta da estrutura de dupla hélice.</span>
+                            </span>
+                        </span>
+                    </button>
+
+                    <button class="flip-card" aria-pressed="false">
+                        <span class="flip-card-inner">
+                            <span class="flip-card-front">
+                                <span class="flip-card-emoji" aria-hidden="true">🐸</span>
+                                <span class="flip-card-name">Bertha Lutz</span>
+                                <span class="flip-card-area">Biologia</span>
+                                <span class="flip-card-hint">toque para virar ↻</span>
+                            </span>
+                            <span class="flip-card-back">
+                                <span class="flip-card-fact">Bióloga brasileira do Museu Nacional, descreveu dezenas de espécies de anfíbios. Também foi pioneira da luta pelo voto feminino no Brasil.</span>
+                            </span>
+                        </span>
+                    </button>
+
+                    <button class="flip-card" aria-pressed="false">
+                        <span class="flip-card-inner">
+                            <span class="flip-card-front">
+                                <span class="flip-card-emoji" aria-hidden="true">🌱</span>
+                                <span class="flip-card-name">Johanna Döbereiner</span>
+                                <span class="flip-card-area">Agronomia</span>
+                                <span class="flip-card-hint">toque para virar ↻</span>
+                            </span>
+                            <span class="flip-card-back">
+                                <span class="flip-card-fact">Agrônoma naturalizada brasileira. Suas pesquisas com bactérias fixadoras de nitrogênio ajudaram o Brasil a se tornar referência mundial na produção de soja.</span>
+                            </span>
+                        </span>
+                    </button>
+
+                    <button class="flip-card" aria-pressed="false">
+                        <span class="flip-card-inner">
+                            <span class="flip-card-front">
+                                <span class="flip-card-emoji" aria-hidden="true">🎨</span>
+                                <span class="flip-card-name">Nise da Silveira</span>
+                                <span class="flip-card-area">Psiquiatria</span>
+                                <span class="flip-card-hint">toque para virar ↻</span>
+                            </span>
+                            <span class="flip-card-back">
+                                <span class="flip-card-fact">Psiquiatra brasileira pioneira no uso da arte e da afetividade no tratamento em saúde mental. Sua história virou o filme "Nise: O Coração da Loucura".</span>
+                            </span>
+                        </span>
+                    </button>
+
+                    <button class="flip-card" aria-pressed="false">
+                        <span class="flip-card-inner">
+                            <span class="flip-card-front">
+                                <span class="flip-card-emoji" aria-hidden="true">🏗️</span>
+                                <span class="flip-card-name">Enedina Alves Marques</span>
+                                <span class="flip-card-area">Engenharia</span>
+                                <span class="flip-card-hint">toque para virar ↻</span>
+                            </span>
+                            <span class="flip-card-back">
+                                <span class="flip-card-fact">Primeira engenheira negra do Brasil, formada em 1945 pelo Paraná. Trabalhou em obras hidrelétricas e abriu caminho para muitas outras mulheres.</span>
+                            </span>
+                        </span>
+                    </button>
+
+                    <button class="flip-card" aria-pressed="false">
+                        <span class="flip-card-inner">
+                            <span class="flip-card-front">
+                                <span class="flip-card-emoji" aria-hidden="true">🧪</span>
+                                <span class="flip-card-name">Mayana Zatz</span>
+                                <span class="flip-card-area">Genética</span>
+                                <span class="flip-card-hint">toque para virar ↻</span>
+                            </span>
+                            <span class="flip-card-back">
+                                <span class="flip-card-fact">Geneticista brasileira, referência mundial no estudo das distrofias musculares. Coordena pesquisas e incentiva jovens cientistas no país.</span>
+                            </span>
+                        </span>
+                    </button>
+
+                    <button class="flip-card" aria-pressed="false">
+                        <span class="flip-card-inner">
+                            <span class="flip-card-front">
+                                <span class="flip-card-emoji" aria-hidden="true">🦠</span>
+                                <span class="flip-card-name">Jaqueline Goes</span>
+                                <span class="flip-card-area">Biomedicina</span>
+                                <span class="flip-card-hint">toque para virar ↻</span>
+                            </span>
+                            <span class="flip-card-back">
+                                <span class="flip-card-fact">Cientista biomédica brasileira. Integrou a equipe que decifrou o genoma do vírus Zika em 2016, ajudando o Brasil a responder a emergências sanitárias.</span>
+                            </span>
+                        </span>
+                    </button>
+
+                    <button class="flip-card" aria-pressed="false">
+                        <span class="flip-card-inner">
+                            <span class="flip-card-front">
+                                <span class="flip-card-emoji" aria-hidden="true">📡</span>
+                                <span class="flip-card-name">Hedy Lamarr</span>
+                                <span class="flip-card-area">Invenção</span>
+                                <span class="flip-card-hint">toque para virar ↻</span>
+                            </span>
+                            <span class="flip-card-back">
+                                <span class="flip-card-fact">Atriz e inventora austríaca. Na década de 1940 criou a técnica do salto de frequência — base tecnológica do Wi-Fi e do Bluetooth que usamos hoje.</span>
+                            </span>
+                        </span>
+                    </button>
+
+                    <button class="flip-card" aria-pressed="false">
+                        <span class="flip-card-inner">
+                            <span class="flip-card-front">
+                                <span class="flip-card-emoji" aria-hidden="true">👩‍🚀</span>
+                                <span class="flip-card-name">Mae Jemison</span>
+                                <span class="flip-card-area">Astronáutica</span>
+                                <span class="flip-card-hint">toque para virar ↻</span>
+                            </span>
+                            <span class="flip-card-back">
+                                <span class="flip-card-fact">Médica e engenheira norte-americana. Em 1992 tornou-se a primeira mulher negra a viajar para o espaço, a bordo do ônibus espacial Endeavour.</span>
+                            </span>
+                        </span>
+                    </button>
+                </div>
+
+                <p class="cards-note">💡 Essas são apenas 12 de milhares de cientistas que transformaram o mundo. Na Expo XP 2026 você vai conhecer muitas outras — inclusive as cientistas da nossa região!</p>
+            </div>
+        </section>
+
+        <!-- Quiz -->
+        <section id="quiz" class="section quiz-section">
+            <div class="container">
+                <h2 class="section-title">Quiz: Quem é ela?</h2>
+                <p class="section-subtitle">Um aquecimento para os jogos da Expo XP 2026. Será que você descobre quem é a cientista por trás de cada pista?</p>
+
+                <div class="quiz-box">
+                    <!-- Tela inicial -->
+                    <div class="quiz-screen active" id="quizStart">
+                        <span class="quiz-start-emoji" aria-hidden="true">🕵️‍♀️</span>
+                        <div class="quiz-header">
+                            <h3>8 enigmas, 8 cientistas</h3>
+                            <p>Dica: vire os cards da seção acima antes de começar!</p>
+                        </div>
+                        <p class="quiz-start-info">Leia a pista, escolha o nome da cientista e aprenda uma curiosidade em cada resposta. No final, compartilhe seu resultado!</p>
+                        <div class="quiz-center">
+                            <button class="quiz-btn" id="quizStartBtn">Começar o desafio 🚀</button>
                         </div>
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-icon">📍</span>
-                        <div class="detail-text">
-                            <strong>Local</strong>
-                            <span>Praça Victorino Carriço e Largo do Estádio Municipal</span>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-icon">🕐</span>
-                        <div class="detail-text">
-                            <strong>Horário</strong>
-                            <span>9h às 18h (quinta e sexta) | Show especial às 19h (sexta)</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <h4 style="color: var(--expo-blue-dark); font-size: var(--font-size-xl); margin-bottom: var(--space-20);">Atrações</h4>
-            <div class="attractions-grid">
-                <div class="attraction-card">
-                    <div class="attraction-icon">🌌</div>
-                    <h4>Planetário Itinerante</h4>
-                    <p>Sessões imersivas sobre universo, planetas e constelações em uma experiência única de aprendizado.</p>
-                </div>
-                <div class="attraction-card">
-                    <div class="attraction-icon">🐋</div>
-                    <h4>Baleia-jubarte Inflável</h4>
-                    <p>Experiência imersiva nos segredos do oceano, conhecendo de perto esses gigantes marinhos.</p>
-                </div>
-                <div class="attraction-card">
-                    <div class="attraction-icon">🎡</div>
-                    <h4>Roda Gigante</h4>
-                    <p>Vista privilegiada com painéis informativos sobre nosso território e sustentabilidade.</p>
-                </div>
-                <div class="attraction-card">
-                    <div class="attraction-icon">🚌</div>
-                    <h4>Ônibus Laboratório</h4>
-                    <p>Diversos experimentos científicos interativos em um laboratório móvel completo.</p>
-                </div>
-                <div class="attraction-card">
-                    <div class="attraction-icon">🎮</div>
-                    <h4>Arena Gamer</h4>
-                    <p>Tecnologia e jogos educativos para todas as idades.</p>
-                </div>
-                <div class="attraction-card">
-                    <div class="attraction-icon">🎤</div>
-                    <h4>Show de Talentos</h4>
-                    <p>Apresentações dos alunos da rede municipal mostrando seus diversos talentos.</p>
-                </div>
-                <div class="attraction-card">
-                    <div class="attraction-icon">🔬</div>
-                    <h4>Projetos Escolares</h4>
-                    <p>Trabalhos sobre meio ambiente, inovação e cidadania desenvolvidos pelos estudantes.</p>
-                </div>
-                <div class="attraction-card">
-                    <div class="attraction-icon">🐕</div>
-                    <h4>Buzz e Bonnie</h4>
-                    <p>Demonstração com os cães do Grupamento de Operações da Polícia Militar.</p>
-                </div>
-            </div>
+                    <!-- Tela de perguntas -->
+                    <div class="quiz-screen" id="quizQuestions">
+                        <div class="quiz-progress">
+                            <span class="quiz-counter" id="quizCounter">1/8</span>
+                            <div class="progress-track" role="progressbar" aria-label="Progresso do quiz" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                <div class="progress-fill" id="quizProgressFill"></div>
+                            </div>
+                        </div>
 
-            <div class="schedule">
-                <h4>Programação</h4>
-                <div class="schedule-grid">
-                    <div class="schedule-day">
-                        <h5>Quinta-feira - 6 de novembro</h5>
-                        <ul>
-                            <li>⏰ 9h30 - Science Place Show</li>
-                            <li>⏰ 11h00 - Science Place Show</li>
-                            <li>⏰ 13h30 - Ciência em Show</li>
-                            <li>⏰ 15h30 - Ciência em Show</li>
-                            <li>⏰ 16h30 - Science Place Show</li>
-                            <li>🎵 17h00 - Banda Spectrummm</li>
-                        </ul>
-                    </div>
-                    <div class="schedule-day">
-                        <h5>Sexta-feira - 7 de novembro</h5>
-                        <ul>
-                            <li>⏰ 10h00 - Science Place Show</li>
-                            <li>⏰ 14h20 - Science Place Show</li>
-                            <li>⏰ 15h25 - Science Place Show</li>
-                            <li>🎭 19h00 - Turma do Show da Luna</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        <span class="quiz-question-emoji" id="quizEmoji" aria-hidden="true">🔬</span>
+                        <p class="quiz-question" id="quizQuestion">Pergunta</p>
 
-        <!-- Edition 2023 -->
-        <div class="edition-content" id="edition-2023">
-            <div class="edition-header">
-                <h3>1ª Edição - Expo XP 2023</h3>
-                <p style="font-size: var(--font-size-xl); color: var(--expo-green-medium); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-20);">"Sustentabilidade"</p>
-                <div class="edition-details">
-                    <div class="detail-item">
-                        <span class="detail-icon">📅</span>
-                        <div class="detail-text">
-                            <strong>Datas</strong>
-                            <span>13 e 14 de novembro de 2023</span>
+                        <div class="quiz-options" id="quizOptions"></div>
+
+                        <div class="quiz-feedback" id="quizFeedback" role="status"></div>
+
+                        <div class="quiz-actions">
+                            <button class="quiz-btn" id="quizNextBtn" disabled>Próxima pista →</button>
                         </div>
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-icon">📍</span>
-                        <div class="detail-text">
-                            <strong>Local</strong>
-                            <span>CIEP 147 Municipalizado Cecílio Barros Pessoa</span>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-icon">🕐</span>
-                        <div class="detail-text">
-                            <strong>Horário</strong>
-                            <span>9h às 18h</span>
+
+                    <!-- Tela de resultado -->
+                    <div class="quiz-screen" id="quizResult">
+                        <span class="quiz-result-emoji" id="resultEmoji" aria-hidden="true">🏆</span>
+                        <div class="quiz-result-score" id="resultScore">8/8</div>
+                        <p class="quiz-result-message" id="resultMessage">Mensagem</p>
+                        <div class="quiz-result-actions">
+                            <button class="quiz-btn" id="quizShareBtn">Compartilhar resultado 📣</button>
+                            <button class="quiz-btn secondary" id="quizRestartBtn">Jogar de novo ↻</button>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <h4 style="color: var(--expo-blue-dark); font-size: var(--font-size-xl); margin-bottom: var(--space-20);">Atrações</h4>
-            <div class="attractions-grid">
-                <div class="attraction-card">
-                    <div class="attraction-icon">🚁</div>
-                    <h4>Arena de Drones</h4>
-                    <p>Demonstrações e experiências práticas com drones e tecnologia de voo.</p>
+        <!-- Edições anteriores -->
+        <section id="edicoes" class="section">
+            <div class="container">
+                <h2 class="section-title">Edições anteriores</h2>
+                <p class="section-subtitle">A feira que trouxe a ciência para Arraial do Cabo em 2023 e 2025</p>
+
+                <div class="past-grid">
+                    <div class="past-card">
+                        <div class="past-year">2ª Edição · Novembro de 2025</div>
+                        <h3 class="past-theme">Planeta Água</h3>
+                        <p class="past-meta">📍 Praça Victorino Carriço e Largo do Estádio Municipal</p>
+                        <p class="past-desc">A cultura oceânica para enfrentar as mudanças climáticas no meu território — com planetário itinerante, baleia-jubarte inflável, Arena Gamer e o portal de Jogos Oceânicos.</p>
+                    </div>
+                    <div class="past-card">
+                        <div class="past-year">1ª Edição · Novembro de 2023</div>
+                        <h3 class="past-theme">Sustentabilidade</h3>
+                        <p class="past-meta">📍 CIEP 147 Municipalizado Cecílio Barros Pessoa</p>
+                        <p class="past-desc">A primeira edição: arena de drones, realidade virtual, laboratório NTM, oficinas, palestras e os primeiros projetos escolares da rede.</p>
+                    </div>
                 </div>
-                <div class="attraction-card">
-                    <div class="attraction-icon">🥽</div>
-                    <h4>Realidade Virtual e Aumentada</h4>
-                    <p>Experiências imersivas usando as mais modernas tecnologias de VR e AR.</p>
-                </div>
-                <div class="attraction-card">
-                    <div class="attraction-icon">🔬</div>
-                    <h4>Laboratório NTM</h4>
-                    <p>Atividades do Núcleo de Tecnologia Municipal com experimentos interativos.</p>
-                </div>
-                <div class="attraction-card">
-                    <div class="attraction-icon">🎨</div>
-                    <h4>Oficinas e Exposições</h4>
-                    <p>Oficinas práticas e exposições dos projetos desenvolvidos nas escolas municipais.</p>
-                </div>
-                <div class="attraction-card">
-                    <div class="attraction-icon">💬</div>
-                    <h4>Palestras</h4>
-                    <p>Palestras com especialistas sobre ciência, tecnologia e sustentabilidade.</p>
-                </div>
-                <div class="attraction-card">
-                    <div class="attraction-icon">🎵</div>
-                    <h4>Shows Musicais</h4>
-                    <p>Apresentações de Marcelo Serralva (educador musical) e Tom Zahir.</p>
+
+                <div class="past-actions">
+                    <a href="edicoes.html" class="quiz-btn">Explorar edições anteriores →</a>
+                    <a href="https://jogosoceanicos.arraial.rj.gov.br" target="_blank" rel="noopener" class="quiz-btn secondary">🎮 Jogos Oceânicos 2025</a>
                 </div>
             </div>
+        </section>
 
-            <div class="schedule">
-                <h4>Participantes</h4>
-                <div style="background: var(--color-bg-8); padding: var(--space-24); border-radius: var(--radius-lg); margin-top: var(--space-20); border: 1px solid var(--color-card-border);">
-                    <p style="margin-bottom: var(--space-16); font-size: var(--font-size-base);">A primeira edição contou com a participação de:</p>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="padding: var(--space-8) 0; padding-left: var(--space-24); position: relative;">✓ 8 estandes de escolas municipais</li>
-                        <li style="padding: var(--space-8) 0; padding-left: var(--space-24); position: relative;">✓ IFF - Instituto Federal Fluminense</li>
-                        <li style="padding: var(--space-8) 0; padding-left: var(--space-24); position: relative;">✓ URRJ - Universidade Rural do Rio de Janeiro</li>
-                        <li style="padding: var(--space-8) 0; padding-left: var(--space-24); position: relative;">✓ Faetec</li>
-                        <li style="padding: var(--space-8) 0; padding-left: var(--space-24); position: relative;">✓ Marinha do Brasil</li>
-                        <li style="padding: var(--space-8) 0; padding-left: var(--space-24); position: relative;">✓ Secretarias municipais de Turismo e Serviço Social</li>
-                        <li style="padding: var(--space-8) 0; padding-left: var(--space-24); position: relative;">✓ Fundação do Meio Ambiente</li>
-                    </ul>
+        <!-- [PLANO A] Seção de cadastro desativada por enquanto (22/10/2026): volta junto
+             com o Plano A, quando existir backend/formulário real. Não basta descomentar —
+             restaurar também: item do menu, CTA do hero e bloco JS do formulário. -->
+        <!--
+        <section id="cadastro" class="section">
+        <section id="cadastro" class="section">
+            <div class="container">
+                <h2 class="section-title">Não perca nada da 3ª edição</h2>
+                <p class="section-subtitle">Cadastre-se para receber as datas oficiais, a programação e as novidades da Expo XP 2026</p>
+
+                <div class="signup-box">
+                    <p>Assim que a programação for anunciada, você recebe tudo em primeira mão. É rápido!</p>
+
+                    <form class="notification-form" id="notificationForm">
+                        <div class="form-group">
+                            <label for="name">Nome Completo</label>
+                            <input type="text" id="name" name="name" required placeholder="Seu nome completo" autocomplete="name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" required placeholder="seu@email.com" autocomplete="email">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category">Categoria</label>
+                            <select id="category" name="category" required>
+                                <option value="">Selecione uma categoria</option>
+                                <option value="aluno">Aluno</option>
+                                <option value="professor">Professor</option>
+                                <option value="comunidade">Comunidade</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Cadastrar para notificações</button>
+
+                        <div class="form-message" id="formMessage" role="status"></div>
+                    </form>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Science & Technology Section -->
-    <section id="jogos" class="science-tech-section">
-        <div class="container">
-            <h2 class="section-title">Secretaria de Ciência e Tecnologia</h2>
-            <p class="section-subtitle">Jogos Educacionais Oceânicos - Exclusivo 2ª Edição 2025</p>
-
-            <div class="science-tech-intro">
-                <p>Conheça os jogos educacionais oceânicos desenvolvidos especialmente para a 2ª edição da Expo XP. Experiências interativas que promovem a conscientização sobre a conservação marinha e a cultura oceânica, alinhadas com o tema "Planeta Água: A cultura oceânica para enfrentar as mudanças climáticas no meu território".</p>
-            </div>
-
-            <div class="cta-container">
-                <a href="https://jogosoceanicos.arraial.rj.gov.br" target="_blank" class="cta-button">
-                    <span class="cta-icon">🎮</span>
-                    Acessar Jogos Oceânicos
-                    <span class="cta-arrow">→</span>
-                </a>
-                <p class="cta-description">Clique para explorar todos os jogos educacionais disponíveis em nosso portal dedicado</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section id="galeria" class="container">
-        <h2 class="section-title">Galeria de Fotos</h2>
-        <p class="section-subtitle">Momentos especiais capturados durante as edições da Expo XP</p>
-        
-        <div class="gallery-filters">
-            <button class="filter-btn active" data-filter="all">Todas</button>
-            <button class="filter-btn" data-filter="2025">Edição 2025</button>
-            <button class="filter-btn" data-filter="2023">Edição 2023</button>
-        </div>
-
-        <div class="gallery-grid" id="galleryGrid">
-            <div class="gallery-item" data-year="2025">
-                <img src="https://pplx-res.cloudinary.com/image/upload/v1762786021/pplx_project_search_images/d370ce447d8995ea469bd56e18a9caa6c9adfbf7.png" alt="Banner Expo XP 2025" />
-            </div>
-            <div class="gallery-item" data-year="2025">
-                <img src="https://i0.wp.com/cabofrioemfoco.com.br/wp-content/uploads/2025/11/WhatsApp-Image-2025-11-05-at-22.59.22.jpeg?fit=940%2C788&ssl=1" alt="Evento Expo XP 2025" />
-            </div>
-            <div class="gallery-item" data-year="2025">
-                <img src="https://pplx-res.cloudinary.com/image/upload/v1762786021/pplx_project_search_images/1d94631ede0951a8e44e103ec1f8fa6b74bf1186.png" alt="Science Place Show" />
-            </div>
-            <div class="gallery-item placeholder" data-year="2025">Planetário 2025</div>
-            <div class="gallery-item placeholder" data-year="2025">Baleia Inflável</div>
-            <div class="gallery-item placeholder" data-year="2025">Roda Gigante</div>
-            <div class="gallery-item placeholder" data-year="2023">Arena Drones 2023</div>
-            <div class="gallery-item placeholder" data-year="2023">VR Experience</div>
-            <div class="gallery-item placeholder" data-year="2023">Laboratório NTM</div>
-            <div class="gallery-item placeholder" data-year="2023">Oficinas 2023</div>
-            <div class="gallery-item placeholder" data-year="2023">Palestras</div>
-            <div class="gallery-item placeholder" data-year="2023">Shows 2023</div>
-        </div>
-    </section>
-
-    <!-- Partners Section -->
-    <section id="parceiros" class="container">
-        <h2 class="section-title">Realização e Parceiros</h2>
-        <p class="section-subtitle">O sucesso da Expo XP é resultado da colaboração de diversas instituições</p>
-        
-        <div style="text-align: center; margin-bottom: var(--space-32);">
-            <h3 style="color: var(--expo-blue-dark); font-size: var(--font-size-xl); margin-bottom: var(--space-16);">Realização</h3>
-            <div class="partner-card" style="max-width: 400px; margin: 0 auto;">
-                <div class="partner-logo" style="width: 100px; height: 100px; font-size: var(--font-size-2xl);">🏛️</div>
-                <p style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold);">Prefeitura de Arraial do Cabo</p>
-                <p style="font-size: var(--font-size-base); color: var(--color-text-secondary); margin-top: var(--space-8);">Secretaria de Educação, Ciência e Tecnologia, Esporte e Lazer</p>
-            </div>
-        </div>
-
-        <h3 style="color: var(--expo-blue-dark); font-size: var(--font-size-xl); margin-bottom: var(--space-20); text-align: center;">Parceiros</h3>
-        <div class="partners-grid">
-            <div class="partner-card">
-                <div class="partner-logo">🌱</div>
-                <p>Secretaria do Ambiente e Saneamento</p>
-            </div>
-            <div class="partner-card">
-                <div class="partner-logo">👮</div>
-                <p>Secretaria de Ordem Pública</p>
-            </div>
-            <div class="partner-card">
-                <div class="partner-logo">♻️</div>
-                <p>FUNTEC Ambiental</p>
-            </div>
-            <div class="partner-card">
-                <div class="partner-logo">🐋</div>
-                <p>Instituto BW</p>
-            </div>
-            <div class="partner-card">
-                <div class="partner-logo">🌊</div>
-                <p>IEAPM - Instituto de Estudos do Mar</p>
-            </div>
-            <div class="partner-card">
-                <div class="partner-logo">🚓</div>
-                <p>Polícia Militar</p>
-            </div>
-            <div class="partner-card">
-                <div class="partner-logo">🎓</div>
-                <p>IFRJ - Instituto Federal</p>
-            </div>
-            <div class="partner-card">
-                <div class="partner-logo">🏞️</div>
-                <p>APA de Massambaba</p>
-            </div>
-            <div class="partner-card">
-                <div class="partner-logo">🐟</div>
-                <p>Projeto Aruanã</p>
-            </div>
-            <div class="partner-card">
-                <div class="partner-logo">🌐</div>
-                <p>Lagos em Ação</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Future Editions Section -->
-    <section id="futuras" class="container">
-        <h2 class="section-title">Futuras Edições</h2>
-        <div class="future-content">
-            <p>Fique por dentro das próximas edições da Arraial Expo XP! Cadastre-se para receber notificações sobre datas, programação e novidades.</p>
-
-            <div class="esquenta-cta-box">
-                <p>🔔 O <strong>esquenta da 3ª edição — Mulheres na Ciência</strong> já está no ar: contagem regressiva, cientistas inspiradoras e o quiz "Quem é ela?"</p>
-                <a href="esquenta2026.html" class="hero-cta">Acessar o esquenta 2026 ✨</a>
-            </div>
-
-            <form class="notification-form" id="notificationForm">
-                <div class="form-group">
-                    <label for="name">Nome Completo</label>
-                    <input type="text" id="name" name="name" required placeholder="Seu nome completo">
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" required placeholder="seu@email.com">
-                </div>
-                
-                <div class="form-group">
-                    <label for="category">Categoria</label>
-                    <select id="category" name="category" required>
-                        <option value="">Selecione uma categoria</option>
-                        <option value="aluno">Aluno</option>
-                        <option value="professor">Professor</option>
-                        <option value="comunidade">Comunidade</option>
-                        <option value="outro">Outro</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="submit-btn">Cadastrar para notificações</button>
-                
-                <div class="form-message" id="formMessage"></div>
-            </form>
-        </div>
-    </section>
+        </section>
+        -->
+    </main>
 
     <!-- Footer -->
     <footer id="contato" class="footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h4>Arraial Expo XP</h4>
-                <p>Feira de Ciência e Tecnologia de Arraial do Cabo</p>
-                <p>Promovendo ciência, inovação e sustentabilidade em nosso território.</p>
+                <h4>Arraial Expo XP 2026</h4>
+                <p>3ª edição da Feira de Ciência e Tecnologia de Arraial do Cabo.</p>
+                <p>Tema: Mulheres na Ciência 💜</p>
             </div>
-            
+
             <div class="footer-section">
                 <h4>Contato</h4>
-                <p>📍 Praça Victorino Carriço<br>Arraial do Cabo - RJ</p>
                 <p>📞 (22) 99875-7826</p>
                 <p><a href="mailto:expoxp@edu.arraial.rj.gov.br">✉️ expoxp@edu.arraial.rj.gov.br</a></p>
             </div>
-            
+
             <div class="footer-section">
                 <h4>Links Úteis</h4>
-                <a href="https://arraial.rj.gov.br" target="_blank">Portal da Prefeitura</a>
-                <a href="#sobre">Sobre o Evento</a>
-                <a href="#edicoes">Edições Anteriores</a>
-                <a href="#parceiros">Parceiros</a>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Redes Sociais</h4>
-                <div class="social-links">
-                    <a href="#" aria-label="Facebook" title="Facebook">f</a>
-                    <a href="#" aria-label="Instagram" title="Instagram">📷</a>
-                    <a href="#" aria-label="Twitter" title="Twitter">🐦</a>
-                    <a href="#" aria-label="YouTube" title="YouTube">▶️</a>
-                </div>
+                <a href="edicoes.html">Edições anteriores (2023 e 2025)</a>
+                <a href="https://jogosoceanicos.arraial.rj.gov.br" target="_blank" rel="noopener">Jogos Oceânicos (edição 2025)</a>
+                <a href="https://arraial.rj.gov.br" target="_blank" rel="noopener">Portal da Prefeitura</a>
             </div>
         </div>
-        
+
         <div class="footer-bottom">
-            <p>&copy; 2025 Prefeitura de Arraial do Cabo. Todos os direitos reservados.</p>
-            <p><a href="#">Desenvolvido pela Subsecretaria de Ciência e Tecnologia</a></p>
+            <p>&copy; 2026 Prefeitura de Arraial do Cabo. Todos os direitos reservados.</p>
+            <p>Desenvolvido pela Subsecretaria de Ciência e Tecnologia</p>
         </div>
     </footer>
 
-    <!-- Back to top button -->
-    <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
-        ↑
-    </button>
+    <!-- Voltar ao topo -->
+    <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">↑</button>
 
     <script>
-        // Mobile menu toggle
-        const navToggle = document.getElementById('navToggle');
-        const navMenu = document.getElementById('navMenu');
+        // ============================================================
+        // ATENÇÃO: DATA ALVO DA CONTAGEM REGRESSIVA
+        // A contagem aponta para o mês do evento (1º de novembro de 2026).
+        // Quando as datas oficiais forem confirmadas, atualize a constante
+        // abaixo e o rótulo "Contagem regressiva para..." no HTML.
+        // ============================================================
+        const DATA_ALVO_COUNTDOWN = new Date('2026-11-01T00:00:00-03:00');
 
-        navToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-        });
-
-        // Close menu when clicking on a link
-        navMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-            });
-        });
-
-        // Theme toggle functionality
+        // ---------- Tema claro/escuro (mesma chave do site principal) ----------
         const themeToggle = document.getElementById('themeToggle');
-        const html = document.documentElement;
+        const htmlEl = document.documentElement;
 
-        // Função para obter o tema inicial
-        function getInitialTheme() {
-            const savedTheme = localStorage.getItem('expo-xp-theme');
-            if (savedTheme) {
-                return savedTheme;
-            }
-            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
-
-        // Função para aplicar tema
         function applyTheme(theme) {
-            html.setAttribute('data-theme', theme);
+            htmlEl.setAttribute('data-theme', theme);
             localStorage.setItem('expo-xp-theme', theme);
+            themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+            themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Mudar para tema claro' : 'Mudar para tema escuro');
         }
 
-        // Função para alternar tema
-        function toggleTheme() {
-            const isDarkMode = html.getAttribute('data-theme') === 'dark';
-            const newTheme = isDarkMode ? 'light' : 'dark';
-            applyTheme(newTheme);
-        }
-
-        // Inicializar tema
-        const initialTheme = getInitialTheme();
-        applyTheme(initialTheme);
-
-        // Adicionar evento de clique ao botão
         themeToggle.addEventListener('click', () => {
-            try {
-                toggleTheme();
-            } catch (error) {
-                console.error('Erro ao alternar tema:', error);
-            }
+            applyTheme(htmlEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
         });
 
-        // Ouvir mudanças na preferência do sistema (só se não tiver preferência salva)
+        applyTheme(htmlEl.getAttribute('data-theme') || 'light');
+
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
             if (!localStorage.getItem('expo-xp-theme')) {
                 applyTheme(e.matches ? 'dark' : 'light');
             }
         });
 
-        // Edition selector
-        const editionButtons = document.querySelectorAll('.edition-btn');
-        const editionContents = document.querySelectorAll('.edition-content');
+        // ---------- Menu mobile ----------
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
 
-        editionButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const edition = button.dataset.edition;
-                
-                // Update active button
-                editionButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                
-                // Update active content
-                editionContents.forEach(content => {
-                    content.classList.remove('active');
-                    if (content.id === `edition-${edition}`) {
-                        content.classList.add('active');
-                    }
-                });
+        navToggle.addEventListener('click', () => {
+            const isOpen = navMenu.classList.toggle('active');
+            navToggle.setAttribute('aria-expanded', String(isOpen));
+            navToggle.textContent = isOpen ? '✕' : '☰';
+        });
+
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
+                navToggle.textContent = '☰';
             });
         });
 
-        // Gallery filters
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        const galleryItems = document.querySelectorAll('.gallery-item');
+        // ---------- Contagem regressiva ----------
+        const cdDays = document.getElementById('cdDays');
+        const cdHours = document.getElementById('cdHours');
+        const cdMinutes = document.getElementById('cdMinutes');
+        const cdSeconds = document.getElementById('cdSeconds');
+        const countdownEl = document.getElementById('countdown');
 
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const filter = button.dataset.filter;
-                
-                // Update active button
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                
-                // Filter gallery items
-                galleryItems.forEach(item => {
-                    if (filter === 'all' || item.dataset.year === filter) {
-                        item.style.display = 'flex';
-                    } else {
-                        item.style.display = 'none';
+        function updateCountdown() {
+            const diff = DATA_ALVO_COUNTDOWN.getTime() - Date.now();
+
+            if (diff <= 0) {
+                countdownEl.innerHTML = '<span class="countdown-title">🎉 Chegou novembro! Fique de olho na programação oficial da Expo XP 2026</span>';
+                clearInterval(countdownInterval);
+                return;
+            }
+
+            const days = Math.floor(diff / 86400000);
+            const hours = Math.floor((diff % 86400000) / 3600000);
+            const minutes = Math.floor((diff % 3600000) / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+
+            cdDays.textContent = String(days).padStart(2, '0');
+            cdHours.textContent = String(hours).padStart(2, '0');
+            cdMinutes.textContent = String(minutes).padStart(2, '0');
+            cdSeconds.textContent = String(seconds).padStart(2, '0');
+        }
+
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // ---------- Cards de cientistas (virar; um aberto por vez) ----------
+        document.querySelectorAll('.flip-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const wasFlipped = card.classList.contains('flipped');
+
+                // desvira os outros antes de alternar o clicado
+                document.querySelectorAll('.flip-card.flipped').forEach(other => {
+                    if (other !== card) {
+                        other.classList.remove('flipped');
+                        other.setAttribute('aria-pressed', 'false');
                     }
                 });
+
+                card.classList.toggle('flipped', !wasFlipped);
+                card.setAttribute('aria-pressed', String(!wasFlipped));
             });
         });
 
-        // Notification form
+        // ---------- Quiz "Quem é ela?" ----------
+        const questions = [
+            {
+                emoji: '⚛️',
+                question: 'Única pessoa da história a ganhar o Prêmio Nobel em duas ciências diferentes (Física em 1903 e Química em 1911). Quem é ela?',
+                options: ['Rosalind Franklin', 'Marie Curie', 'Mayana Zatz', 'Katherine Johnson'],
+                correctIndex: 1,
+                feedback: 'Marie Curie! Ela abriu as portas da física moderna com suas pesquisas sobre radioatividade — e suas filhas também seguiram carreira científica.'
+            },
+            {
+                emoji: '💻',
+                question: 'No século XIX, escreveu o que é considerado o primeiro algoritmo da história, para a máquina analítica de Charles Babbage. Quem é ela?',
+                options: ['Grace Hopper', 'Hedy Lamarr', 'Ada Lovelace', 'Mae Jemison'],
+                correctIndex: 2,
+                feedback: 'Ada Lovelace! Ela imaginou que máquinas poderiam ir além de cálculos — a ideia que sustenta os computadores de hoje.'
+            },
+            {
+                emoji: '🚀',
+                question: 'Matemática da NASA cujos cálculos foram essenciais para as missões Apollo. Sua história virou o filme "Estrelas Além do Tempo". Quem é ela?',
+                options: ['Katherine Johnson', 'Marie Curie', 'Jaqueline Goes', 'Bertha Lutz'],
+                correctIndex: 0,
+                feedback: 'Katherine Johnson! Seus cálculos de trajetória ajudaram a levar os primeiros astronautas ao espaço — e a trazê-los de volta.'
+            },
+            {
+                emoji: '🧬',
+                question: 'Sua imagem de raios-X do DNA, a Foto 51, foi decisiva para a descoberta da dupla hélice. Quem é ela?',
+                options: ['Nise da Silveira', 'Mayana Zatz', 'Rosalind Franklin', 'Ada Lovelace'],
+                correctIndex: 2,
+                feedback: 'Rosalind Franklin! Sem a Foto 51, produzida no seu laboratório, a estrutura do DNA teria demorado muito mais a ser revelada.'
+            },
+            {
+                emoji: '🐸',
+                question: 'Bióloga brasileira do Museu Nacional que descreveu dezenas de espécies de anfíbios — e também liderou a luta pelo voto feminino no Brasil. Quem é ela?',
+                options: ['Bertha Lutz', 'Enedina Alves Marques', 'Jaqueline Goes', 'Nise da Silveira'],
+                correctIndex: 0,
+                feedback: 'Bertha Lutz! Cientista e ativista: seu nome está ligado tanto à zoologia quanto à conquista dos direitos políticos das mulheres no país.'
+            },
+            {
+                emoji: '🌱',
+                question: 'Agrônoma naturalizada brasileira cujas pesquisas com bactérias fixadoras de nitrogênio ajudaram o Brasil a se tornar referência mundial na produção de soja. Quem é ela?',
+                options: ['Mayana Zatz', 'Johanna Döbereiner', 'Bertha Lutz', 'Rosalind Franklin'],
+                correctIndex: 1,
+                feedback: 'Johanna Döbereiner! As bactérias que ela estudou "capturam" nitrogênio do ar e alimentam as plantas — ciência que reduziu o uso de adubos no campo.'
+            },
+            {
+                emoji: '🏗️',
+                question: 'Primeira engenheira negra do Brasil, formada em 1945. Quem é ela?',
+                options: ['Enedina Alves Marques', 'Mae Jemison', 'Katherine Johnson', 'Bertha Lutz'],
+                correctIndex: 0,
+                feedback: 'Enedina Alves Marques! Formada em engenharia civil pelo Paraná, trabalhou em grandes obras hidrelétricas e abriu caminho para muitas mulheres na engenharia.'
+            },
+            {
+                emoji: '📡',
+                question: 'Atriz e inventora austríaca que criou, na década de 1940, a técnica do salto de frequência — base do Wi-Fi e do Bluetooth. Quem é ela?',
+                options: ['Ada Lovelace', 'Grace Hopper', 'Hedy Lamarr', 'Marie Curie'],
+                correctIndex: 2,
+                feedback: 'Hedy Lamarr! Hollywood à noite, laboratório de manhã: a patente dela virou base para as comunicações sem fio que usamos até hoje.'
+            }
+        ];
+
+        const quizStartScreen = document.getElementById('quizStart');
+        const quizQuestionsScreen = document.getElementById('quizQuestions');
+        const quizResultScreen = document.getElementById('quizResult');
+        const quizStartBtn = document.getElementById('quizStartBtn');
+        const quizCounter = document.getElementById('quizCounter');
+        const quizProgressFill = document.getElementById('quizProgressFill');
+        const quizProgressBar = quizProgressFill.parentElement;
+        const quizEmoji = document.getElementById('quizEmoji');
+        const quizQuestion = document.getElementById('quizQuestion');
+        const quizOptions = document.getElementById('quizOptions');
+        const quizFeedback = document.getElementById('quizFeedback');
+        const quizNextBtn = document.getElementById('quizNextBtn');
+        const resultEmoji = document.getElementById('resultEmoji');
+        const resultScore = document.getElementById('resultScore');
+        const resultMessage = document.getElementById('resultMessage');
+        const quizShareBtn = document.getElementById('quizShareBtn');
+        const quizRestartBtn = document.getElementById('quizRestartBtn');
+
+        let currentQuestionIndex = 0;
+        let correctAnswers = 0;
+
+        function showScreen(screen) {
+            [quizStartScreen, quizQuestionsScreen, quizResultScreen].forEach(s => s.classList.remove('active'));
+            screen.classList.add('active');
+        }
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            correctAnswers = 0;
+            showScreen(quizQuestionsScreen);
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const question = questions[currentQuestionIndex];
+
+            quizCounter.textContent = `${currentQuestionIndex + 1}/${questions.length}`;
+            const progress = ((currentQuestionIndex) / questions.length) * 100;
+            quizProgressFill.style.width = `${progress}%`;
+            quizProgressBar.setAttribute('aria-valuenow', String(Math.round(progress)));
+
+            quizEmoji.textContent = question.emoji;
+            quizQuestion.textContent = question.question;
+            quizFeedback.className = 'quiz-feedback';
+            quizFeedback.textContent = '';
+            quizNextBtn.disabled = true;
+            quizNextBtn.textContent = currentQuestionIndex === questions.length - 1 ? 'Ver resultado 🏁' : 'Próxima pista →';
+
+            quizOptions.innerHTML = '';
+            question.options.forEach((optionText, index) => {
+                const button = document.createElement('button');
+                button.className = 'quiz-option';
+                button.textContent = optionText;
+                button.addEventListener('click', () => selectOption(index));
+                quizOptions.appendChild(button);
+            });
+        }
+
+        function selectOption(index) {
+            const question = questions[currentQuestionIndex];
+            const options = quizOptions.querySelectorAll('.quiz-option');
+            const isCorrect = index === question.correctIndex;
+
+            options.forEach(btn => btn.disabled = true);
+            options[question.correctIndex].classList.add('correct');
+            if (!isCorrect) {
+                options[index].classList.add('wrong');
+            } else {
+                correctAnswers++;
+            }
+
+            quizFeedback.className = `quiz-feedback ${isCorrect ? 'correct' : 'wrong'}`;
+            quizFeedback.textContent = isCorrect
+                ? `✅ Isso mesmo! ${question.feedback}`
+                : `❌ Quase! A resposta certa era ${question.options[question.correctIndex]}. ${question.feedback}`;
+
+            quizNextBtn.disabled = false;
+            quizNextBtn.focus();
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            const total = questions.length;
+            const scoreText = `${correctAnswers}/${total}`;
+            resultScore.textContent = scoreText;
+
+            let emoji, message;
+            if (correctAnswers === total) {
+                emoji = '🏆';
+                message = 'Nível Marie Curie! Você conhece as cientistas como quem estuda há anos. A Expo XP 2026 é a sua casa!';
+            } else if (correctAnswers >= 6) {
+                emoji = '🔬';
+                message = 'Cientista de laboratório! Você conhece muito bem as mulheres que fizeram história. Continue investigando!';
+            } else if (correctAnswers >= 4) {
+                emoji = '📚';
+                message = 'Pesquisadora em treinamento! Vire os cards das cientistas acima e tente de novo para subir de nível.';
+            } else {
+                emoji = '✨';
+                message = 'Começando a jornada! Dica: vire todos os cards da seção "Cientistas que inspiram" e depois jogue novamente.';
+            }
+
+            resultEmoji.textContent = emoji;
+            resultMessage.textContent = message;
+
+            const progress = 100;
+            quizProgressFill.style.width = `${progress}%`;
+            quizProgressBar.setAttribute('aria-valuenow', String(progress));
+
+            showScreen(quizResultScreen);
+        }
+
+        async function shareResult() {
+            const shareText = `Fiz ${correctAnswers}/${questions.length} no quiz "Quem é ela?" do esquenta da Expo XP 2026 — Mulheres na Ciência! 🧪💜 Teste você também:`;
+            const shareUrl = window.location.href;
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({ title: 'Expo XP 2026 — Quiz Quem é ela?', text: shareText, url: shareUrl });
+                    return;
+                } catch (err) {
+                    // usuário cancelou ou share falhou — cai para o clipboard
+                }
+            }
+
+            try {
+                await navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
+                quizShareBtn.textContent = 'Resultado copiado! ✅';
+                setTimeout(() => { quizShareBtn.textContent = 'Compartilhar resultado 📣'; }, 2500);
+            } catch (err) {
+                quizShareBtn.textContent = 'Copie o link da página 📋';
+                setTimeout(() => { quizShareBtn.textContent = 'Compartilhar resultado 📣'; }, 2500);
+            }
+        }
+
+        quizStartBtn.addEventListener('click', startQuiz);
+        quizNextBtn.addEventListener('click', nextQuestion);
+        quizRestartBtn.addEventListener('click', startQuiz);
+        quizShareBtn.addEventListener('click', shareResult);
+
+        // [PLANO A] Bloco do formulário de cadastro — a seção está desativada no HTML;
+        // a guarda impede erro quando o formulário não existir na página.
         const notificationForm = document.getElementById('notificationForm');
         const formMessage = document.getElementById('formMessage');
 
-        notificationForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                category: document.getElementById('category').value
-            };
-            
-            // Simulate form submission
-            formMessage.textContent = `Obrigado, ${formData.name}! Você receberá notificações sobre as próximas edições no e-mail ${formData.email}.`;
-            formMessage.className = 'form-message success';
-            formMessage.style.display = 'block';
-            
-            // Reset form
-            notificationForm.reset();
-            
-            // Hide message after 5 seconds
-            setTimeout(() => {
-                formMessage.style.display = 'none';
-            }, 5000);
-        });
+        if (notificationForm) {
+            notificationForm.addEventListener('submit', (e) => {
+                e.preventDefault();
 
-        // Back to top button
+                const name = document.getElementById('name').value.trim().split(' ')[0];
+
+                formMessage.textContent = `Obrigado, ${name}! Você receberá em primeira mão as datas e novidades da Expo XP 2026 no e-mail informado.`;
+                formMessage.className = 'form-message success';
+
+                notificationForm.reset();
+
+                setTimeout(() => {
+                    formMessage.className = 'form-message';
+                    formMessage.textContent = '';
+                }, 6000);
+            });
+        }
+
+        // ---------- Voltar ao topo ----------
         const backToTop = document.getElementById('backToTop');
 
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
+            backToTop.classList.toggle('visible', window.scrollY > 300);
         });
 
         backToTop.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href !== '#' && document.querySelector(href)) {
-                    e.preventDefault();
-                    const target = document.querySelector(href);
-                    const headerOffset = 80;
-                    const elementPosition = target.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.scrollY - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-
-                    // Special handling for "Conheça a última edição" link - always select edition 2025
-                    if (href === '#edicoes') {
-                        // Wait a bit for scroll to start, then activate edition 2025
-                        setTimeout(() => {
-                            const edition2025Btn = document.querySelector('.edition-btn[data-edition="2025"]');
-                            if (edition2025Btn && !edition2025Btn.classList.contains('active')) {
-                                edition2025Btn.click();
-                            }
-                        }, 300);
-                    }
-                }
-            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
 </body>
