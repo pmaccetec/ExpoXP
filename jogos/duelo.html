@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Duelo de Laboratório — jogo de duelo de conhecimentos sobre mulheres na ciência, para 2 jogadores no mesmo aparelho. Jogos da Ciência da Expo XP 2026, Arraial do Cabo.">
+    <title>Duelo de Laboratório — Jogos da Ciência · Expo XP 2026</title>
+    <style>
+:root {
+  --lab-navy: #0B1420;
+  --lab-navy-2: #111F30;
+  --lab-lime: #AEEA00;
+  --lab-lime-dim: rgba(174, 234, 0, 0.35);
+  --lab-blue: #4FC3F7;
+  --lab-blue-dim: rgba(79, 195, 247, 0.35);
+  --text: #F2F6F9;
+  --text-dim: rgba(242, 246, 249, 0.65);
+  --success: #AED581;
+  --error: #FF6B77;
+  --radius: 14px;
+  --font: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font);
+  background:
+    linear-gradient(rgba(174, 234, 0, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(174, 234, 0, 0.035) 1px, transparent 1px),
+    radial-gradient(ellipse at 50% -20%, #16324e 0%, var(--lab-navy) 60%);
+  background-size: 32px 32px, 32px 32px, 100% 100%;
+  background-attachment: fixed;
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============ Topo ============ */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.topbar a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 150ms ease;
+}
+
+.topbar a:hover { color: var(--lab-lime); }
+
+.topbar .brand {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.topbar .brand span { color: var(--lab-lime); }
+
+/* ============ Palco ============ */
+.stage {
+  flex: 1;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 8px 20px 48px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  background: var(--lab-navy-2);
+  border: 1px solid rgba(174, 234, 0, 0.22);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+}
+
+.screen { display: none; }
+.screen.active { display: block; }
+
+h1 {
+  font-size: clamp(28px, 6vw, 40px);
+  text-align: center;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+h1 .lab { color: var(--lab-lime); }
+
+.subtitle {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 16px;
+  margin-bottom: 24px;
+}
+
+.center { text-align: center; }
+
+/* ============ Placar (tubos) ============ */
+.scoreboard {
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 40px;
+  padding: 14px 0 6px;
+}
+
+.scoreboard.visible { display: flex; }
+
+.player-score { text-align: center; min-width: 96px; }
+
+.player-name {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
+}
+
+.player-score.p1 .player-name { color: var(--lab-lime); }
+.player-score.p2 .player-name { color: var(--lab-blue); }
+
+.player-points { font-size: 12px; color: var(--text-dim); margin-top: 6px; }
+
+.player-score.active-turn .player-name::after {
+  content: " ●";
+  animation: blink 1.2s ease-in-out infinite;
+}
+
+@keyframes blink { 50% { opacity: 0.25; } }
+
+.tube { width: 30px; height: 84px; margin: 0 auto; }
+
+/* ============ Botões ============ */
+.btn {
+  display: inline-block;
+  font-family: var(--font);
+  font-size: 17px;
+  font-weight: 700;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 30px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 150ms ease, filter 150ms ease;
+}
+
+.btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+.btn-primary { background: var(--lab-lime); color: #0B1420; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 2px solid rgba(242, 246, 249, 0.4);
+}
+
+/* ============ Telas ============ */
+.start-emoji { font-size: 58px; text-align: center; display: block; margin: 8px 0 16px; }
+
+.rules {
+  list-style: none;
+  margin: 0 auto 28px;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rules li {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  color: var(--text-dim);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.rules li strong { color: var(--text); }
+
+/* Nomes */
+.name-fields { display: flex; flex-direction: column; gap: 16px; margin: 20px 0 28px; }
+
+.name-field { display: flex; align-items: center; gap: 12px; }
+
+.name-tag {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.name-field.p1 .name-tag { background: var(--lab-lime); color: #0B1420; }
+.name-field.p2 .name-tag { background: var(--lab-blue); color: #0B1420; }
+
+.name-field input {
+  flex: 1;
+  font-family: var(--font);
+  font-size: 16px;
+  color: var(--text);
+  background: var(--lab-navy);
+  border: 2px solid rgba(242, 246, 249, 0.18);
+  border-radius: 10px;
+  padding: 11px 14px;
+  transition: border-color 150ms ease;
+}
+
+.name-field input:focus { outline: none; border-color: var(--lab-lime); }
+.name-field.p2 input:focus { border-color: var(--lab-blue); }
+
+/* Intermediária (passe o celular) */
+.turn-emoji { font-size: 52px; text-align: center; display: block; margin-bottom: 14px; }
+
+.turn-title { font-size: 24px; font-weight: 800; text-align: center; margin-bottom: 8px; }
+
+.turn-title.p1 { color: var(--lab-lime); }
+.turn-title.p2 { color: var(--lab-blue); }
+
+.turn-sub {
+  text-align: center;
+  color: var(--text-dim);
+  margin-bottom: 24px;
+  font-size: 15px;
+}
+
+/* Pergunta */
+.q-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-dim);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.q-meta .q-turn.p1 { color: var(--lab-lime); }
+.q-meta .q-turn.p2 { color: var(--lab-blue); }
+.q-meta .q-fast { color: var(--lab-lime); animation: blink 1.2s ease-in-out infinite; }
+
+.q-text {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 22px;
+  min-height: 58px;
+}
+
+.options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+
+.option {
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--lab-navy);
+  border: 2px solid rgba(242, 246, 249, 0.16);
+  border-radius: 10px;
+  padding: 14px;
+  cursor: pointer;
+  transition: border-color 150ms ease, transform 150ms ease;
+  text-align: center;
+}
+
+.option:hover:not(:disabled) { border-color: var(--lab-lime); transform: translateY(-2px); }
+.option:disabled { cursor: default; opacity: 0.9; }
+
+.option.correct { border-color: var(--success); background: rgba(174, 213, 129, 0.16); opacity: 1; }
+.option.wrong { border-color: var(--error); background: rgba(255, 107, 119, 0.14); opacity: 1; }
+
+/* Timer */
+.timer-wrap { display: none; align-items: center; gap: 10px; margin-bottom: 18px; }
+.timer-wrap.visible { display: flex; }
+
+.timer-wrap .timer-label { font-size: 12px; font-weight: 700; color: var(--lab-lime); text-transform: uppercase; letter-spacing: 0.08em; }
+
+.timer-track {
+  flex: 1;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(242, 246, 249, 0.12);
+  overflow: hidden;
+}
+
+.timer-fill {
+  height: 100%;
+  width: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--lab-lime), var(--lab-blue));
+}
+
+/* Feedback */
+.feedback {
+  display: none;
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 15px;
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+
+.feedback.show { display: block; }
+.feedback.correct { background: rgba(174, 213, 129, 0.12); border: 1px solid rgba(174, 213, 129, 0.45); }
+.feedback.wrong { background: rgba(255, 107, 119, 0.1); border: 1px solid rgba(255, 107, 119, 0.4); }
+
+.q-actions { text-align: center; }
+
+/* Resultado */
+.result-emoji { font-size: 60px; text-align: center; display: block; margin-bottom: 12px; }
+
+.result-title {
+  font-size: 26px;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.result-sub { text-align: center; color: var(--text-dim); margin-bottom: 20px; font-size: 15px; }
+
+.result-tubes { display: flex; justify-content: center; align-items: flex-end; gap: 48px; margin-bottom: 26px; }
+
+.result-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+.footer-note {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 12px;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+.footer-note a { color: var(--text-dim); }
+
+@media (max-width: 600px) {
+  .options { grid-template-columns: 1fr; }
+  .card { padding: 22px 16px; }
+  .scoreboard { gap: 24px; }
+  .q-text { font-size: 17px; min-height: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .player-score.active-turn .player-name::after,
+  .q-meta .q-fast { animation: none; }
+  .btn:hover { transform: none; }
+}
+</style>
+</head>
+<body>
+    <div class="topbar">
+        <a href="index.html">← Jogos</a>
+        <div class="brand">Expo XP <span>2026</span> · Mulheres na Ciência</div>
+        <a href="../index.html">Esquenta ↑</a>
+    </div>
+
+    <main class="stage">
+        <!-- Placar fixo (aparece durante a partida) -->
+        <div class="scoreboard" id="scoreboard" aria-live="polite">
+            <div class="player-score p1" id="scoreP1">
+                <div class="player-name" id="nameP1">Cientista 1</div>
+                <svg class="tube" viewBox="0 0 30 84" aria-hidden="true">
+                    <defs>
+                        <clipPath id="tubeClip1"><path d="M6 4 h18 v58 a9 9 0 0 1 -18 0 Z" /></clipPath>
+                    </defs>
+                    <g clip-path="url(#tubeClip1)">
+                        <rect x="0" y="0" width="30" height="84" fill="rgba(242,246,249,0.07)" />
+                        <rect id="fillP1" x="0" y="84" width="30" height="0" fill="#AEEA00" />
+                    </g>
+                    <path d="M6 4 h18 v58 a9 9 0 0 1 -18 0 Z" fill="none" stroke="rgba(242,246,249,0.5)" stroke-width="2" />
+                    <line x1="3" y1="4" x2="27" y2="4" stroke="rgba(242,246,249,0.5)" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                <div class="player-points" id="pointsP1">0 pts</div>
+            </div>
+            <div class="player-score p2" id="scoreP2">
+                <div class="player-name" id="nameP2">Cientista 2</div>
+                <svg class="tube" viewBox="0 0 30 84" aria-hidden="true">
+                    <defs>
+                        <clipPath id="tubeClip2"><path d="M6 4 h18 v58 a9 9 0 0 1 -18 0 Z" /></clipPath>
+                    </defs>
+                    <g clip-path="url(#tubeClip2)">
+                        <rect x="0" y="0" width="30" height="84" fill="rgba(242,246,249,0.07)" />
+                        <rect id="fillP2" x="0" y="84" width="30" height="0" fill="#4FC3F7" />
+                    </g>
+                    <path d="M6 4 h18 v58 a9 9 0 0 1 -18 0 Z" fill="none" stroke="rgba(242,246,249,0.5)" stroke-width="2" />
+                    <line x1="3" y1="4" x2="27" y2="4" stroke="rgba(242,246,249,0.5)" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                <div class="player-points" id="pointsP2">0 pts</div>
+            </div>
+        </div>
+
+        <!-- Tela inicial -->
+        <section class="card screen active" id="screenStart">
+            <span class="start-emoji" aria-hidden="true">⚗️</span>
+            <h1>Duelo de <span class="lab">Laboratório</span></h1>
+            <p class="subtitle">Duas cientistas, um celular, doze perguntas. Quem enche o tubo primeiro?</p>
+
+            <ul class="rules">
+                <li><span aria-hidden="true">📱</span><span><strong>Passe o celular:</strong> cada pergunta é de uma jogadora, na vez dela</span></li>
+                <li><span aria-hidden="true">🧪</span><span><strong>10 perguntas normais</strong> (1 ponto) sobre mulheres que fizeram a ciência</span></li>
+                <li><span aria-hidden="true">⚡</span><span><strong>Reação Rápida:</strong> as 2 últimas valem <strong>2 pontos</strong> e o tempo corre!</span></li>
+                <li><span aria-hidden="true">👑</span><span>No fim, a vencedora leva o <strong>título de cientista</strong> do duelo</span></li>
+            </ul>
+
+            <div class="center">
+                <button class="btn btn-primary" id="btnToNames">Começar o duelo 🚀</button>
+            </div>
+        </section>
+
+        <!-- Tela de nomes -->
+        <section class="card screen" id="screenNames">
+            <h1 style="font-size: 26px;">Quem vai duelar?</h1>
+            <p class="subtitle">Diga os nomes das cientistas competidoras (ou deixe como está)</p>
+
+            <div class="name-fields">
+                <div class="name-field p1">
+                    <div class="name-tag" aria-hidden="true">1</div>
+                    <input type="text" id="inputP1" maxlength="18" placeholder="Cientista 1" autocomplete="off">
+                </div>
+                <div class="name-field p2">
+                    <div class="name-tag" aria-hidden="true">2</div>
+                    <input type="text" id="inputP2" maxlength="18" placeholder="Cientista 2" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="center">
+                <button class="btn btn-primary" id="btnStartMatch">Valendo! ⚗️</button>
+            </div>
+        </section>
+
+        <!-- Intermediária: passe o celular -->
+        <section class="card screen" id="screenTurn">
+            <span class="turn-emoji" aria-hidden="true">📱</span>
+            <div class="turn-title" id="turnTitle">Nome</div>
+            <p class="turn-sub" id="turnSub">Passe o celular para ela responder</p>
+            <div class="center">
+                <button class="btn btn-primary" id="btnReady">Estou pronta(o), vamos lá!</button>
+            </div>
+        </section>
+
+        <!-- Pergunta -->
+        <section class="card screen" id="screenQuestion">
+            <div class="q-meta">
+                <span class="q-turn" id="qTurn">Vez de</span>
+                <span id="qProgress">1/12</span>
+            </div>
+
+            <p class="q-text" id="qText">Pergunta</p>
+
+            <div class="timer-wrap" id="timerWrap">
+                <span class="timer-label" id="timerLabel">⚡ reação rápida</span>
+                <div class="timer-track"><div class="timer-fill" id="timerFill"></div></div>
+            </div>
+
+            <div class="options" id="options"></div>
+
+            <div class="feedback" id="feedback" role="status"></div>
+
+            <div class="q-actions">
+                <button class="btn btn-primary" id="btnNext" disabled>Continuar →</button>
+            </div>
+        </section>
+
+        <!-- Resultado -->
+        <section class="card screen" id="screenResult">
+            <span class="result-emoji" id="resultEmoji">👑</span>
+            <div class="result-title" id="resultTitle">Resultado</div>
+            <p class="result-sub" id="resultSub">sub</p>
+
+            <div class="result-tubes">
+                <div class="player-score p1">
+                    <div class="player-name" id="rNameP1">P1</div>
+                    <svg class="tube" viewBox="0 0 30 84" aria-hidden="true">
+                        <defs><clipPath id="rTubeClip1"><path d="M6 4 h18 v58 a9 9 0 0 1 -18 0 Z" /></clipPath></defs>
+                        <g clip-path="url(#rTubeClip1)">
+                            <rect x="0" y="0" width="30" height="84" fill="rgba(242,246,249,0.07)" />
+                            <rect id="rFillP1" x="0" y="84" width="30" height="0" fill="#AEEA00" />
+                        </g>
+                        <path d="M6 4 h18 v58 a9 9 0 0 1 -18 0 Z" fill="none" stroke="rgba(242,246,249,0.5)" stroke-width="2" />
+                    </svg>
+                    <div class="player-points" id="rPointsP1">0</div>
+                </div>
+                <div class="player-score p2">
+                    <div class="player-name" id="rNameP2">P2</div>
+                    <svg class="tube" viewBox="0 0 30 84" aria-hidden="true">
+                        <defs><clipPath id="rTubeClip2"><path d="M6 4 h18 v58 a9 9 0 0 1 -18 0 Z" /></clipPath></defs>
+                        <g clip-path="url(#rTubeClip2)">
+                            <rect x="0" y="0" width="30" height="84" fill="rgba(242,246,249,0.07)" />
+                            <rect id="rFillP2" x="0" y="84" width="30" height="0" fill="#4FC3F7" />
+                        </g>
+                        <path d="M6 4 h18 v58 a9 9 0 0 1 -18 0 Z" fill="none" stroke="rgba(242,246,249,0.5)" stroke-width="2" />
+                    </svg>
+                    <div class="player-points" id="rPointsP2">0</div>
+                </div>
+            </div>
+
+            <div class="result-actions">
+                <button class="btn btn-primary" id="btnRematch">Revanche 🔁</button>
+                <button class="btn btn-ghost" id="btnNewPlayers">Novo duelo</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-note">
+        Jogos da Ciência · Secretaria de Educação, Ciência e Tecnologia de Arraial do Cabo<br>
+        Expo XP 2026 — Mulheres na Ciência · <a href="../index.html">expoxp.arraial.rj.gov.br</a>
+    </footer>
+
+    <script>
+    // ============================================================
+    // Banco de perguntas — curadoria: fatos verificáveis sobre
+    // mulheres na ciência. Formato: {q, options:[{t, ok}], fact}
+    // ============================================================
+    const BANK = [
+      // — Quem foi ela? —
+      { q: "Ganhou o Nobel em DUAS ciências diferentes: Física (1903) e Química (1911). Quem foi ela?",
+        options: [{t:"Marie Curie",ok:true},{t:"Rosalind Franklin",ok:false},{t:"Dorothy Hodgkin",ok:false},{t:"Mayana Zatz",ok:false}],
+        fact:"Marie Curie também descobriu os elementos rádio e polônio — e suas filhas seguiram carreira científica." },
+      { q: "No século XIX, escreveu o primeiro algoritmo da história, para a máquina analítica de Charles Babbage. Quem foi ela?",
+        options: [{t:"Ada Lovelace",ok:true},{t:"Grace Hopper",ok:false},{t:"Hedy Lamarr",ok:false},{t:"Katherine Johnson",ok:false}],
+        fact:"Ada Lovelace imaginou máquinas indo além de cálculos — a ideia por trás dos computadores de hoje." },
+      { q: "Matemática da NASA essencial para as missões Apollo — sua história virou o filme 'Estrelas Além do Tempo'. Quem foi ela?",
+        options: [{t:"Katherine Johnson",ok:true},{t:"Mae Jemison",ok:false},{t:"Marie Curie",ok:false},{t:"Jaqueline Goes",ok:false}],
+        fact:"Os cálculos de Katherine Johnson ajudaram a levar astronautas ao espaço — e a trazê-los de volta." },
+      { q: "Sua imagem de raios-X do DNA, a Foto 51, foi decisiva para a descoberta da dupla hélice. Quem foi ela?",
+        options: [{t:"Rosalind Franklin",ok:true},{t:"Nise da Silveira",ok:false},{t:"Bertha Lutz",ok:false},{t:"Ada Lovelace",ok:false}],
+        fact:"Sem a Foto 51, produzida no laboratório de Rosalind Franklin, a estrutura do DNA teria demorado muito mais." },
+      { q: "Bióloga brasileira do Museu Nacional que descreveu dezenas de espécies de anfíbios e liderou a luta pelo voto feminino. Quem foi ela?",
+        options: [{t:"Bertha Lutz",ok:true},{t:"Enedina Alves Marques",ok:false},{t:"Johanna Döbereiner",ok:false},{t:"Mayana Zatz",ok:false}],
+        fact:"Bertha Lutz uniu ciência e ativismo: o nome dela está na zoologia e na história dos direitos das mulheres." },
+      { q: "Agrônoma naturalizada brasileira cujas pesquisas com bactérias fixadoras de nitrogênio ajudaram o Brasil a liderar a produção de soja. Quem foi ela?",
+        options: [{t:"Johanna Döbereiner",ok:true},{t:"Bertha Lutz",ok:false},{t:"Jaqueline Goes",ok:false},{t:"Rosalind Franklin",ok:false}],
+        fact:"As bactérias estudadas por Johanna 'capturam' nitrogênio do ar e alimentam as plantas — menos adubo químico." },
+      { q: "Primeira engenheira negra do Brasil, formada em 1945. Quem foi ela?",
+        options: [{t:"Enedina Alves Marques",ok:true},{t:"Mae Jemison",ok:false},{t:"Katherine Johnson",ok:false},{t:"Nise da Silveira",ok:false}],
+        fact:"Enedina formou-se em engenharia civil pelo Paraná e trabalhou em grandes obras hidrelétricas." },
+      { q: "Atriz e inventora austríaca que criou o salto de frequência, base do Wi-Fi e do Bluetooth. Quem foi ela?",
+        options: [{t:"Hedy Lamarr",ok:true},{t:"Ada Lovelace",ok:false},{t:"Grace Hopper",ok:false},{t:"Sylvia Earle",ok:false}],
+        fact:"Hollywood à noite, laboratório de manhã: a patente de Hedy Lamarr virou base das comunicações sem fio." },
+      { q: "Psiquiatra brasileira pioneira no uso da arte no tratamento em saúde mental — tema do filme 'Nise: O Coração da Loucura'. Quem foi ela?",
+        options: [{t:"Nise da Silveira",ok:true},{t:"Bertha Lutz",ok:false},{t:"Mayana Zatz",ok:false},{t:"Dorothy Hodgkin",ok:false}],
+        fact:"Nise provou que a expressão artística era caminho de tratamento — e criou o Museu de Imagens do Inconsciente." },
+      { q: "Geneticista brasileira, referência mundial no estudo das distrofias musculares. Quem foi ela?",
+        options: [{t:"Mayana Zatz",ok:true},{t:"Nise da Silveira",ok:false},{t:"Enedina Alves Marques",ok:false},{t:"Chien-Shiung Wu",ok:false}],
+        fact:"Mayana Zatz coordena pesquisas e centros que atendem famílias com doenças genéticas no Brasil." },
+      { q: "Cientista biomédica brasileira da equipe que decifrou o genoma do vírus Zika em 2016. Quem foi ela?",
+        options: [{t:"Jaqueline Goes",ok:true},{t:"Mayana Zatz",ok:false},{t:"Katherine Johnson",ok:false},{t:"Bertha Lutz",ok:false}],
+        fact:"O trabalho de Jaqueline ajudou o Brasil a responder a emergências sanitárias com ciência de ponta." },
+      { q: "Primeira mulher negra a viajar para o espaço, em 1992, a bordo do Endeavour. Quem foi ela?",
+        options: [{t:"Mae Jemison",ok:true},{t:"Sally Ride",ok:false},{t:"Valentina Tereshkova",ok:false},{t:"Katherine Johnson",ok:false}],
+        fact:"Mae Jemison é médica e engenheira — e levou uma foto de Bessie Coleman, primeira aviadora negra, na missão." },
+      // — Feitos —
+      { q: "Qual cientista criou o primeiro compilador e influenciou a linguagem COBOL, programando até os computadores da Marinha dos EUA?",
+        options: [{t:"Grace Hopper",ok:true},{t:"Ada Lovelace",ok:false},{t:"Hedy Lamarr",ok:false},{t:"Vera Rubin",ok:false}],
+        fact:"Grace Hopper dizia que é mais fácil pedir perdão do que pedir permissão — e revolucionou a computação." },
+      { q: "As curvas de rotação de galáxias que ela mediu foram a maior evidência da existência de matéria escura. Quem foi ela?",
+        options: [{t:"Vera Rubin",ok:true},{t:"Marie Curie",ok:false},{t:"Sylvia Earle",ok:false},{t:"Rosalind Franklin",ok:false}],
+        fact:"Vera Rubin provou que há muito mais no universo do que os olhos veem — e abriu porta para astrônomas." },
+      { q: "Nobel de Química de 1964 por revelar a estrutura de penicilina e vitamina B12 usando cristalografia. Quem foi ela?",
+        options: [{t:"Dorothy Hodgkin",ok:true},{t:"Rosalind Franklin",ok:false},{t:"Chien-Shiung Wu",ok:false},{t:"Mayana Zatz",ok:false}],
+        fact:"Dorothy Hodgkin decifrou estruturas de moléculas vitais — trabalho que ajudou a criar novos medicamentos." },
+      { q: "Seu experimento provou que a física de partículas 'prefere' um lado — violação de paridade — contrariando teóricos famosos. Quem foi ela?",
+        options: [{t:"Chien-Shiung Wu",ok:true},{t:"Vera Rubin",ok:false},{t:"Marie Curie",ok:false},{t:"Grace Hopper",ok:false}],
+        fact:"Chien-Shiung Wu ficou conhecida como 'a Primeira Dama da Física' pelos experimentos precisíssimos." },
+      { q: "Quais cientistas dividiram o Nobel de Química de 2020 pela criação da 'tesoura genética' CRISPR?",
+        options: [{t:"Emmanuelle Charpentier e Jennifer Doudna",ok:true},{t:"Marie Curie e Irène Joliot-Curie",ok:false},{t:"Ada Lovelace e Grace Hopper",ok:false},{t:"Rosalind Franklin e Dorothy Hodgkin",ok:false}],
+        fact:"O CRISPR permite editar genes e já é usado em tratamentos — a primeira vez que duas mulheres dividiram um Nobel de Química." },
+      { q: "Oceanógrafa apelidada de 'Her Deepness', recordista de mergulhos profundos e defensora dos oceanos. Quem é ela?",
+        options: [{t:"Sylvia Earle",ok:true},{t:"Jaqueline Goes",ok:false},{t:"Mae Jemison",ok:false},{t:"Bertha Lutz",ok:false}],
+        fact:"Sylvia Earle já passou mais de 7 mil horas embaixo d'água — e lidera a campanha por parques marinhos." },
+      // — Mito ou Ciência —
+      { q: "MITO OU CIÊNCIA? 'Meninas têm menos talento para matemática que meninos.'",
+        options: [{t:"Mito — o desempenho é igual quando a oportunidade e o estímulo são os mesmos",ok:true},{t:"Ciência — homens são naturalmente melhores em números",ok:false}],
+        fact:"Estudos em diversos países mostram que a diferença está nas oportunidades, não no talento." },
+      { q: "MITO OU CIÊNCIA? 'A primeira mulher a ganhar um Prêmio Nobel foi Marie Curie.'",
+        options: [{t:"Ciência — em 1903, Nobel de Física",ok:true},{t:"Mito — a primeira foi no século XXI",ok:false}],
+        fact:"Marie Curie abriu o caminho: hoje dezenas de mulheres já receberam Nobéis de ciência." },
+      { q: "MITO OU CIÊNCIA? 'Cerca de um terço das pessoas pesquisadoras no mundo são mulheres, segundo a UNESCO.'",
+        options: [{t:"Ciência — e em várias áreas elas ainda são minoria",ok:true},{t:"Mito — hoje já são metade em todas as áreas",ok:false}],
+        fact:"É por isso que eventos como a Expo XP inspiram meninas a seguir carreira científica." },
+      { q: "MITO OU CIÊNCIA? 'Ada Lovelace escreveu seu algoritmo antes de existirem computadores eletrônicos.'",
+        options: [{t:"Ciência — ela programou uma máquina que era só um projeto mecânico",ok:true},{t:"Mito — ela trabalhava com computadores modernos",ok:false}],
+        fact:"Ada escreveu para a máquina analítica de Babbage, projetada no século XIX e nunca construída." },
+      { q: "MITO OU CIÊNCIA? 'A primeira pessoa a viajar para o espaço foi uma mulher.'",
+        options: [{t:"Mito — foi Yuri Gagarin, em 1961; a primeira mulher foi em 1963",ok:true},{t:"Ciência — uma cosmonauta foi a primeira, em 1961",ok:false}],
+        fact:"Valentina Tereshkova foi a primeira mulher no espaço, em 1963 — orbitou a Terra 48 vezes." },
+      { q: "MITO OU CIÊNCIA? 'Valentina Tereshkova foi a primeira mulher a ir ao espaço.'",
+        options: [{t:"Ciência — em 1963, a bordo da Vostok 6",ok:true},{t:"Mito — a primeira foi Sally Ride, americana",ok:false}],
+        fact:"Sally Ride foi a primeira americana, em 1983 — vinte anos depois de Valentina." }
+    ];
+
+    const TOTAL_QUESTIONS = 12;   // por partida
+    const FAST_FROM = 10;         // perguntas 11 e 12: Reação Rápida (2 pts)
+    const FAST_POINTS = 2;
+    const FAST_SECONDS = 10;
+    const MAX_POINTS = 8;         // 5 normais + 1 rápida (2) por jogadora
+
+    const screens = {
+      start: document.getElementById("screenStart"),
+      names: document.getElementById("screenNames"),
+      turn: document.getElementById("screenTurn"),
+      question: document.getElementById("screenQuestion"),
+      result: document.getElementById("screenResult")
+    };
+
+    const el = {
+      scoreboard: document.getElementById("scoreboard"),
+      nameP1: document.getElementById("nameP1"), nameP2: document.getElementById("nameP2"),
+      pointsP1: document.getElementById("pointsP1"), pointsP2: document.getElementById("pointsP2"),
+      fillP1: document.getElementById("fillP1"), fillP2: document.getElementById("fillP2"),
+      scoreP1: document.getElementById("scoreP1"), scoreP2: document.getElementById("scoreP2"),
+      inputP1: document.getElementById("inputP1"), inputP2: document.getElementById("inputP2"),
+      turnTitle: document.getElementById("turnTitle"), turnSub: document.getElementById("turnSub"),
+      qTurn: document.getElementById("qTurn"), qProgress: document.getElementById("qProgress"),
+      qText: document.getElementById("qText"),
+      timerWrap: document.getElementById("timerWrap"), timerFill: document.getElementById("timerFill"),
+      options: document.getElementById("options"),
+      feedback: document.getElementById("feedback"),
+      btnNext: document.getElementById("btnNext"),
+      resultEmoji: document.getElementById("resultEmoji"),
+      resultTitle: document.getElementById("resultTitle"), resultSub: document.getElementById("resultSub"),
+      rNameP1: document.getElementById("rNameP1"), rNameP2: document.getElementById("rNameP2"),
+      rPointsP1: document.getElementById("rPointsP1"), rPointsP2: document.getElementById("rPointsP2"),
+      rFillP1: document.getElementById("rFillP1"), rFillP2: document.getElementById("rFillP2")
+    };
+
+    let names = ["Cientista 1", "Cientista 2"];
+    let scores = [0, 0];
+    let questions = [];
+    let idx = -1;
+    let current = 0;            // jogadora da vez: 0 ou 1
+    let timerId = null;
+    let timeoutAt = 0;
+
+    function show(name) {
+      Object.values(screens).forEach(s => s.classList.remove("active"));
+      screens[name].classList.add("active");
+      window.scrollTo({ top: 0 });
+    }
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function pickQuestions() {
+      return shuffle(BANK).slice(0, TOTAL_QUESTIONS).map(q => ({ ...q, options: shuffle(q.options) }));
+    }
+
+    function setTube(fillEl, score) {
+      const h = Math.round((score / MAX_POINTS) * 72); // altura útil do tubo
+      fillEl.setAttribute("y", String(84 - h));
+      fillEl.setAttribute("height", String(h));
+    }
+
+    function updateScoreboard() {
+      el.nameP1.textContent = names[0];
+      el.nameP2.textContent = names[1];
+      el.pointsP1.textContent = scores[0] + " pts";
+      el.pointsP2.textContent = scores[1] + " pts";
+      setTube(el.fillP1, scores[0]);
+      setTube(el.fillP2, scores[1]);
+      el.scoreP1.classList.toggle("active-turn", current === 0 && idx >= 0 && idx < TOTAL_QUESTIONS);
+      el.scoreP2.classList.toggle("active-turn", current === 1 && idx >= 0 && idx < TOTAL_QUESTIONS);
+    }
+
+    function startMatch() {
+      names[0] = el.inputP1.value.trim() || "Cientista 1";
+      names[1] = el.inputP2.value.trim() || "Cientista 2";
+      scores = [0, 0];
+      questions = pickQuestions();
+      idx = -1;
+      el.scoreboard.classList.add("visible");
+      nextTurn();
+    }
+
+    function nextTurn() {
+      idx += 1;
+      if (idx >= TOTAL_QUESTIONS) { finish(); return; }
+      current = idx % 2;
+      updateScoreboard();
+
+      el.turnTitle.textContent = names[current];
+      el.turnTitle.className = "turn-title " + (current === 0 ? "p1" : "p2");
+      const fastNow = idx >= FAST_FROM;
+      el.turnSub.textContent = (idx === 0 ? "Pergunta 1 de 12 — " : "Pergunta " + (idx + 1) + " de 12 — ")
+        + (fastNow ? "⚡ REAÇÃO RÁPIDA, vale " + FAST_POINTS + " pontos!" : "passe o celular para ela responder");
+      show("turn");
+      document.getElementById("btnReady").focus();
+    }
+
+    function showQuestion() {
+      const q = questions[idx];
+      const fastNow = idx >= FAST_FROM;
+
+      el.qTurn.textContent = "Vez de " + names[current];
+      el.qTurn.className = "q-turn " + (current === 0 ? "p1" : "p2");
+      el.qProgress.textContent = (idx + 1) + "/" + TOTAL_QUESTIONS + (fastNow ? " ⚡" : "");
+      el.qText.textContent = q.q;
+      el.feedback.className = "feedback";
+      el.feedback.textContent = "";
+      el.btnNext.disabled = true;
+      el.btnNext.textContent = idx === TOTAL_QUESTIONS - 1 ? "Ver resultado 🏁" : "Continuar →";
+
+      el.options.innerHTML = "";
+      q.options.forEach((opt, i) => {
+        const b = document.createElement("button");
+        b.className = "option";
+        b.textContent = opt.t;
+        b.addEventListener("click", () => answer(i));
+        el.options.appendChild(b);
+      });
+
+      // Reação Rápida: timer de 10s — barra atualizada por JS (não depende de
+      // transição CSS, que não inicia corretamente vindo de display:none)
+      if (fastNow) {
+        el.timerWrap.classList.add("visible");
+        const totalMs = FAST_SECONDS * 1000;
+        timeoutAt = Date.now() + totalMs;
+        el.timerFill.style.width = "100%";
+        timerId = setInterval(() => {
+          const left = Math.max(0, timeoutAt - Date.now());
+          el.timerFill.style.width = (left / totalMs * 100) + "%";
+          if (left <= 0) { answer(-1); } // tempo esgotado
+        }, 100);
+      } else {
+        el.timerWrap.classList.remove("visible");
+      }
+
+      show("question");
+    }
+
+    function answer(i) {
+      if (timerId) { clearInterval(timerId); timerId = null; }
+      const q = questions[idx];
+      const buttons = el.options.querySelectorAll(".option");
+      buttons.forEach(b => b.disabled = true);
+
+      const chosen = i >= 0 ? q.options[i] : null;
+      const correctText = q.options.find(o => o.ok).t;
+
+      q.options.forEach((opt, k) => {
+        if (opt.ok) buttons[k].classList.add("correct");
+      });
+
+      const fastNow = idx >= FAST_FROM;
+      const points = fastNow ? FAST_POINTS : 1;
+
+      if (chosen && chosen.ok) {
+        scores[current] += points;
+        el.feedback.className = "feedback show correct";
+        el.feedback.textContent = (fastNow ? "⚡ Acertou no tempo! +" + points + " pontos. " : "✅ Isso mesmo! +1 ponto. ") + q.fact;
+      } else if (chosen) {
+        buttons[i].classList.add("wrong");
+        el.feedback.className = "feedback show wrong";
+        el.feedback.textContent = "❌ Era \"" + correctText + "\". " + q.fact;
+      } else {
+        el.feedback.className = "feedback show wrong";
+        el.feedback.textContent = "⏰ Tempo esgotado! Era \"" + correctText + "\". " + q.fact;
+      }
+
+      updateScoreboard();
+      el.btnNext.disabled = false;
+      el.btnNext.focus();
+    }
+
+    function finish() {
+      el.scoreboard.classList.remove("visible");
+      el.rNameP1.textContent = names[0];
+      el.rNameP2.textContent = names[1];
+      el.rPointsP1.textContent = scores[0] + " pts";
+      el.rPointsP2.textContent = scores[1] + " pts";
+      setTube(el.rFillP1, scores[0]);
+      setTube(el.rFillP2, scores[1]);
+
+      if (scores[0] === scores[1]) {
+        el.resultEmoji.textContent = "⚗️";
+        el.resultTitle.textContent = "Empate químico!";
+        el.resultSub.textContent = names[0] + " e " + names[1] + " empataram em " + scores[0] + " pontos. Na ciência, todo mundo aprende — mas uma revanche cabe bem!";
+      } else {
+        const w = scores[0] > scores[1] ? 0 : 1;
+        const l = 1 - w;
+        const maxPts = Math.max(scores[0], scores[1]);
+        let title;
+        if (maxPts >= 7) title = "Doutora Honorária em Duelo Científico";
+        else if (maxPts >= 5) title = "Pesquisadora-Chefe do Laboratório";
+        else title = "Cientista em Ascensão";
+        el.resultEmoji.textContent = "👑";
+        el.resultTitle.textContent = names[w] + " venceu o duelo!";
+        el.resultSub.textContent = "Título conquistado: " + title + ". " + names[l] + " ficou com " + scores[l] + " pontos — na revanche, o tubo vira!";
+      }
+
+      show("result");
+    }
+
+    document.getElementById("btnToNames").addEventListener("click", () => {
+      show("names");
+      el.inputP1.focus();
+    });
+    document.getElementById("btnStartMatch").addEventListener("click", startMatch);
+    document.getElementById("btnReady").addEventListener("click", showQuestion);
+    el.btnNext.addEventListener("click", nextTurn);
+    document.getElementById("btnRematch").addEventListener("click", () => {
+      scores = [0, 0];
+      questions = pickQuestions();
+      idx = -1;
+      el.scoreboard.classList.add("visible");
+      nextTurn();
+    });
+    document.getElementById("btnNewPlayers").addEventListener("click", () => {
+      el.scoreboard.classList.remove("visible");
+      el.inputP1.value = ""; el.inputP2.value = "";
+      show("names");
+      el.inputP1.focus();
+    });
+    </script>
+</body>
+</html>

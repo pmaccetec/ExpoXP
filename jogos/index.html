@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jogos da Ciência — portal de jogos educacionais da Expo XP 2026 (Mulheres na Ciência), feitos pela Secretaria de Educação, Ciência e Tecnologia de Arraial do Cabo.">
+    <title>Jogos da Ciência · Expo XP 2026</title>
+    <style>
+:root {
+  --lab-navy: #0B1420;
+  --lab-navy-2: #111F30;
+  --lab-lime: #AEEA00;
+  --lab-blue: #4FC3F7;
+  --text: #F2F6F9;
+  --text-dim: rgba(242, 246, 249, 0.65);
+  --font: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font);
+  background:
+    linear-gradient(rgba(174, 234, 0, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(174, 234, 0, 0.035) 1px, transparent 1px),
+    radial-gradient(ellipse at 50% -20%, #16324e 0%, var(--lab-navy) 60%);
+  background-size: 32px 32px, 32px 32px, 100% 100%;
+  background-attachment: fixed;
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wrap { width: 100%; max-width: 680px; padding: 32px 20px 48px; }
+
+.topnav { display: flex; justify-content: space-between; margin-bottom: 36px; }
+
+.topnav a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.topnav a:hover { color: var(--lab-lime); }
+
+.eyebrow {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--lab-lime);
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-size: clamp(30px, 6vw, 42px);
+  text-align: center;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+h1 span { color: var(--lab-lime); }
+
+.subtitle {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 16px;
+  max-width: 460px;
+  margin: 0 auto 36px;
+  line-height: 1.6;
+}
+
+/* Molécula decorativa */
+.hex {
+  display: block;
+  margin: 0 auto 20px;
+  opacity: 0.85;
+}
+
+/* Grade de jogos (só jogos publicados — nada de "em breve") */
+.games { display: grid; grid-template-columns: 1fr; gap: 18px; }
+
+.game-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: var(--lab-navy-2);
+  border: 1px solid rgba(174, 234, 0, 0.25);
+  border-radius: 16px;
+  padding: 22px;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.game-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--lab-lime);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.4);
+}
+
+.game-emoji {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  background: rgba(174, 234, 0, 0.1);
+  border: 1px solid rgba(174, 234, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.game-info h2 { font-size: 19px; margin-bottom: 4px; }
+
+.game-info p {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.game-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--lab-lime);
+  border: 1px solid rgba(174, 234, 0, 0.45);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+
+.game-arrow { margin-left: auto; font-size: 22px; color: var(--lab-lime); flex-shrink: 0; }
+
+.footer-note {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 12px;
+  padding: 0 20px 32px;
+  line-height: 1.7;
+}
+
+.footer-note a { color: var(--text-dim); }
+
+@media (prefers-reduced-motion: reduce) {
+  .game-card:hover { transform: none; }
+}
+</style>
+</head>
+<body>
+    <div class="wrap">
+        <nav class="topnav">
+            <a href="../edicoes.html">← Edições anteriores</a>
+            <a href="../index.html">Esquenta 2026 ↑</a>
+        </nav>
+
+        <!-- Molécula decorativa -->
+        <svg class="hex" width="120" height="104" viewBox="0 0 170 160" fill="none" aria-hidden="true">
+            <path d="M85 18 L131 45 L131 99 L85 126 L39 99 L39 45 Z" stroke="rgba(174,234,0,0.6)" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M85 48 L108 61 L108 87 L85 100 L62 87 L62 61 Z" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-linejoin="round"/>
+            <line x1="131" y1="99" x2="152" y2="126" stroke="rgba(174,234,0,0.6)" stroke-width="2"/>
+            <line x1="39" y1="45" x2="16" y2="28" stroke="rgba(174,234,0,0.6)" stroke-width="2"/>
+            <circle cx="85" cy="18" r="6" fill="#AEEA00"/>
+            <circle cx="131" cy="45" r="6" fill="#AEEA00"/>
+            <circle cx="131" cy="99" r="6" fill="#AEEA00"/>
+            <circle cx="85" cy="126" r="6" fill="#AEEA00"/>
+            <circle cx="39" cy="99" r="6" fill="#AEEA00"/>
+            <circle cx="39" cy="45" r="6" fill="#AEEA00"/>
+            <circle cx="152" cy="126" r="5" fill="rgba(255,255,255,0.9)"/>
+            <circle cx="16" cy="28" r="5" fill="rgba(255,255,255,0.9)"/>
+        </svg>
+
+        <div class="eyebrow">Expo XP 2026 · Mulheres na Ciência</div>
+        <h1>Jogos da <span>Ciência</span></h1>
+        <p class="subtitle">Jogos educacionais feitos pela Secretaria de Educação, Ciência e Tecnologia de Arraial do Cabo para a 3ª edição da Expo XP. Jogue, aprenda e compartilhe!</p>
+
+        <div class="games">
+            <a class="game-card" href="duelo.html">
+                <div class="game-emoji" aria-hidden="true">⚗️</div>
+                <div class="game-info">
+                    <h2>Duelo de Laboratório</h2>
+                    <p>Duas cientistas, um celular, 12 perguntas — e a rodada Reação Rápida valendo 2 pontos. Quem enche o tubo primeiro?</p>
+                    <span class="game-badge">✓ Disponível</span>
+                </div>
+                <div class="game-arrow" aria-hidden="true">→</div>
+            </a>
+        </div>
+    </div>
+
+    <footer class="footer-note">
+        Secretaria de Educação, Ciência e Tecnologia de Arraial do Cabo<br>
+        Expo XP 2026 — Mulheres na Ciência · <a href="../index.html">expoxp.arraial.rj.gov.br</a>
+    </footer>
+</body>
+</html>
