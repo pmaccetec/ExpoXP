@@ -1,0 +1,12 @@
+# Não publicar nada que não seja conteúdo do site
+.git
+.gitignore
+.idea
+.wrangler
+node_modules
+.assetsignore
+CLAUDE.md
+docs
+test
+*.md
+wrangler.jsonc

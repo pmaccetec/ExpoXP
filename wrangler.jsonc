@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "expoxp",
+  "account_id": "20b79f256db09c9f57ab28576ec114f9",
   "compatibility_date": "2026-07-17",
   "observability": {
     "enabled": true
