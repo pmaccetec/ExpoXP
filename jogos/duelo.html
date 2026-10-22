@@ -137,6 +137,11 @@ h1 .lab { color: var(--lab-lime); }
 
 .player-points { font-size: 12px; color: var(--text-dim); margin-top: 6px; }
 
+/* preenchimento dos tubos: sobe animado quando a pontuação muda */
+#fillP1, #fillP2, #rFillP1, #rFillP2 {
+  transition: y 500ms cubic-bezier(0.16, 1, 0.3, 1), height 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .player-score.active-turn .player-name::after {
   content: " ●";
   animation: blink 1.2s ease-in-out infinite;
@@ -364,6 +369,7 @@ h1 .lab { color: var(--lab-lime); }
   .player-score.active-turn .player-name::after,
   .q-meta .q-fast { animation: none; }
   .btn:hover { transform: none; }
+  #fillP1, #fillP2, #rFillP1, #rFillP2 { transition: none; }
 }
 </style>
 </head>
@@ -413,13 +419,13 @@ h1 .lab { color: var(--lab-lime); }
         <section class="card screen active" id="screenStart">
             <span class="start-emoji" aria-hidden="true">⚗️</span>
             <h1>Duelo de <span class="lab">Laboratório</span></h1>
-            <p class="subtitle">Duas cientistas, um celular, doze perguntas. Quem enche o tubo primeiro?</p>
+            <p class="subtitle">Duas pessoas, um celular, doze perguntas. Quem enche o tubo primeiro?</p>
 
             <ul class="rules">
-                <li><span aria-hidden="true">📱</span><span><strong>Passe o celular:</strong> cada pergunta é de uma jogadora, na vez dela</span></li>
+                <li><span aria-hidden="true">📱</span><span><strong>Passe o celular:</strong> cada pergunta é de quem está jogando, na sua vez</span></li>
                 <li><span aria-hidden="true">🧪</span><span><strong>10 perguntas normais</strong> (1 ponto) sobre mulheres que fizeram a ciência</span></li>
                 <li><span aria-hidden="true">⚡</span><span><strong>Reação Rápida:</strong> as 2 últimas valem <strong>2 pontos</strong> e o tempo corre!</span></li>
-                <li><span aria-hidden="true">👑</span><span>No fim, a vencedora leva o <strong>título de cientista</strong> do duelo</span></li>
+                <li><span aria-hidden="true">👑</span><span>No fim, quem vencer leva o <strong>título de cientista</strong> do duelo</span></li>
             </ul>
 
             <div class="center">
@@ -430,7 +436,7 @@ h1 .lab { color: var(--lab-lime); }
         <!-- Tela de nomes -->
         <section class="card screen" id="screenNames">
             <h1 style="font-size: 26px;">Quem vai duelar?</h1>
-            <p class="subtitle">Diga os nomes das cientistas competidoras (ou deixe como está)</p>
+            <p class="subtitle">Diga os nomes de quem vai competir (ou deixe como está)</p>
 
             <div class="name-fields">
                 <div class="name-field p1">
@@ -452,9 +458,9 @@ h1 .lab { color: var(--lab-lime); }
         <section class="card screen" id="screenTurn">
             <span class="turn-emoji" aria-hidden="true">📱</span>
             <div class="turn-title" id="turnTitle">Nome</div>
-            <p class="turn-sub" id="turnSub">Passe o celular para ela responder</p>
+            <p class="turn-sub" id="turnSub">Passe o celular</p>
             <div class="center">
-                <button class="btn btn-primary" id="btnReady">Estou pronta(o), vamos lá!</button>
+                <button class="btn btn-primary" id="btnReady">Sou eu! Vamos lá 🧪</button>
             </div>
         </section>
 
@@ -613,7 +619,7 @@ h1 .lab { color: var(--lab-lime); }
     const FAST_FROM = 10;         // perguntas 11 e 12: Reação Rápida (2 pts)
     const FAST_POINTS = 2;
     const FAST_SECONDS = 10;
-    const MAX_POINTS = 8;         // 5 normais + 1 rápida (2) por jogadora
+    const MAX_POINTS = 8;         // 5 normais + 1 rápida (2) por pessoa
 
     const screens = {
       start: document.getElementById("screenStart"),
@@ -648,7 +654,7 @@ h1 .lab { color: var(--lab-lime); }
     let scores = [0, 0];
     let questions = [];
     let idx = -1;
-    let current = 0;            // jogadora da vez: 0 ou 1
+    let current = 0;            // quem joga agora: 0 ou 1
     let timerId = null;
     let timeoutAt = 0;
 
@@ -672,16 +678,23 @@ h1 .lab { color: var(--lab-lime); }
     }
 
     function setTube(fillEl, score) {
-      const h = Math.round((score / MAX_POINTS) * 72); // altura útil do tubo
-      fillEl.setAttribute("y", String(84 - h));
+      // geometria do clipPath do tubo: vai de y=4 (topo) a y=71 (base) — 67 unidades úteis.
+      // O preenchimento nasce da BASE do tubo pra cima (não da base do viewBox).
+      const TUBE_TOP = 4, TUBE_BOTTOM = 71;
+      const h = Math.round((score / MAX_POINTS) * (TUBE_BOTTOM - TUBE_TOP));
+      const y = TUBE_BOTTOM - h;
+      // attribute = fallback; style = versão animável (CSS geometry)
+      fillEl.setAttribute("y", String(y));
       fillEl.setAttribute("height", String(h));
+      fillEl.style.setProperty("y", y + "px");
+      fillEl.style.setProperty("height", h + "px");
     }
 
     function updateScoreboard() {
       el.nameP1.textContent = names[0];
       el.nameP2.textContent = names[1];
-      el.pointsP1.textContent = scores[0] + " pts";
-      el.pointsP2.textContent = scores[1] + " pts";
+      el.pointsP1.textContent = scores[0] + (scores[0] === 1 ? " pt" : " pts");
+      el.pointsP2.textContent = scores[1] + (scores[1] === 1 ? " pt" : " pts");
       setTube(el.fillP1, scores[0]);
       setTube(el.fillP2, scores[1]);
       el.scoreP1.classList.toggle("active-turn", current === 0 && idx >= 0 && idx < TOTAL_QUESTIONS);
@@ -707,8 +720,8 @@ h1 .lab { color: var(--lab-lime); }
       el.turnTitle.textContent = names[current];
       el.turnTitle.className = "turn-title " + (current === 0 ? "p1" : "p2");
       const fastNow = idx >= FAST_FROM;
-      el.turnSub.textContent = (idx === 0 ? "Pergunta 1 de 12 — " : "Pergunta " + (idx + 1) + " de 12 — ")
-        + (fastNow ? "⚡ REAÇÃO RÁPIDA, vale " + FAST_POINTS + " pontos!" : "passe o celular para ela responder");
+      el.turnSub.textContent = "Pergunta " + (idx + 1) + " de 12 — "
+        + (fastNow ? "⚡ REAÇÃO RÁPIDA, vale " + FAST_POINTS + " pontos!" : "passe o celular para " + names[current] + " responder");
       show("turn");
       document.getElementById("btnReady").focus();
     }
@@ -792,8 +805,8 @@ h1 .lab { color: var(--lab-lime); }
       el.scoreboard.classList.remove("visible");
       el.rNameP1.textContent = names[0];
       el.rNameP2.textContent = names[1];
-      el.rPointsP1.textContent = scores[0] + " pts";
-      el.rPointsP2.textContent = scores[1] + " pts";
+      el.rPointsP1.textContent = scores[0] + (scores[0] === 1 ? " pt" : " pts");
+      el.rPointsP2.textContent = scores[1] + (scores[1] === 1 ? " pt" : " pts");
       setTube(el.rFillP1, scores[0]);
       setTube(el.rFillP2, scores[1]);
 
@@ -806,8 +819,8 @@ h1 .lab { color: var(--lab-lime); }
         const l = 1 - w;
         const maxPts = Math.max(scores[0], scores[1]);
         let title;
-        if (maxPts >= 7) title = "Doutora Honorária em Duelo Científico";
-        else if (maxPts >= 5) title = "Pesquisadora-Chefe do Laboratório";
+        if (maxPts >= 7) title = "Lenda do Laboratório";
+        else if (maxPts >= 5) title = "Chefe de Laboratório";
         else title = "Cientista em Ascensão";
         el.resultEmoji.textContent = "👑";
         el.resultTitle.textContent = names[w] + " venceu o duelo!";
