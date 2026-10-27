@@ -165,7 +165,7 @@ h1 .lab { color: var(--lab-lime); }
 
 .chick:hover { border-color: var(--lab-lime); transform: translateY(-1px); }
 
-.chick.selecionado { border-color: var(--lab-lime); background: rgba(174, 234, 0, 0.12); box-shadow: 0 0 0 3px rgba(174, 234, 0, 0.18); }
+.chick.selecionado, .chick.par { border-color: var(--lab-lime); background: rgba(174, 234, 0, 0.12); box-shadow: 0 0 0 3px rgba(174, 234, 0, 0.18); }
 
 .chick.ligado { border-color: var(--success); background: rgba(174, 213, 129, 0.1); cursor: default; }
 .chick.ligado:hover { transform: none; }
@@ -199,7 +199,6 @@ h1 .lab { color: var(--lab-lime); }
 .wire.correta { stroke: var(--lab-lime); stroke-width: 2.5; stroke-dasharray: none; filter: drop-shadow(0 0 3px rgba(174, 234, 0, 0.8)); }
 .wire.candidata { stroke: var(--lab-lime); stroke-width: 2.5; stroke-dasharray: 6 6; animation: corre-fio 0.5s linear; }
 .wire.errada { stroke: var(--error); stroke-width: 2.5; animation: some-fio 0.9s ease forwards; }
-.wire.gabarito { stroke: rgba(174, 234, 0, 0.45); stroke-width: 2; stroke-dasharray: 5 6; }
 .wire.cadeia { stroke: #D6FF4B; stroke-width: 3.5; filter: drop-shadow(0 0 6px rgba(174, 234, 0, 1)); }
 
 @keyframes corre-fio { from { stroke-dashoffset: 24; } to { stroke-dashoffset: 0; } }
@@ -312,7 +311,7 @@ h1 .lab { color: var(--lab-lime); }
     </div>
 
     <main class="stage">
-        <div class="gabarito-badge" id="gabaritoBadge">👀 Modo gabarito — só para testes</div>
+        <div class="gabarito-badge" id="gabaritoBadge">👀 Modo gabarito — toque num item e o par dele acende</div>
 
         <!-- Tela inicial -->
         <section class="card screen active" id="screenStart">
@@ -702,6 +701,8 @@ h1 .lab { color: var(--lab-lime); }
       travinho = false;
       cadeiaAtiva = false;
       encontradas = [];
+      parAtual = null;
+      fioPar = null;
       fios = [];
 
       el.mapStep.textContent = "Mapa " + (im + 1) + " de " + MAPAS.length;
@@ -744,8 +745,8 @@ h1 .lab { color: var(--lab-lime); }
       return linha;
     }
 
-    // redesenha TODA a malha (base + gabarito + corretas) — usado na montagem
-    // do mapa, a cada ligação e no resize (coordenadas sempre frescas)
+    // redesenha TODA a malha (base + corretas + par revelado no gabarito) —
+    // usado na montagem do mapa, a cada ligação e no resize
     function redesenhar() {
       el.wires.innerHTML = "";
       fios = [];
@@ -759,10 +760,7 @@ h1 .lab { color: var(--lab-lime); }
         const de = ancora(el.board, cs.find(x => x.dataset.id === c.id), "c");
         mapa.marcos.forEach(m => {
           if (encontradas.some(e => e.m === m.id)) return;
-          let classe = "wire";
-          if (GABARITO && m.dona === c.id) classe = "wire gabarito";
-          const linha = criarFio(el.wires, de, ancora(el.board, ms.find(x => x.dataset.id === m.id), "m"), classe);
-          if (GABARITO && m.dona === c.id) { linha.dataset.c = c.id; linha.dataset.m = m.id; }
+          criarFio(el.wires, de, ancora(el.board, ms.find(x => x.dataset.id === m.id), "m"), "wire");
         });
       });
 
@@ -778,6 +776,8 @@ h1 .lab { color: var(--lab-lime); }
         linha.dataset.m = e.m;
         fios.push(linha);
       });
+
+      desenharFioPar();
     }
 
     function marcarLigacaoVisual(cId, mId) {
@@ -796,10 +796,42 @@ h1 .lab { color: var(--lab-lime); }
     }
 
     // ---- jogadas ----
+    // modo gabarito: clicou num item, o par dele acende — sem escolher,
+    // sem pontuar (faz a revisão de conteúdo olhando item por item)
+    let parAtual = null;
+    let fioPar = null;
+
+    function destacarPar(lado, id) {
+      el.board.querySelectorAll(".chick.par").forEach(c => c.classList.remove("par"));
+      const mapa = MAPAS[im];
+      let cId, mId;
+      if (lado === "c") {
+        cId = id;
+        mId = mapa.marcos.find(m => m.dona === id).id;
+      } else {
+        mId = id;
+        cId = mapa.marcos.find(m => m.id === id).dona;
+      }
+      parAtual = { c: cId, m: mId };
+      desenharFioPar();
+    }
+
+    function desenharFioPar() {
+      if (fioPar) { fioPar.remove(); fioPar = null; }
+      if (!parAtual) return;
+      const chipC = el.board.querySelector('.chick[data-lado="c"][data-id="' + parAtual.c + '"]');
+      const chipM = el.board.querySelector('.chick[data-lado="m"][data-id="' + parAtual.m + '"]');
+      chipC.classList.add("par");
+      chipM.classList.add("par");
+      fioPar = criarFio(el.wires, ancora(el.board, chipC, "c"), ancora(el.board, chipM, "m"), "wire correta");
+    }
+
     function tocar(lado, id) {
       if (boardTravado || travinho) return;
       const chipEl = el.board.querySelector('.chick[data-lado="' + lado + '"][data-id="' + id + '"]');
       if (chipEl.classList.contains("ligado")) return;
+
+      if (GABARITO) { destacarPar(lado, id); return; }
 
       // mesmo lado: troca/desseleciona
       if (selecionado && selecionado.lado === lado) {
