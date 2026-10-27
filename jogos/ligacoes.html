@@ -160,12 +160,20 @@ h1 .lab { color: var(--lab-lime); }
 .chick.ligado { border-color: var(--success); background: rgba(174, 213, 129, 0.1); cursor: default; }
 .chick.ligado:hover { transform: none; }
 
-.chick.ligado::after {
-  content: "✓";
-  margin-left: auto;
+/* ✓ de ligação formada: mesma caixa 24px do 🔊, glifo centralizado —
+   os dois ficam lado a lado alinhados no eixo do chip */
+.ch-check {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
   color: var(--success);
   font-weight: 800;
+  font-size: 15px;
 }
+.chick[data-lado="m"] .ch-check { margin-left: auto; }
 
 /* fios da rede (SVG por cima do tabuleiro) */
 .wires {
@@ -204,7 +212,6 @@ h1 .lab { color: var(--lab-lime); }
 }
 .mini-speak:hover { background: rgba(174, 234, 0, 0.25); }
 .mini-speak.tocando { background: var(--lab-lime); animation: pulso-som 0.9s ease-in-out infinite; }
-.chick.ligado .mini-speak::after { content: none; }
 
 @keyframes pulso-som { 50% { transform: scale(1.15); } }
 
@@ -595,6 +602,17 @@ h1 .lab { color: var(--lab-lime); }
       window.scrollTo({ top: 0, behavior: "auto" });
     }
 
+    // embaralha as colunas a cada partida: as donas NÃO podem nascer
+    // na mesma linha das descobertas (senão vira leitura de diagonal)
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
     function chip(lado, item) {
       const b = document.createElement("button");
       b.type = "button";
@@ -654,8 +672,8 @@ h1 .lab { color: var(--lab-lime); }
 
       el.colCientistas.querySelectorAll(".chick").forEach(c => c.remove());
       el.colMarcos.querySelectorAll(".chick").forEach(c => c.remove());
-      mapa.cientistas.forEach(p => el.colCientistas.appendChild(chip("c", p)));
-      mapa.marcos.forEach(m => el.colMarcos.appendChild(chip("m", m)));
+      shuffle(mapa.cientistas).forEach(p => el.colCientistas.appendChild(chip("c", p)));
+      shuffle(mapa.marcos).forEach(m => el.colMarcos.appendChild(chip("m", m)));
 
       el.wires.innerHTML = "";
       // deixa o layout assentar antes de medir os chips
@@ -721,12 +739,16 @@ h1 .lab { color: var(--lab-lime); }
     function marcarLigacaoVisual(cId, mId) {
       encontradas.push({ c: cId, m: mId });
       redesenhar();
-      const chipC = el.board.querySelector('.chick[data-lado="c"][data-id="' + cId + '"]');
-      const chipM = el.board.querySelector('.chick[data-lado="m"][data-id="' + mId + '"]');
-      chipC.classList.add("ligado");
-      chipM.classList.add("ligado");
-      chipC.setAttribute("aria-disabled", "true");
-      chipM.setAttribute("aria-disabled", "true");
+      [el.board.querySelector('.chick[data-lado="c"][data-id="' + cId + '"]'),
+       el.board.querySelector('.chick[data-lado="m"][data-id="' + mId + '"]')].forEach(ch => {
+        ch.classList.add("ligado");
+        ch.setAttribute("aria-disabled", "true");
+        const check = document.createElement("span");
+        check.className = "ch-check";
+        check.setAttribute("aria-hidden", "true");
+        check.textContent = "✓";
+        ch.appendChild(check); // nasce depois do 🔊, alinhado no flex
+      });
     }
 
     // ---- jogadas ----
