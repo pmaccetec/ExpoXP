@@ -292,6 +292,51 @@ h1 .lab { color: var(--lab-lime); }
 .option:hover:not(:disabled) { border-color: var(--lab-lime); transform: translateY(-2px); }
 .option:disabled { cursor: default; opacity: 0.9; }
 
+/* 🔊 dentro da alternativa: ouve o nome SEM responder a pergunta */
+.option:has(.opt-speak) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.opt-speak {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(174, 234, 0, 0.1);
+  border: 1px solid rgba(174, 234, 0, 0.45);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.opt-speak:hover { background: rgba(174, 234, 0, 0.25); }
+
+.opt-speak.tocando { background: var(--lab-lime); animation: pulso-som 0.9s ease-in-out infinite; }
+
+/* 🔊 no feedback pós-resposta (as alternativas ficam desabilitadas) */
+.fb-speak {
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--lab-lime);
+  background: rgba(174, 234, 0, 0.1);
+  border: 1px solid rgba(174, 234, 0, 0.45);
+  border-radius: 999px;
+  padding: 3px 10px;
+  cursor: pointer;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.fb-speak.tocando { background: var(--lab-lime); color: #0B1420; animation: pulso-som 0.9s ease-in-out infinite; }
+
+@keyframes pulso-som { 50% { transform: scale(1.12); } }
+
 .option.correct { border-color: var(--success); background: rgba(174, 213, 129, 0.16); opacity: 1; }
 .option.wrong { border-color: var(--error); background: rgba(255, 107, 119, 0.14); opacity: 1; }
 
@@ -395,6 +440,7 @@ h1 .lab { color: var(--lab-lime); }
 @media (prefers-reduced-motion: reduce) {
   .player-score.active-turn .player-name::after,
   .q-meta .q-fast { animation: none; }
+  .opt-speak.tocando, .fb-speak.tocando { animation: none; }
   .btn:hover { transform: none; }
   #fillP1, #fillP2, #rFillP1, #rFillP2 { transition: none; }
 }
@@ -653,6 +699,83 @@ h1 .lab { color: var(--lab-lime); }
     // antes de responder (uso interno da CETEC para testar; público não vê)
     const GABARITO = new URLSearchParams(location.search).has("gabarito");
 
+    // ============================================================
+    // Pronúncia dos nomes (🔊) — MP3s de ../audio/nomes/ gerados por
+    // ferramentas/gerar_audio_nomes.py, cada nome NA LÍNGUA ORIGINAL
+    // da cientista; se o arquivo não carregar, cai pra voz sintetizada
+    // do navegador (Web Speech API) com o texto "f" no idioma "v".
+    // ============================================================
+    const PRONUNCIAS = {
+      "Marie Curie":                                  { a: "marie-curie",                              v: "fr-FR", f: "Marie Curie" },
+      "Ada Lovelace":                                 { a: "ada-lovelace",                             v: "en-US", f: "Ada Lovelace" },
+      "Katherine Johnson":                            { a: "katherine-johnson",                        v: "en-US", f: "Katherine Johnson" },
+      "Rosalind Franklin":                            { a: "rosalind-franklin",                        v: "en-US", f: "Rosalind Franklin" },
+      "Bertha Lutz":                                  { a: "bertha-lutz",                              v: "pt-BR", f: "Bertha Lutz" },
+      "Johanna Döbereiner":                           { a: "johanna-dobereiner",                       v: "de-DE", f: "Johanna Döbereiner" },
+      "Nise da Silveira":                             { a: "nise-da-silveira",                         v: "pt-BR", f: "Nise da Silveira" },
+      "Enedina Alves Marques":                        { a: "enedina-alves-marques",                    v: "pt-BR", f: "Enedina Alves Marques" },
+      "Mayana Zatz":                                  { a: "mayana-zatz",                              v: "pt-BR", f: "Mayana Zatz" },
+      "Jaqueline Goes":                               { a: "jaqueline-goes",                           v: "pt-BR", f: "Jaqueline Goes" },
+      "Hedy Lamarr":                                  { a: "hedy-lamarr",                              v: "de-DE", f: "Hedy Lamarr" },
+      "Mae Jemison":                                  { a: "mae-jemison",                              v: "en-US", f: "Mae Jemison" },
+      "Dorothy Hodgkin":                              { a: "dorothy-hodgkin",                          v: "en-US", f: "Dorothy Hodgkin" },
+      "Grace Hopper":                                 { a: "grace-hopper",                             v: "en-US", f: "Grace Hopper" },
+      "Chien-Shiung Wu":                              { a: "chien-shiung-wu",                          v: "zh-CN", f: "Chien-Shiung Wu" },
+      "Vera Rubin":                                   { a: "vera-rubin",                               v: "en-US", f: "Vera Rubin" },
+      "Sally Ride":                                   { a: "sally-ride",                                v: "en-US", f: "Sally Ride" },
+      "Valentina Tereshkova":                         { a: "valentina-tereshkova",                     v: "ru-RU", f: "Valentina Tereshkova" },
+      "Sylvia Earle":                                 { a: "sylvia-earle",                             v: "en-US", f: "Sylvia Earle" },
+      "Emmanuelle Charpentier e Jennifer Doudna":     { a: "emmanuelle-charpentier-e-jennifer-doudna", v: "en-US", f: "Emmanuelle Charpentier and Jennifer Doudna" },
+      "Marie Curie e Irène Joliot-Curie":             { a: "marie-curie-e-irene-joliot-curie",         v: "fr-FR", f: "Marie Curie et Irène Joliot-Curie" },
+      "Ada Lovelace e Grace Hopper":                  { a: "ada-lovelace-e-grace-hopper",              v: "en-US", f: "Ada Lovelace and Grace Hopper" },
+      "Rosalind Franklin e Dorothy Hodgkin":          { a: "rosalind-franklin-e-dorothy-hodgkin",      v: "en-US", f: "Rosalind Franklin and Dorothy Hodgkin" }
+    };
+
+    let audioAtual = null;
+    let pulsoTimer = null;
+
+    function pararFalas() {
+      if (audioAtual) { audioAtual.pause(); audioAtual = null; }
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+      clearTimeout(pulsoTimer);
+      document.querySelectorAll(".tocando").forEach(el => el.classList.remove("tocando"));
+    }
+
+    function falarComVozDoNavegador(alvo, texto, idioma) {
+      if (!("speechSynthesis" in window)) return;
+      const fala = new SpeechSynthesisUtterance(texto);
+      fala.lang = idioma || "pt-BR";
+      const prefixo = fala.lang.split("-")[0].toLowerCase();
+      const vozes = window.speechSynthesis.getVoices();
+      const voz = vozes.find(v => v.lang === fala.lang)
+               || vozes.find(v => (v.lang || "").toLowerCase().startsWith(prefixo));
+      if (voz) fala.voice = voz;
+      fala.rate = 0.85;
+      fala.onend = () => alvo.classList.remove("tocando");
+      fala.onerror = () => alvo.classList.remove("tocando");
+      pulsoTimer = setTimeout(() => alvo.classList.remove("tocando"), 1500 + texto.length * 250);
+      window.speechSynthesis.speak(fala);
+    }
+
+    function falarNome(alvo, nome) {
+      const info = PRONUNCIAS[nome];
+      if (!info) return;
+      pararFalas();
+      alvo.classList.add("tocando");
+      const parar = () => alvo.classList.remove("tocando");
+      const audio = new Audio("../audio/nomes/" + info.a + ".mp3");
+      audioAtual = audio;
+      audio.onended = () => { parar(); if (audioAtual === audio) audioAtual = null; };
+      const falhou = () => {
+        if (audioAtual === audio) audioAtual = null;
+        parar();
+        falarComVozDoNavegador(alvo, info.f, info.v);
+      };
+      audio.onerror = falhou;
+      audio.play().catch(falhou);
+      pulsoTimer = setTimeout(parar, 8000);
+    }
+
     const screens = {
       start: document.getElementById("screenStart"),
       names: document.getElementById("screenNames"),
@@ -779,7 +902,20 @@ h1 .lab { color: var(--lab-lime); }
       q.options.forEach((opt, i) => {
         const b = document.createElement("button");
         b.className = "option" + (GABARITO && opt.ok ? " gabarito-hint" : "");
-        b.textContent = opt.t;
+        if (PRONUNCIAS[opt.t]) {
+          // alternativa com nome de cientista: ganha 🔊 — ouvir o nome
+          // NÃO responde a pergunta (o clique não chega no botão da opção)
+          b.innerHTML = '<span class="opt-text"></span><span class="opt-speak" role="button" tabindex="-1" aria-label="Ouvir a pronúncia de ' + opt.t + '" title="Ouvir o nome">🔊</span>';
+          b.querySelector(".opt-text").textContent = opt.t;
+          const sp = b.querySelector(".opt-speak");
+          sp.addEventListener("click", (ev) => {
+            ev.stopPropagation();
+            ev.preventDefault();
+            falarNome(sp, opt.t);
+          });
+        } else {
+          b.textContent = opt.t;
+        }
         b.addEventListener("click", () => answer(i));
         el.options.appendChild(b);
       });
@@ -830,6 +966,18 @@ h1 .lab { color: var(--lab-lime); }
       } else {
         el.feedback.className = "feedback show wrong";
         el.feedback.textContent = "⏰ Tempo esgotado! Era \"" + correctText + "\". " + q.fact;
+      }
+
+      // 🔊 ouvir o nome certo depois da resposta (as alternativas ficam
+      // desabilitadas, então o botão de som mora aqui no feedback)
+      if (PRONUNCIAS[correctText]) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "fb-speak";
+        b.textContent = "🔊 ouvir o nome";
+        b.setAttribute("aria-label", "Ouvir a pronúncia de " + correctText);
+        b.addEventListener("click", () => falarNome(b, correctText));
+        el.feedback.appendChild(b);
       }
 
       updateScoreboard();

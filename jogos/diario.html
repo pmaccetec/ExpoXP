@@ -125,6 +125,30 @@ h1 .lab { color: var(--lab-lime); }
   opacity: 0.95;
 }
 
+/* 🔊 pronúncia: botãozinho inline logo depois do nome da cientista no texto */
+.name-speak {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-left: 5px;
+  vertical-align: middle;
+  border-radius: 999px;
+  background: rgba(174, 234, 0, 0.1);
+  border: 1px solid rgba(174, 234, 0, 0.45);
+  font-family: var(--font);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.name-speak:hover { background: rgba(174, 234, 0, 0.25); }
+
+.name-speak.tocando { background: var(--lab-lime); animation: pulso-som 0.9s ease-in-out infinite; }
+
+@keyframes pulso-som { 50% { transform: scale(1.12); } }
+
 /* Escolhas */
 .choices { display: flex; flex-direction: column; gap: 12px; }
 
@@ -349,6 +373,7 @@ h1 .lab { color: var(--lab-lime); }
   .screen.active { animation: none; }
   .choice:hover { transform: none; }
   .btn:hover { transform: none; }
+  .name-speak.tocando { animation: none; }
 }
 </style>
 </head>
@@ -733,6 +758,77 @@ h1 .lab { color: var(--lab-lime); }
     // Modo leitura (?gabarito): reprodução automática + roteiro completo.
     // Uso interno da CETEC para revisar o texto sem jogar escolha por escolha.
     const GABARITO = new URLSearchParams(location.search).has("gabarito");
+
+    // ============================================================
+    // Pronúncia dos nomes (🔊) — MP3s de ../audio/nomes/ gerados por
+    // ferramentas/gerar_audio_nomes.py, cada nome NA LÍNGUA ORIGINAL
+    // da cientista; se o arquivo não carregar, cai pra voz sintetizada
+    // do navegador (Web Speech API) com o texto "f" no idioma "v".
+    // ============================================================
+    const PRONUNCIAS = {
+      "Ada Lovelace":            { a: "ada-lovelace",         v: "en-US", f: "Ada Lovelace" },
+      "Enedina Alves Marques":   { a: "enedina-alves-marques", v: "pt-BR", f: "Enedina Alves Marques" }
+    };
+
+    let audioAtual = null;
+    let pulsoTimer = null;
+
+    function pararFalas() {
+      if (audioAtual) { audioAtual.pause(); audioAtual = null; }
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+      clearTimeout(pulsoTimer);
+      document.querySelectorAll(".tocando").forEach(el => el.classList.remove("tocando"));
+    }
+
+    function falarComVozDoNavegador(alvo, texto, idioma) {
+      if (!("speechSynthesis" in window)) return;
+      const fala = new SpeechSynthesisUtterance(texto);
+      fala.lang = idioma || "pt-BR";
+      const prefixo = fala.lang.split("-")[0].toLowerCase();
+      const vozes = window.speechSynthesis.getVoices();
+      const voz = vozes.find(v => v.lang === fala.lang)
+               || vozes.find(v => (v.lang || "").toLowerCase().startsWith(prefixo));
+      if (voz) fala.voice = voz;
+      fala.rate = 0.85;
+      fala.onend = () => alvo.classList.remove("tocando");
+      fala.onerror = () => alvo.classList.remove("tocando");
+      pulsoTimer = setTimeout(() => alvo.classList.remove("tocando"), 1500 + texto.length * 250);
+      window.speechSynthesis.speak(fala);
+    }
+
+    function falarNome(alvo, nome) {
+      const info = PRONUNCIAS[nome];
+      if (!info) return;
+      pararFalas();
+      alvo.classList.add("tocando");
+      const parar = () => alvo.classList.remove("tocando");
+      const audio = new Audio("../audio/nomes/" + info.a + ".mp3");
+      audioAtual = audio;
+      audio.onended = () => { parar(); if (audioAtual === audio) audioAtual = null; };
+      const falhou = () => {
+        if (audioAtual === audio) audioAtual = null;
+        parar();
+        falarComVozDoNavegador(alvo, info.f, info.v);
+      };
+      audio.onerror = falhou;
+      audio.play().catch(falhou);
+      pulsoTimer = setTimeout(parar, 8000);
+    }
+
+    // insere o 🔊 logo depois de cada nome conhecido no texto da entrada
+    function comPronuncia(html) {
+      Object.keys(PRONUNCIAS).forEach(nome => {
+        const botao = '<button class="name-speak" type="button" data-nome="' + nome +
+          '" aria-label="Ouvir a pronúncia de ' + nome + '" title="Ouvir o nome">🔊</button>';
+        html = html.split(nome).join(nome + botao);
+      });
+      return html;
+    }
+
+    el.text.addEventListener("click", (ev) => {
+      const b = ev.target.closest(".name-speak");
+      if (b) falarNome(b, b.dataset.nome);
+    });
     let autoLigado = false;
     let geracaoAuto = 0;
     let autoClicando = false;
@@ -875,14 +971,14 @@ h1 .lab { color: var(--lab-lime); }
 
       el.date.textContent = node.d;
       el.title.textContent = node.t;
-      el.text.innerHTML = node.x;
+      el.text.innerHTML = comPronuncia(node.x);
 
       if (node.ex) {
         node.ex.forEach(e => {
           if (flags[e.f]) {
             const div = document.createElement("div");
             div.className = "entry-extra";
-            div.innerHTML = e.t;
+            div.innerHTML = comPronuncia(e.t);
             el.text.appendChild(div);
           }
         });

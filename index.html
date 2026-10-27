@@ -555,6 +555,61 @@ body {
   gap: var(--space-20);
 }
 
+/* Envoltório do card: o botão 🔊 de pronúncia fica FORA do botão que
+   vira o card (sem botão aninhado em botão), flutuando sobre o canto */
+.flip-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.flip-wrap .flip-card {
+  flex: 1;
+  width: 100%;
+}
+
+/* Botão 🔊 — lê o nome da cientista em voz alta (Web Speech API) */
+.speak-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--lab-lime-glow);
+  background: var(--color-surface);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard);
+}
+
+.speak-btn:hover {
+  transform: scale(1.12);
+  border-color: var(--lab-lime);
+}
+
+.speak-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* pulsinha enquanto o nome está sendo falado */
+.speak-btn.speaking {
+  background-color: var(--lab-lime);
+  border-color: var(--lab-lime);
+  animation: speak-pulse 0.9s ease-in-out infinite;
+}
+
+@keyframes speak-pulse {
+  50% { transform: scale(1.15); }
+}
+
 .flip-card {
   display: block;
   appearance: none;
@@ -1093,6 +1148,10 @@ body {
   .flip-card-inner {
     transition: none;
   }
+
+  .speak-btn.speaking {
+    animation: none;
+  }
 }
 </style>
 </head>
@@ -1233,173 +1292,209 @@ body {
                 <p class="section-subtitle">Toque em cada card e descubra a história por trás de cada descoberta</p>
 
                 <div class="cards-grid" id="cardsGrid">
-                    <button class="flip-card" aria-pressed="false">
-                        <span class="flip-card-inner">
-                            <span class="flip-card-front">
-                                <span class="flip-card-emoji" aria-hidden="true">⚛️</span>
-                                <span class="flip-card-name">Marie Curie</span>
-                                <span class="flip-card-area">Física e Química</span>
-                                <span class="flip-card-hint">toque para virar ↻</span>
+                    <div class="flip-wrap">
+                        <button class="flip-card" aria-pressed="false">
+                            <span class="flip-card-inner">
+                                <span class="flip-card-front">
+                                    <span class="flip-card-emoji" aria-hidden="true">⚛️</span>
+                                    <span class="flip-card-name">Marie Curie</span>
+                                    <span class="flip-card-area">Física e Química</span>
+                                    <span class="flip-card-hint">toque para virar ↻</span>
+                                </span>
+                                <span class="flip-card-back">
+                                    <span class="flip-card-fact">Física e química polonesa-naturalizada francesa. Única pessoa a ganhar o Nobel em duas ciências diferentes: Física (1903) e Química (1911).</span>
+                                </span>
                             </span>
-                            <span class="flip-card-back">
-                                <span class="flip-card-fact">Física e química polonesa-naturalizada francesa. Única pessoa a ganhar o Nobel em duas ciências diferentes: Física (1903) e Química (1911).</span>
-                            </span>
-                        </span>
-                    </button>
+                        </button>
+                        <button class="speak-btn" type="button" data-nome="Marie Curie" aria-label="Ouvir a pronúncia de Marie Curie" title="Ouvir o nome">🔊</button>
+                    </div>
 
-                    <button class="flip-card" aria-pressed="false">
-                        <span class="flip-card-inner">
-                            <span class="flip-card-front">
-                                <span class="flip-card-emoji" aria-hidden="true">💻</span>
-                                <span class="flip-card-name">Ada Lovelace</span>
-                                <span class="flip-card-area">Computação</span>
-                                <span class="flip-card-hint">toque para virar ↻</span>
+                    <div class="flip-wrap">
+                        <button class="flip-card" aria-pressed="false">
+                            <span class="flip-card-inner">
+                                <span class="flip-card-front">
+                                    <span class="flip-card-emoji" aria-hidden="true">💻</span>
+                                    <span class="flip-card-name">Ada Lovelace</span>
+                                    <span class="flip-card-area">Computação</span>
+                                    <span class="flip-card-hint">toque para virar ↻</span>
+                                </span>
+                                <span class="flip-card-back">
+                                    <span class="flip-card-fact">Matemática britânica do século XIX. Escreveu o que é considerado o primeiro algoritmo da história — antes mesmo de existir um computador.</span>
+                                </span>
                             </span>
-                            <span class="flip-card-back">
-                                <span class="flip-card-fact">Matemática britânica do século XIX. Escreveu o que é considerado o primeiro algoritmo da história — antes mesmo de existir um computador.</span>
-                            </span>
-                        </span>
-                    </button>
+                        </button>
+                        <button class="speak-btn" type="button" data-nome="Ada Lovelace" aria-label="Ouvir a pronúncia de Ada Lovelace" title="Ouvir o nome">🔊</button>
+                    </div>
 
-                    <button class="flip-card" aria-pressed="false">
-                        <span class="flip-card-inner">
-                            <span class="flip-card-front">
-                                <span class="flip-card-emoji" aria-hidden="true">🚀</span>
-                                <span class="flip-card-name">Katherine Johnson</span>
-                                <span class="flip-card-area">Matemática · NASA</span>
-                                <span class="flip-card-hint">toque para virar ↻</span>
+                    <div class="flip-wrap">
+                        <button class="flip-card" aria-pressed="false">
+                            <span class="flip-card-inner">
+                                <span class="flip-card-front">
+                                    <span class="flip-card-emoji" aria-hidden="true">🚀</span>
+                                    <span class="flip-card-name">Katherine Johnson</span>
+                                    <span class="flip-card-area">Matemática · NASA</span>
+                                    <span class="flip-card-hint">toque para virar ↻</span>
+                                </span>
+                                <span class="flip-card-back">
+                                    <span class="flip-card-fact">Matemática norte-americana da NASA. Seus cálculos foram essenciais para as missões Apollo — história contada no filme "Estrelas Além do Tempo".</span>
+                                </span>
                             </span>
-                            <span class="flip-card-back">
-                                <span class="flip-card-fact">Matemática norte-americana da NASA. Seus cálculos foram essenciais para as missões Apollo — história contada no filme "Estrelas Além do Tempo".</span>
-                            </span>
-                        </span>
-                    </button>
+                        </button>
+                        <button class="speak-btn" type="button" data-nome="Katherine Johnson" aria-label="Ouvir a pronúncia de Katherine Johnson" title="Ouvir o nome">🔊</button>
+                    </div>
 
-                    <button class="flip-card" aria-pressed="false">
-                        <span class="flip-card-inner">
-                            <span class="flip-card-front">
-                                <span class="flip-card-emoji" aria-hidden="true">🧬</span>
-                                <span class="flip-card-name">Rosalind Franklin</span>
-                                <span class="flip-card-area">Biologia Molecular</span>
-                                <span class="flip-card-hint">toque para virar ↻</span>
+                    <div class="flip-wrap">
+                        <button class="flip-card" aria-pressed="false">
+                            <span class="flip-card-inner">
+                                <span class="flip-card-front">
+                                    <span class="flip-card-emoji" aria-hidden="true">🧬</span>
+                                    <span class="flip-card-name">Rosalind Franklin</span>
+                                    <span class="flip-card-area">Biologia Molecular</span>
+                                    <span class="flip-card-hint">toque para virar ↻</span>
+                                </span>
+                                <span class="flip-card-back">
+                                    <span class="flip-card-fact">Cientista britânica. Sua imagem de raios-X do DNA, a Foto 51, foi decisiva para a descoberta da estrutura de dupla hélice.</span>
+                                </span>
                             </span>
-                            <span class="flip-card-back">
-                                <span class="flip-card-fact">Cientista britânica. Sua imagem de raios-X do DNA, a Foto 51, foi decisiva para a descoberta da estrutura de dupla hélice.</span>
-                            </span>
-                        </span>
-                    </button>
+                        </button>
+                        <button class="speak-btn" type="button" data-nome="Rosalind Franklin" aria-label="Ouvir a pronúncia de Rosalind Franklin" title="Ouvir o nome">🔊</button>
+                    </div>
 
-                    <button class="flip-card" aria-pressed="false">
-                        <span class="flip-card-inner">
-                            <span class="flip-card-front">
-                                <span class="flip-card-emoji" aria-hidden="true">🐸</span>
-                                <span class="flip-card-name">Bertha Lutz</span>
-                                <span class="flip-card-area">Biologia</span>
-                                <span class="flip-card-hint">toque para virar ↻</span>
+                    <div class="flip-wrap">
+                        <button class="flip-card" aria-pressed="false">
+                            <span class="flip-card-inner">
+                                <span class="flip-card-front">
+                                    <span class="flip-card-emoji" aria-hidden="true">🐸</span>
+                                    <span class="flip-card-name">Bertha Lutz</span>
+                                    <span class="flip-card-area">Biologia</span>
+                                    <span class="flip-card-hint">toque para virar ↻</span>
+                                </span>
+                                <span class="flip-card-back">
+                                    <span class="flip-card-fact">Bióloga brasileira do Museu Nacional, descreveu dezenas de espécies de anfíbios. Também foi pioneira da luta pelo voto feminino no Brasil.</span>
+                                </span>
                             </span>
-                            <span class="flip-card-back">
-                                <span class="flip-card-fact">Bióloga brasileira do Museu Nacional, descreveu dezenas de espécies de anfíbios. Também foi pioneira da luta pelo voto feminino no Brasil.</span>
-                            </span>
-                        </span>
-                    </button>
+                        </button>
+                        <button class="speak-btn" type="button" data-nome="Bertha Lutz" aria-label="Ouvir a pronúncia de Bertha Lutz" title="Ouvir o nome">🔊</button>
+                    </div>
 
-                    <button class="flip-card" aria-pressed="false">
-                        <span class="flip-card-inner">
-                            <span class="flip-card-front">
-                                <span class="flip-card-emoji" aria-hidden="true">🌱</span>
-                                <span class="flip-card-name">Johanna Döbereiner</span>
-                                <span class="flip-card-area">Agronomia</span>
-                                <span class="flip-card-hint">toque para virar ↻</span>
+                    <div class="flip-wrap">
+                        <button class="flip-card" aria-pressed="false">
+                            <span class="flip-card-inner">
+                                <span class="flip-card-front">
+                                    <span class="flip-card-emoji" aria-hidden="true">🌱</span>
+                                    <span class="flip-card-name">Johanna Döbereiner</span>
+                                    <span class="flip-card-area">Agronomia</span>
+                                    <span class="flip-card-hint">toque para virar ↻</span>
+                                </span>
+                                <span class="flip-card-back">
+                                    <span class="flip-card-fact">Agrônoma naturalizada brasileira. Suas pesquisas com bactérias fixadoras de nitrogênio ajudaram o Brasil a se tornar referência mundial na produção de soja.</span>
+                                </span>
                             </span>
-                            <span class="flip-card-back">
-                                <span class="flip-card-fact">Agrônoma naturalizada brasileira. Suas pesquisas com bactérias fixadoras de nitrogênio ajudaram o Brasil a se tornar referência mundial na produção de soja.</span>
-                            </span>
-                        </span>
-                    </button>
+                        </button>
+                        <button class="speak-btn" type="button" data-nome="Johanna Döbereiner" aria-label="Ouvir a pronúncia de Johanna Döbereiner" title="Ouvir o nome">🔊</button>
+                    </div>
 
-                    <button class="flip-card" aria-pressed="false">
-                        <span class="flip-card-inner">
-                            <span class="flip-card-front">
-                                <span class="flip-card-emoji" aria-hidden="true">🎨</span>
-                                <span class="flip-card-name">Nise da Silveira</span>
-                                <span class="flip-card-area">Psiquiatria</span>
-                                <span class="flip-card-hint">toque para virar ↻</span>
+                    <div class="flip-wrap">
+                        <button class="flip-card" aria-pressed="false">
+                            <span class="flip-card-inner">
+                                <span class="flip-card-front">
+                                    <span class="flip-card-emoji" aria-hidden="true">🎨</span>
+                                    <span class="flip-card-name">Nise da Silveira</span>
+                                    <span class="flip-card-area">Psiquiatria</span>
+                                    <span class="flip-card-hint">toque para virar ↻</span>
+                                </span>
+                                <span class="flip-card-back">
+                                    <span class="flip-card-fact">Psiquiatra brasileira pioneira no uso da arte e da afetividade no tratamento em saúde mental. Sua história virou o filme "Nise: O Coração da Loucura".</span>
+                                </span>
                             </span>
-                            <span class="flip-card-back">
-                                <span class="flip-card-fact">Psiquiatra brasileira pioneira no uso da arte e da afetividade no tratamento em saúde mental. Sua história virou o filme "Nise: O Coração da Loucura".</span>
-                            </span>
-                        </span>
-                    </button>
+                        </button>
+                        <button class="speak-btn" type="button" data-nome="Nise da Silveira" aria-label="Ouvir a pronúncia de Nise da Silveira" title="Ouvir o nome">🔊</button>
+                    </div>
 
-                    <button class="flip-card" aria-pressed="false">
-                        <span class="flip-card-inner">
-                            <span class="flip-card-front">
-                                <span class="flip-card-emoji" aria-hidden="true">🏗️</span>
-                                <span class="flip-card-name">Enedina Alves Marques</span>
-                                <span class="flip-card-area">Engenharia</span>
-                                <span class="flip-card-hint">toque para virar ↻</span>
+                    <div class="flip-wrap">
+                        <button class="flip-card" aria-pressed="false">
+                            <span class="flip-card-inner">
+                                <span class="flip-card-front">
+                                    <span class="flip-card-emoji" aria-hidden="true">🏗️</span>
+                                    <span class="flip-card-name">Enedina Alves Marques</span>
+                                    <span class="flip-card-area">Engenharia</span>
+                                    <span class="flip-card-hint">toque para virar ↻</span>
+                                </span>
+                                <span class="flip-card-back">
+                                    <span class="flip-card-fact">Primeira engenheira negra do Brasil, formada em 1945 pelo Paraná. Trabalhou em obras hidrelétricas e abriu caminho para muitas outras mulheres.</span>
+                                </span>
                             </span>
-                            <span class="flip-card-back">
-                                <span class="flip-card-fact">Primeira engenheira negra do Brasil, formada em 1945 pelo Paraná. Trabalhou em obras hidrelétricas e abriu caminho para muitas outras mulheres.</span>
-                            </span>
-                        </span>
-                    </button>
+                        </button>
+                        <button class="speak-btn" type="button" data-nome="Enedina Alves Marques" aria-label="Ouvir a pronúncia de Enedina Alves Marques" title="Ouvir o nome">🔊</button>
+                    </div>
 
-                    <button class="flip-card" aria-pressed="false">
-                        <span class="flip-card-inner">
-                            <span class="flip-card-front">
-                                <span class="flip-card-emoji" aria-hidden="true">🧪</span>
-                                <span class="flip-card-name">Mayana Zatz</span>
-                                <span class="flip-card-area">Genética</span>
-                                <span class="flip-card-hint">toque para virar ↻</span>
+                    <div class="flip-wrap">
+                        <button class="flip-card" aria-pressed="false">
+                            <span class="flip-card-inner">
+                                <span class="flip-card-front">
+                                    <span class="flip-card-emoji" aria-hidden="true">🧪</span>
+                                    <span class="flip-card-name">Mayana Zatz</span>
+                                    <span class="flip-card-area">Genética</span>
+                                    <span class="flip-card-hint">toque para virar ↻</span>
+                                </span>
+                                <span class="flip-card-back">
+                                    <span class="flip-card-fact">Geneticista brasileira, referência mundial no estudo das distrofias musculares. Coordena pesquisas e incentiva jovens cientistas no país.</span>
+                                </span>
                             </span>
-                            <span class="flip-card-back">
-                                <span class="flip-card-fact">Geneticista brasileira, referência mundial no estudo das distrofias musculares. Coordena pesquisas e incentiva jovens cientistas no país.</span>
-                            </span>
-                        </span>
-                    </button>
+                        </button>
+                        <button class="speak-btn" type="button" data-nome="Mayana Zatz" aria-label="Ouvir a pronúncia de Mayana Zatz" title="Ouvir o nome">🔊</button>
+                    </div>
 
-                    <button class="flip-card" aria-pressed="false">
-                        <span class="flip-card-inner">
-                            <span class="flip-card-front">
-                                <span class="flip-card-emoji" aria-hidden="true">🦠</span>
-                                <span class="flip-card-name">Jaqueline Goes</span>
-                                <span class="flip-card-area">Biomedicina</span>
-                                <span class="flip-card-hint">toque para virar ↻</span>
+                    <div class="flip-wrap">
+                        <button class="flip-card" aria-pressed="false">
+                            <span class="flip-card-inner">
+                                <span class="flip-card-front">
+                                    <span class="flip-card-emoji" aria-hidden="true">🦠</span>
+                                    <span class="flip-card-name">Jaqueline Goes</span>
+                                    <span class="flip-card-area">Biomedicina</span>
+                                    <span class="flip-card-hint">toque para virar ↻</span>
+                                </span>
+                                <span class="flip-card-back">
+                                    <span class="flip-card-fact">Cientista biomédica brasileira. Integrou a equipe que decifrou o genoma do vírus Zika em 2016, ajudando o Brasil a responder a emergências sanitárias.</span>
+                                </span>
                             </span>
-                            <span class="flip-card-back">
-                                <span class="flip-card-fact">Cientista biomédica brasileira. Integrou a equipe que decifrou o genoma do vírus Zika em 2016, ajudando o Brasil a responder a emergências sanitárias.</span>
-                            </span>
-                        </span>
-                    </button>
+                        </button>
+                        <button class="speak-btn" type="button" data-nome="Jaqueline Goes" aria-label="Ouvir a pronúncia de Jaqueline Goes" title="Ouvir o nome">🔊</button>
+                    </div>
 
-                    <button class="flip-card" aria-pressed="false">
-                        <span class="flip-card-inner">
-                            <span class="flip-card-front">
-                                <span class="flip-card-emoji" aria-hidden="true">📡</span>
-                                <span class="flip-card-name">Hedy Lamarr</span>
-                                <span class="flip-card-area">Invenção</span>
-                                <span class="flip-card-hint">toque para virar ↻</span>
+                    <div class="flip-wrap">
+                        <button class="flip-card" aria-pressed="false">
+                            <span class="flip-card-inner">
+                                <span class="flip-card-front">
+                                    <span class="flip-card-emoji" aria-hidden="true">📡</span>
+                                    <span class="flip-card-name">Hedy Lamarr</span>
+                                    <span class="flip-card-area">Invenção</span>
+                                    <span class="flip-card-hint">toque para virar ↻</span>
+                                </span>
+                                <span class="flip-card-back">
+                                    <span class="flip-card-fact">Atriz e inventora austríaca. Na década de 1940 criou a técnica do salto de frequência — base tecnológica do Wi-Fi e do Bluetooth que usamos hoje.</span>
+                                </span>
                             </span>
-                            <span class="flip-card-back">
-                                <span class="flip-card-fact">Atriz e inventora austríaca. Na década de 1940 criou a técnica do salto de frequência — base tecnológica do Wi-Fi e do Bluetooth que usamos hoje.</span>
-                            </span>
-                        </span>
-                    </button>
+                        </button>
+                        <button class="speak-btn" type="button" data-nome="Hedy Lamarr" aria-label="Ouvir a pronúncia de Hedy Lamarr" title="Ouvir o nome">🔊</button>
+                    </div>
 
-                    <button class="flip-card" aria-pressed="false">
-                        <span class="flip-card-inner">
-                            <span class="flip-card-front">
-                                <span class="flip-card-emoji" aria-hidden="true">👩‍🚀</span>
-                                <span class="flip-card-name">Mae Jemison</span>
-                                <span class="flip-card-area">Astronáutica</span>
-                                <span class="flip-card-hint">toque para virar ↻</span>
+                    <div class="flip-wrap">
+                        <button class="flip-card" aria-pressed="false">
+                            <span class="flip-card-inner">
+                                <span class="flip-card-front">
+                                    <span class="flip-card-emoji" aria-hidden="true">👩‍🚀</span>
+                                    <span class="flip-card-name">Mae Jemison</span>
+                                    <span class="flip-card-area">Astronáutica</span>
+                                    <span class="flip-card-hint">toque para virar ↻</span>
+                                </span>
+                                <span class="flip-card-back">
+                                    <span class="flip-card-fact">Médica e engenheira norte-americana. Em 1992 tornou-se a primeira mulher negra a viajar para o espaço, a bordo do ônibus espacial Endeavour.</span>
+                                </span>
                             </span>
-                            <span class="flip-card-back">
-                                <span class="flip-card-fact">Médica e engenheira norte-americana. Em 1992 tornou-se a primeira mulher negra a viajar para o espaço, a bordo do ônibus espacial Endeavour.</span>
-                            </span>
-                        </span>
-                    </button>
+                        </button>
+                        <button class="speak-btn" type="button" data-nome="Mae Jemison" aria-label="Ouvir a pronúncia de Mae Jemison" title="Ouvir o nome">🔊</button>
+                    </div>
                 </div>
 
                 <p class="cards-note">💡 Essas são apenas 12 de milhares de cientistas que transformaram o mundo. Na Expo XP 2026 você vai conhecer muitas outras — inclusive as cientistas da nossa região!</p>
@@ -1638,6 +1733,79 @@ body {
                 card.classList.toggle('flipped', !wasFlipped);
                 card.setAttribute('aria-pressed', String(!wasFlipped));
             });
+        });
+
+        // ---------- Pronúncia dos nomes (🔊 MP3 + voz do navegador de reserva) ----------
+        // Os MP3s de audio/nomes/ são gerados por ferramentas/gerar_audio_nomes.py,
+        // cada nome NA LÍNGUA ORIGINAL da cientista (Marie Curie em francês,
+        // Katherine Johnson em inglês, as brasileiras em português...) e tocam em
+        // qualquer navegador. "f"/"v" são o plano B (Web Speech API) caso o
+        // arquivo não carregue. O card segue exibindo o nome verdadeiro.
+        const PRONUNCIAS = {
+            'Marie Curie':            { a: 'marie-curie',            v: 'fr-FR', f: 'Marie Curie' },
+            'Ada Lovelace':           { a: 'ada-lovelace',           v: 'en-US', f: 'Ada Lovelace' },
+            'Katherine Johnson':      { a: 'katherine-johnson',      v: 'en-US', f: 'Katherine Johnson' },
+            'Rosalind Franklin':      { a: 'rosalind-franklin',      v: 'en-US', f: 'Rosalind Franklin' },
+            'Bertha Lutz':            { a: 'bertha-lutz',            v: 'pt-BR', f: 'Bertha Lutz' },
+            'Johanna Döbereiner':     { a: 'johanna-dobereiner',     v: 'de-DE', f: 'Johanna Döbereiner' },
+            'Nise da Silveira':       { a: 'nise-da-silveira',       v: 'pt-BR', f: 'Nise da Silveira' },
+            'Enedina Alves Marques':  { a: 'enedina-alves-marques',  v: 'pt-BR', f: 'Enedina Alves Marques' },
+            'Mayana Zatz':            { a: 'mayana-zatz',            v: 'pt-BR', f: 'Mayana Zatz' },
+            'Jaqueline Goes':         { a: 'jaqueline-goes',         v: 'pt-BR', f: 'Jaqueline Goes' },
+            'Hedy Lamarr':            { a: 'hedy-lamarr',            v: 'de-DE', f: 'Hedy Lamarr' },
+            'Mae Jemison':            { a: 'mae-jemison',            v: 'en-US', f: 'Mae Jemison' }
+        };
+
+        const speakBtns = document.querySelectorAll('.speak-btn');
+        let audioAtual = null;
+        let pulsoTimer = null;
+
+        function pararFalas() {
+            if (audioAtual) { audioAtual.pause(); audioAtual = null; }
+            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            clearTimeout(pulsoTimer);
+            document.querySelectorAll('.speak-btn.speaking').forEach(b => b.classList.remove('speaking'));
+        }
+
+        function falarComVozDoNavegador(btn, texto, idioma) {
+            if (!('speechSynthesis' in window)) return;
+            const fala = new SpeechSynthesisUtterance(texto);
+            fala.lang = idioma || 'pt-BR';
+            const prefixo = fala.lang.split('-')[0].toLowerCase();
+            const vozes = window.speechSynthesis.getVoices();
+            const voz = vozes.find(v => v.lang === fala.lang)
+                     || vozes.find(v => (v.lang || '').toLowerCase().startsWith(prefixo));
+            if (voz) fala.voice = voz;
+            fala.rate = 0.85; // um pouco mais devagar: é pronúncia pra aprender
+            fala.onend = () => btn.classList.remove('speaking');
+            fala.onerror = () => btn.classList.remove('speaking');
+            // rede de segurança: engines sem os eventos não deixam o pulso travado
+            pulsoTimer = setTimeout(() => btn.classList.remove('speaking'), 1500 + texto.length * 250);
+            window.speechSynthesis.speak(fala);
+        }
+
+        function falarNome(btn, nome) {
+            const info = PRONUNCIAS[nome];
+            if (!info) return;
+            pararFalas();
+            btn.classList.add('speaking');
+            const parar = () => btn.classList.remove('speaking');
+            const audio = new Audio('audio/nomes/' + info.a + '.mp3');
+            audioAtual = audio;
+            audio.onended = () => { parar(); if (audioAtual === audio) audioAtual = null; };
+            // MP3 não carregou? Cai pra voz sintetizada do navegador.
+            const falhou = () => {
+                if (audioAtual === audio) audioAtual = null;
+                parar();
+                falarComVozDoNavegador(btn, info.f, info.v);
+            };
+            audio.onerror = falhou;
+            audio.play().catch(falhou);
+            pulsoTimer = setTimeout(parar, 8000);
+        }
+
+        speakBtns.forEach(btn => {
+            btn.addEventListener('click', () => falarNome(btn, btn.dataset.nome));
         });
 
         // [O quiz "Quem é ela?" saiu da home em 22/10/2026: virou base do Duelo de
