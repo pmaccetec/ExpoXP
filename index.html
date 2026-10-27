@@ -1220,7 +1220,7 @@ body {
                 </svg>
             </div>
             <div class="hero-content">
-                <span class="hero-badge">✨ 3ª Edição · Novembro de 2026</span>
+                <span class="hero-badge">✨ 3ª Edição · 3 e 4 de novembro</span>
                 <h2>MULHERES NA CIÊNCIA</h2>
                 <p class="hero-subtitle">A Feira de Ciência e Tecnologia de Arraial do Cabo volta em 2026 para celebrar as mulheres que transformam o mundo através da ciência — dos laboratórios ao oceano, das salas de aula ao espaço.</p>
 
@@ -1233,7 +1233,7 @@ body {
                 </div>
 
                 <div class="countdown" id="countdown" aria-live="polite">
-                    <span class="countdown-title">⏳ Contagem regressiva para novembro de 2026</span>
+                    <span class="countdown-title">⏳ Contagem regressiva para 3 e 4 de novembro</span>
                     <div class="countdown-block">
                         <div class="countdown-number" id="cdDays">--</div>
                         <div class="countdown-label">dias</div>
@@ -1250,7 +1250,7 @@ body {
                         <div class="countdown-number" id="cdSeconds">--</div>
                         <div class="countdown-label">seg</div>
                     </div>
-                    <p class="countdown-note">Datas oficiais em breve — fique de olho! 👀</p>
+                    <p class="countdown-note">Datas confirmadas! Local ainda a anunciar — fique de olho! 👀</p>
                 </div>
             </div>
         </section>
@@ -1640,11 +1640,11 @@ body {
     <script>
         // ============================================================
         // ATENÇÃO: DATA ALVO DA CONTAGEM REGRESSIVA
-        // A contagem aponta para o mês do evento (1º de novembro de 2026).
-        // Quando as datas oficiais forem confirmadas, atualize a constante
+        // Datas oficiais confirmadas (27/10/2026): 3 e 4 de novembro de 2026.
+        // A contagem aponta para o 1º dia. Se mudar, atualize a constante
         // abaixo e o rótulo "Contagem regressiva para..." no HTML.
         // ============================================================
-        const DATA_ALVO_COUNTDOWN = new Date('2026-11-01T00:00:00-03:00');
+        const DATA_ALVO_COUNTDOWN = new Date('2026-11-03T00:00:00-03:00');
 
         // ---------- Tema claro/escuro (mesma chave do site principal) ----------
         const themeToggle = document.getElementById('themeToggle');
@@ -1698,7 +1698,7 @@ body {
             const diff = DATA_ALVO_COUNTDOWN.getTime() - Date.now();
 
             if (diff <= 0) {
-                countdownEl.innerHTML = '<span class="countdown-title">🎉 Chegou novembro! Fique de olho na programação oficial da Expo XP 2026</span>';
+                countdownEl.innerHTML = '<span class="countdown-title">🎉 Chegou o dia! Expo XP 2026 — 3 e 4 de novembro. Fique de olho na programação!</span>';
                 clearInterval(countdownInterval);
                 return;
             }
