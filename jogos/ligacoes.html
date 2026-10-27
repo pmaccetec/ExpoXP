@@ -75,7 +75,7 @@ h1 .lab { color: var(--lab-lime); }
 
 .subtitle { text-align: center; color: var(--text-dim); font-size: 16px; margin-bottom: 24px; line-height: 1.6; }
 
-.center { text-align: center; }
+.center { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; }
 
 .btn {
   display: inline-block;
@@ -280,6 +280,8 @@ h1 .lab { color: var(--lab-lime); }
   display: none;
   margin: 0 auto 8px;
   width: max-content;
+  max-width: 100%; /* em telas estreitas o texto quebra em vez de esticar a página */
+  text-align: center;
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
@@ -293,6 +295,23 @@ h1 .lab { color: var(--lab-lime); }
 
 .footer-note { text-align: center; color: var(--text-dim); font-size: 12px; padding: 20px; line-height: 1.6; }
 .footer-note a { color: var(--text-dim); }
+
+/* tela inicial cabe na viewport: compacta o ritmo vertical em telas baixas ou estreitas */
+@media (max-width: 560px), (max-height: 740px) {
+  .stage { padding: 6px 20px 14px; }
+  .card { padding-block: 12px; }
+  .topbar { padding: 8px 16px; }
+  .gabarito-badge { margin-bottom: 6px; }
+  .start-emoji { font-size: 34px; margin-bottom: 4px; }
+  .gabarito #screenStart .start-emoji { display: none; } /* QA: abre espaço pra badge + botão extra */
+  h1 { margin-bottom: 4px; }
+  .subtitle { font-size: 15px; margin-bottom: 8px; }
+  .rules { gap: 6px; margin-bottom: 10px; }
+  .rules li { font-size: 14px; line-height: 1.45; }
+  .btn { padding: 10px 24px; }
+  .center { gap: 10px; }
+  .footer-note { padding: 4px; }
+}
 
 @media (max-width: 560px) {
   .topbar { flex-wrap: wrap; }
@@ -617,6 +636,7 @@ h1 .lab { color: var(--lab-lime); }
     // Motor do jogo
     // ============================================================
     const GABARITO = new URLSearchParams(location.search).has("gabarito");
+    if (GABARITO) document.documentElement.classList.add("gabarito");
 
     const screens = {
       start: document.getElementById("screenStart"),
