@@ -263,6 +263,48 @@ h1 .lab { color: var(--lab-lime); }
 .board.estatico .chick:hover { transform: none; border-color: rgba(242, 246, 249, 0.16); }
 .board.estatico .mini-speak { width: 22px; height: 22px; font-size: 11px; cursor: pointer; }
 .board.estatico .wire.correta { animation: acende-fio 0.6s ease backwards; }
+
+/* alternador de vista da rede: no celular os fios cruzados se perdem,
+   a lista mostra cada par numa linha só */
+.grafo-modo { display: flex; justify-content: center; gap: 8px; margin: 4px 0 22px; }
+.grafo-modo button {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid rgba(242, 246, 249, 0.25);
+  border-radius: 999px;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
+}
+.grafo-modo button[aria-pressed="true"] { color: #0B1420; background: var(--lab-lime); border-color: var(--lab-lime); }
+
+.lista-lig { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 0 0 26px; }
+.lista-lig li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  background: rgba(242, 246, 249, 0.04);
+  border: 1px solid rgba(242, 246, 249, 0.12);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.lista-lig .ll-c { font-weight: 700; }
+.lista-lig .ll-seta { color: var(--lab-lime); font-weight: 800; flex-shrink: 0; }
+.lista-lig .ll-m { color: var(--text-dim); flex: 1 1 120px; }
+.lista-lig .mini-speak { margin-left: 6px; }
+
+/* toque num item da rede estática: o par dele acende, o resto descansa */
+.board.estatico .chick { cursor: pointer; }
+.board.estatico.focando .chick:not(.foco) { opacity: 0.3; }
+.board.estatico.focando .wire:not(.foco) { opacity: 0.12; }
+.board.estatico .chick.foco { border-color: var(--lab-lime); background: rgba(174, 234, 0, 0.14); box-shadow: 0 0 0 3px rgba(174, 234, 0, 0.2); }
+.board.estatico .wire.foco { stroke: #D6FF4B; stroke-width: 3.5; filter: drop-shadow(0 0 6px rgba(174, 234, 0, 1)); }
 @keyframes acende-fio { from { opacity: 0; } }
 
 /* resultado */
@@ -399,7 +441,7 @@ h1 .lab { color: var(--lab-lime); }
         <section class="card screen" id="screenGrafo">
             <span class="start-emoji" aria-hidden="true">🕸️</span>
             <div class="result-title">A rede completa</div>
-            <p class="subtitle">Todas as ligações dos três mapas — dá pra ouvir cada nome e ver como tudo se conecta.</p>
+            <p class="subtitle">Todas as ligações dos três mapas. Toque num nome da rede pra acender a ligação dele — ou troque pra lista e veja cada par numa linha.</p>
             <div id="grafoContainer"></div>
             <div class="result-actions">
                 <button class="btn btn-primary" id="btnGrafoJogar">Montar a rede de novo 🔁</button>
@@ -1004,7 +1046,7 @@ h1 .lab { color: var(--lab-lime); }
           sp.setAttribute("aria-label", "Ouvir a pronúncia de " + nomeAudio);
           sp.title = "Ouvir o nome";
           sp.textContent = "🔊";
-          sp.addEventListener("click", () => falarNome(sp, nomeAudio));
+          sp.addEventListener("click", e => { e.stopPropagation(); falarNome(sp, nomeAudio); });
           d.appendChild(sp);
         }
       }
@@ -1023,6 +1065,8 @@ h1 .lab { color: var(--lab-lime); }
           ancora(board, ms.find(x => x.dataset.id === m.id), "m"),
           "wire correta"
         );
+        linha.dataset.de = m.dona; // pra achar o fio do par no toque
+        linha.dataset.para = m.id;
         linha.style.animationDelay = (i * 90) + "ms"; // acende em cascata
       });
     }
@@ -1031,6 +1075,57 @@ h1 .lab { color: var(--lab-lime); }
       const cont = document.getElementById(containerId || "grafoContainer");
       cont.innerHTML = "";
       grafoEstatico.length = 0;
+
+      const vistaRede = document.createElement("div");
+      const vistaLista = document.createElement("div");
+      vistaLista.hidden = true;
+
+      const barra = document.createElement("div");
+      barra.className = "grafo-modo";
+      const bRede = document.createElement("button");
+      bRede.type = "button"; bRede.textContent = "🕸️ Ver a rede"; bRede.setAttribute("aria-pressed", "true");
+      const bLista = document.createElement("button");
+      bLista.type = "button"; bLista.textContent = "📋 Ver em lista"; bLista.setAttribute("aria-pressed", "false");
+      barra.append(bRede, bLista);
+
+      function aplicarModo(lista) {
+        vistaRede.hidden = lista;
+        vistaLista.hidden = !lista;
+        bRede.setAttribute("aria-pressed", String(!lista));
+        bLista.setAttribute("aria-pressed", String(lista));
+        // ao voltar pra rede, os fios precisam de medição com a vista visível
+        if (!lista) requestAnimationFrame(() => requestAnimationFrame(() => {
+          grafoEstatico.forEach(g => { if (g.board.offsetParent) desenharGrafo(g.board, g.mapa); });
+        }));
+      }
+      bRede.addEventListener("click", () => aplicarModo(false));
+      bLista.addEventListener("click", () => aplicarModo(true));
+
+      // toque num item da rede: o par dele acende e o resto descansa
+      // (segundo toque no mesmo item desfaz)
+      vistaRede.addEventListener("click", e => {
+        const chip = e.target.closest(".chick");
+        if (!chip || !chip.dataset.lado) return;
+        const board = chip.closest(".board");
+        const g = grafoEstatico.find(x => x.board === board);
+        if (!g) return;
+        const { mapa } = g;
+        const jaFoco = board.querySelector(".chick.foco");
+        board.querySelectorAll(".foco").forEach(x => x.classList.remove("foco"));
+        board.classList.remove("focando");
+        if (jaFoco && jaFoco.dataset.id === chip.dataset.id) return;
+        const marco = chip.dataset.lado === "c"
+          ? mapa.marcos.find(m => m.dona === chip.dataset.id)
+          : mapa.marcos.find(m => m.id === chip.dataset.id);
+        if (!marco) return;
+        const chC = board.querySelector('.chick[data-lado="c"][data-id="' + marco.dona + '"]');
+        const chM = board.querySelector('.chick[data-lado="m"][data-id="' + marco.id + '"]');
+        if (chC) chC.classList.add("foco");
+        if (chM) chM.classList.add("foco");
+        const fio = board.querySelector('.wire[data-de="' + marco.dona + '"][data-para="' + marco.id + '"]');
+        if (fio) fio.classList.add("foco");
+        board.classList.add("focando");
+      });
 
       MAPAS.forEach((mapa, idx) => {
         const bloco = document.createElement("div");
@@ -1066,13 +1161,47 @@ h1 .lab { color: var(--lab-lime); }
         svg.setAttribute("aria-hidden", "true");
         board.append(colC, meio, colM, svg);
         bloco.appendChild(board);
-        cont.appendChild(bloco);
+        vistaRede.appendChild(bloco);
         grafoEstatico.push({ board, mapa });
+
+        // mesma rede, vista em lista: cientista → descoberta, uma linha por par
+        const blocoLista = document.createElement("div");
+        blocoLista.className = "grafo-mapa";
+        blocoLista.appendChild(titulo.cloneNode(true));
+        const ul = document.createElement("ul");
+        ul.className = "lista-lig";
+        mapa.marcos.forEach(m => {
+          const p = mapa.cientistas.find(c => c.id === m.dona);
+          const li = document.createElement("li");
+          const llC = document.createElement("span");
+          llC.className = "ll-c"; llC.textContent = p.emoji + " " + p.nome;
+          const nomeAudio = p.audio || p.nome;
+          if (PRONUNCIAS[nomeAudio]) {
+            const sp = document.createElement("button");
+            sp.type = "button";
+            sp.className = "mini-speak";
+            sp.setAttribute("aria-label", "Ouvir a pronúncia de " + nomeAudio);
+            sp.title = "Ouvir o nome";
+            sp.textContent = "🔊";
+            sp.addEventListener("click", () => falarNome(sp, nomeAudio));
+            llC.appendChild(sp);
+          }
+          const seta = document.createElement("span");
+          seta.className = "ll-seta"; seta.setAttribute("aria-hidden", "true"); seta.textContent = "→";
+          const llM = document.createElement("span");
+          llM.className = "ll-m"; llM.textContent = m.emoji + " " + m.label;
+          li.append(llC, seta, llM);
+          ul.appendChild(li);
+        });
+        blocoLista.appendChild(ul);
+        vistaLista.appendChild(blocoLista);
       });
+
+      cont.append(barra, vistaRede, vistaLista);
 
       // deixa o layout assentar antes de medir os chips
       requestAnimationFrame(() => requestAnimationFrame(() => {
-        grafoEstatico.forEach(g => desenharGrafo(g.board, g.mapa));
+        grafoEstatico.forEach(g => { if (g.board.offsetParent) desenharGrafo(g.board, g.mapa); });
       }));
     }
 
@@ -1098,7 +1227,7 @@ h1 .lab { color: var(--lab-lime); }
       resizeTimer = setTimeout(() => {
         if (screens.board.classList.contains("active") && im >= 0) redesenhar();
         if (screens.grafo.classList.contains("active")) {
-          grafoEstatico.forEach(g => desenharGrafo(g.board, g.mapa));
+          grafoEstatico.forEach(g => { if (g.board.offsetParent) desenharGrafo(g.board, g.mapa); });
         }
       }, 150);
     });
