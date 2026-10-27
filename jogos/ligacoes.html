@@ -21,6 +21,10 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* o atributo hidden ganha de qualquer display que as classes definam
+   (o botão do gabarito aparecia "morto" na tela inicial por causa disso) */
+[hidden] { display: none !important; }
+
 body {
   font-family: var(--font);
   background:
@@ -153,6 +157,12 @@ h1 .lab { color: var(--lab-lime); }
 
 .chick .ch-emoji { font-size: 17px; flex-shrink: 0; }
 
+.chick .ch-nome {
+  flex: 1 1 auto;
+  min-width: 0;          /* deixa o nome quebrar em vez de empurrar o 🔊 pra fora */
+  overflow-wrap: break-word;
+}
+
 .chick:hover { border-color: var(--lab-lime); transform: translateY(-1px); }
 
 .chick.selecionado { border-color: var(--lab-lime); background: rgba(174, 234, 0, 0.12); box-shadow: 0 0 0 3px rgba(174, 234, 0, 0.18); }
@@ -270,11 +280,16 @@ h1 .lab { color: var(--lab-lime); }
 .footer-note a { color: var(--text-dim); }
 
 @media (max-width: 560px) {
-  .card { padding: 20px 14px; }
-  .board { grid-template-columns: minmax(96px, 0.9fr) 30px minmax(128px, 1.3fr); gap: 6px; }
-  .chick { font-size: 12.5px; padding: 8px; }
-  .chick .ch-emoji { font-size: 15px; }
+  .card { padding: 18px 12px; }
+  .map-sub { font-size: 13px; }
+  .map-status { margin-bottom: 12px; }
+  .board { grid-template-columns: minmax(104px, 1fr) 24px minmax(140px, 1.35fr); gap: 5px; }
+  .col { gap: 6px; }
+  .col-title { font-size: 10px; letter-spacing: 0.08em; }
+  .chick { font-size: 12px; padding: 7px 8px; gap: 6px; min-height: 38px; }
+  .chick .ch-emoji { font-size: 14px; }
   .mini-speak { width: 22px; height: 22px; font-size: 11px; }
+  .ch-check { width: 22px; height: 22px; font-size: 14px; }
   .map-name { font-size: 19px; }
 }
 
