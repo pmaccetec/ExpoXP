@@ -1,6 +1,6 @@
 # As Mulheres na Ciência da Expo XP 2026
 
-Dossiê de todas as mulheres citadas no site e nos jogos da 3ª edição (**Mulheres na Ciência**, feira em **3 e 4 de novembro de 2026**): quem são, sua história e por que importam. Serve de base de conteúdo pra home, pros jogos publicados (**Duelo de Laboratório** e **Diário de Cientista**) e pros que vêm (jogo 3, **Ligações da Ciência**).
+Dossiê de todas as mulheres citadas no site e nos jogos da 3ª edição (**Mulheres na Ciência**, feira em **3 e 4 de novembro de 2026**): quem são, sua história e por que importam. Serve de base de conteúdo pra home e pros jogos publicados (**Duelo de Laboratório**, **Diário de Cientista** e **Ligações da Ciência**).
 
 Todas as citadas em vida real têm pronúncia 🔊 em `audio/nomes/` (no idioma original de cada uma), exceto onde indicado.
 
@@ -145,7 +145,7 @@ Criadas para a narrativa interativa (protagonista neutra em 1ª pessoa, mentoras
 
 ## E as que ainda vêm por aí
 
-- **Jogo 3 — Ligações da Ciência** (próximo do pipeline): grafo de descoberta com 3 mapas (Brasil → Mundo → Nossas cientistas), ~16 ligações cientista↔feito colhidas **deste acervo** + **cientistas locais/região a curar** (escolas e comunidade indicam nomes).
+- **Mapa "Nossas cientistas" no Ligações da Ciência**: o jogo (publicado em 27/10/2026) fecha com os mapas Brasil → Rede Mundial → Estrelas e Oceanos, todos deste acervo; o 4º mapa com **cientistas locais/região entra quando a curadoria sair** (escolas e comunidade indicam os nomes).
 - **Modo solo do quiz** ("Quem é ela?") a migrar pro portal — mesmas mulheres do Duelo.
 - **Mural das Cientistas** (PLANO-2026): cards contribuídos pelas escolas no site oficial.
 

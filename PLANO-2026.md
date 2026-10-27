@@ -57,6 +57,7 @@ Regra de ouro herdada de 2025: **o hub só lista jogo publicado**. Nada de card 
 - **Conteúdo necessário:** curadoria das ligações (biografias verificáveis) — o mesmo material do Mural/quiz serve de base.
 - **Pronto quando:** 3 mapas jogáveis; toque funciona no celular; texto das dicas revisado.
 - *Obs.: é a "Constelação" aprovada na conversa, re-vestida de rede molecular pra casar com o Laboratório Vivo.*
+- **Execução (27/10/2026): PUBLICADO** — `/jogos/ligacoes` com 20 ligações em 3 mapas (Ciência do Brasil → Rede Mundial → Estrelas e Oceanos). O 3º mapa é da laia do acervo curado; o mapa "Nossas cientistas (local)" foi adiado até haver curadoria local — entra como 4º mapa sem quebrar nada. Modo `?gabarito` (fios tracejados) e 🔊 de pronúncia nos chips.
 
 #### Jogo 4 (stretch) — Código de Ada *(programação visual · custo médio-alto · ~4-5 dias)*
 
