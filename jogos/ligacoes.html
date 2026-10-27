@@ -165,7 +165,21 @@ h1 .lab { color: var(--lab-lime); }
 
 .chick:hover { border-color: var(--lab-lime); transform: translateY(-1px); }
 
-.chick.selecionado, .chick.par { border-color: var(--lab-lime); background: rgba(174, 234, 0, 0.12); box-shadow: 0 0 0 3px rgba(174, 234, 0, 0.18); }
+.chick.selecionado { border-color: var(--lab-lime); background: rgba(174, 234, 0, 0.12); box-shadow: 0 0 0 3px rgba(174, 234, 0, 0.18); }
+
+/* modo gabarito: contorno tracejado pulsante no par correto do item
+   selecionado — chama o clique sem consolidar a resposta */
+.chick.dica-par { position: relative; }
+.chick.dica-par::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 2px dashed var(--lab-lime);
+  border-radius: 14px;
+  animation: pulso-tracejado 1.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes pulso-tracejado { 50% { opacity: 0.3; } }
 
 .chick.ligado { border-color: var(--success); background: rgba(174, 213, 129, 0.1); cursor: default; }
 .chick.ligado:hover { transform: none; }
@@ -297,6 +311,7 @@ h1 .lab { color: var(--lab-lime); }
 @media (prefers-reduced-motion: reduce) {
   .screen.active { animation: none; }
   .wire.candidata, .wire.errada { animation: none; }
+  .chick.dica-par::after { animation: none; }
   .mini-speak.tocando { animation: none; }
   .btn:hover { transform: none; }
   .chick:hover { transform: none; }
@@ -311,7 +326,7 @@ h1 .lab { color: var(--lab-lime); }
     </div>
 
     <main class="stage">
-        <div class="gabarito-badge" id="gabaritoBadge">👀 Modo gabarito — toque num item e o par dele acende</div>
+        <div class="gabarito-badge" id="gabaritoBadge">👀 Modo gabarito — o par certo fica tracejado; clique pra valer e teste o feedback</div>
 
         <!-- Tela inicial -->
         <section class="card screen active" id="screenStart">
@@ -701,8 +716,6 @@ h1 .lab { color: var(--lab-lime); }
       travinho = false;
       cadeiaAtiva = false;
       encontradas = [];
-      parAtual = null;
-      fioPar = null;
       fios = [];
 
       el.mapStep.textContent = "Mapa " + (im + 1) + " de " + MAPAS.length;
@@ -745,8 +758,8 @@ h1 .lab { color: var(--lab-lime); }
       return linha;
     }
 
-    // redesenha TODA a malha (base + corretas + par revelado no gabarito) —
-    // usado na montagem do mapa, a cada ligação e no resize
+    // redesenha TODA a malha (base + corretas) — usado na montagem do mapa,
+    // a cada ligação e no resize (coordenadas sempre frescas)
     function redesenhar() {
       el.wires.innerHTML = "";
       fios = [];
@@ -776,8 +789,6 @@ h1 .lab { color: var(--lab-lime); }
         linha.dataset.m = e.m;
         fios.push(linha);
       });
-
-      desenharFioPar();
     }
 
     function marcarLigacaoVisual(cId, mId) {
@@ -796,34 +807,22 @@ h1 .lab { color: var(--lab-lime); }
     }
 
     // ---- jogadas ----
-    // modo gabarito: clicou num item, o par dele acende — sem escolher,
-    // sem pontuar (faz a revisão de conteúdo olhando item por item)
-    let parAtual = null;
-    let fioPar = null;
-
-    function destacarPar(lado, id) {
-      el.board.querySelectorAll(".chick.par").forEach(c => c.classList.remove("par"));
-      const mapa = MAPAS[im];
-      let cId, mId;
-      if (lado === "c") {
-        cId = id;
-        mId = mapa.marcos.find(m => m.dona === id).id;
-      } else {
-        mId = id;
-        cId = mapa.marcos.find(m => m.id === id).dona;
-      }
-      parAtual = { c: cId, m: mId };
-      desenharFioPar();
+    // modo gabarito: o par correto do item selecionado ganha contorno
+    // tracejado pulsante — dá pra confirmar no tracejado (feedback positivo)
+    // ou errar de propósito (feedback negativo), testando o jogo de verdade
+    function limparDicaPar() {
+      el.board.querySelectorAll(".chick.dica-par").forEach(c => c.classList.remove("dica-par"));
     }
 
-    function desenharFioPar() {
-      if (fioPar) { fioPar.remove(); fioPar = null; }
-      if (!parAtual) return;
-      const chipC = el.board.querySelector('.chick[data-lado="c"][data-id="' + parAtual.c + '"]');
-      const chipM = el.board.querySelector('.chick[data-lado="m"][data-id="' + parAtual.m + '"]');
-      chipC.classList.add("par");
-      chipM.classList.add("par");
-      fioPar = criarFio(el.wires, ancora(el.board, chipC, "c"), ancora(el.board, chipM, "m"), "wire correta");
+    function marcarDicaPar(lado, id) {
+      limparDicaPar();
+      if (!GABARITO || !selecionado) return;
+      const mapa = MAPAS[im];
+      const parId = lado === "c"
+        ? mapa.marcos.find(m => m.dona === id).id
+        : mapa.marcos.find(m => m.id === id).dona;
+      const alvo = el.board.querySelector('.chick[data-lado="' + (lado === "c" ? "m" : "c") + '"][data-id="' + parId + '"]');
+      if (alvo && !alvo.classList.contains("ligado")) alvo.classList.add("dica-par");
     }
 
     function tocar(lado, id) {
@@ -831,12 +830,10 @@ h1 .lab { color: var(--lab-lime); }
       const chipEl = el.board.querySelector('.chick[data-lado="' + lado + '"][data-id="' + id + '"]');
       if (chipEl.classList.contains("ligado")) return;
 
-      if (GABARITO) { destacarPar(lado, id); return; }
-
       // mesmo lado: troca/desseleciona
       if (selecionado && selecionado.lado === lado) {
         el.board.querySelectorAll(".chick.selecionado").forEach(c => c.classList.remove("selecionado"));
-        if (selecionado.id === id) { selecionado = null; return; }
+        if (selecionado.id === id) { selecionado = null; limparDicaPar(); return; }
       } else if (selecionado) {
         // lados opostos: propõe a ligação
         proposta(selecionado, { lado, id });
@@ -846,11 +843,13 @@ h1 .lab { color: var(--lab-lime); }
       el.board.querySelectorAll(".chick.selecionado").forEach(c => c.classList.remove("selecionado"));
       chipEl.classList.add("selecionado");
       selecionado = { lado, id };
+      marcarDicaPar(lado, id);
     }
 
     function proposta(primeiro, segundo) {
       if (travinho) return;
       travinho = true;
+      limparDicaPar();
       const mapa = MAPAS[im];
       const cId = primeiro.lado === "c" ? primeiro.id : segundo.id;
       const mId = primeiro.lado === "m" ? primeiro.id : segundo.id;
