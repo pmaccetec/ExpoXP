@@ -11,3 +11,5 @@ test
 *.md
 wrangler.jsonc
 ferramentas
+.v2c
+.video_agent

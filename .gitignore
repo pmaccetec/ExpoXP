@@ -40,6 +40,10 @@ logs/
 application-*.properties
 nohup.out
 
+# artefatos de ferramentas de agente (raízes de plugins locais)
+.v2c/
+.video_agent/
+
 # wrangler files
 .wrangler
 .dev.vars*
