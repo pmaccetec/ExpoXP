@@ -242,6 +242,7 @@ h1 .lab { color: var(--lab-lime); }
 .msg .btn { margin-top: 12px; }
 
 /* ============ Grafo completo (pós-jogo e modo gabarito) ============ */
+.grafo-caption { text-align: center; color: var(--text-dim); font-size: 13px; font-weight: 600; margin: 18px 0 12px; }
 .grafo-mapa { margin: 0 0 26px; }
 .grafo-titulo { font-size: 15px; font-weight: 800; margin-bottom: 8px; }
 .grafo-titulo small { display: block; font-weight: 400; font-size: 12px; color: var(--text-dim); margin-top: 2px; }
@@ -377,9 +378,10 @@ h1 .lab { color: var(--lab-lime); }
             <div class="result-title" id="resultTitle">Rede completa!</div>
             <p class="result-sub" id="resultSub"></p>
             <ul class="result-list" id="resultList"></ul>
+            <div class="grafo-caption">🧬 A rede completa que você formou:</div>
+            <div id="grafoResultado"></div>
             <div class="result-actions">
-                <button class="btn btn-primary" id="btnVerRede">Ver a rede completa 🧬</button>
-                <button class="btn btn-ghost" id="btnReplay">Montar a rede de novo 🔁</button>
+                <button class="btn btn-primary" id="btnReplay">Montar a rede de novo 🔁</button>
                 <a class="btn btn-ghost" href="index.html">Mais jogos</a>
             </div>
         </section>
@@ -910,6 +912,9 @@ h1 .lab { color: var(--lab-lime); }
         el.resultList.appendChild(li);
       });
       show("result");
+      // a rede completa já nasce na tela final (o show precisa vir antes
+      // pra os chips terem tamanho medível no momento de desenhar os fios)
+      montarGrafo("grafoResultado");
     }
 
     document.getElementById("btnComecar").addEventListener("click", () => {
@@ -969,8 +974,8 @@ h1 .lab { color: var(--lab-lime); }
       });
     }
 
-    function montarGrafo() {
-      const cont = document.getElementById("grafoContainer");
+    function montarGrafo(containerId) {
+      const cont = document.getElementById(containerId || "grafoContainer");
       cont.innerHTML = "";
       grafoEstatico.length = 0;
 
@@ -1018,10 +1023,6 @@ h1 .lab { color: var(--lab-lime); }
       }));
     }
 
-    document.getElementById("btnVerRede").addEventListener("click", () => {
-      montarGrafo();
-      show("grafo");
-    });
     document.getElementById("btnGrafoJogar").addEventListener("click", () => {
       im = 0;
       mapasFeitos = [];
