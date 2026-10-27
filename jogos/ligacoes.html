@@ -283,10 +283,10 @@ h1 .lab { color: var(--lab-lime); }
 
 .lista-lig { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 0 0 26px; }
 .lista-lig li {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) auto minmax(0, 1.2fr); /*cientista | → | feito*/
   align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
   background: rgba(242, 246, 249, 0.04);
   border: 1px solid rgba(242, 246, 249, 0.12);
   border-radius: 10px;
@@ -294,10 +294,11 @@ h1 .lab { color: var(--lab-lime); }
   font-size: 14px;
   line-height: 1.4;
 }
-.lista-lig .ll-c { font-weight: 700; }
+.lista-lig .ll-c { display: flex; align-items: center; gap: 8px; font-weight: 700; min-width: 0; }
+.lista-lig .ll-nome { line-height: 1.25; min-width: 0; }
+.lista-lig .ll-nome span { display: block; } /* nome em cima, sobrenome embaixo */
 .lista-lig .ll-seta { color: var(--lab-lime); font-weight: 800; flex-shrink: 0; }
-.lista-lig .ll-m { color: var(--text-dim); flex: 1 1 120px; }
-.lista-lig .mini-speak { margin-left: 6px; }
+.lista-lig .ll-m { color: var(--text-dim); }
 
 /* toque num item da rede estática: o par dele acende, o resto descansa */
 .board.estatico .chick { cursor: pointer; }
@@ -369,6 +370,12 @@ h1 .lab { color: var(--lab-lime); }
   .mini-speak { width: 22px; height: 22px; font-size: 11px; }
   .ch-check { width: 22px; height: 22px; font-size: 14px; }
   .map-name { font-size: 19px; }
+  /* rede estática: cientista em linha única (sem quebrar), descoberta encolhe */
+  .board.estatico { grid-template-columns: minmax(200px, 1.9fr) 14px minmax(80px, 1fr); }
+  .board.estatico .chick[data-lado="c"] .ch-nome { font-size: 11.5px; white-space: nowrap; }
+  .board.estatico .chick[data-lado="m"] .ch-nome { font-size: 11.5px; overflow-wrap: anywhere; }
+  .lista-lig li { font-size: 13px; padding: 8px 10px; grid-template-columns: 144px auto minmax(0, 1fr); }
+  .lista-lig .mini-speak { width: 20px; height: 20px; font-size: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1174,7 +1181,20 @@ h1 .lab { color: var(--lab-lime); }
           const p = mapa.cientistas.find(c => c.id === m.dona);
           const li = document.createElement("li");
           const llC = document.createElement("span");
-          llC.className = "ll-c"; llC.textContent = p.emoji + " " + p.nome;
+          llC.className = "ll-c";
+          const llEmoji = document.createElement("span");
+          llEmoji.className = "ll-emoji"; llEmoji.setAttribute("aria-hidden", "true"); llEmoji.textContent = p.emoji;
+          // nome em cima, sobrenome embaixo: a célula fica estreita e o
+          // feito sempre começa do lado, alinhado com os outros
+          const llNome = document.createElement("span");
+          llNome.className = "ll-nome";
+          const partes = p.nome.split(" ");
+          const l1 = document.createElement("span");
+          l1.textContent = partes.slice(0, -1).join(" ");
+          const l2 = document.createElement("span");
+          l2.textContent = partes[partes.length - 1];
+          if (l1.textContent) llNome.appendChild(l1);
+          llNome.appendChild(l2);
           const nomeAudio = p.audio || p.nome;
           if (PRONUNCIAS[nomeAudio]) {
             const sp = document.createElement("button");
@@ -1184,7 +1204,9 @@ h1 .lab { color: var(--lab-lime); }
             sp.title = "Ouvir o nome";
             sp.textContent = "🔊";
             sp.addEventListener("click", () => falarNome(sp, nomeAudio));
-            llC.appendChild(sp);
+            llC.append(llEmoji, llNome, sp);
+          } else {
+            llC.append(llEmoji, llNome);
           }
           const seta = document.createElement("span");
           seta.className = "ll-seta"; seta.setAttribute("aria-hidden", "true"); seta.textContent = "→";
