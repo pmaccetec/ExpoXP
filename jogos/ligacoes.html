@@ -230,6 +230,16 @@ h1 .lab { color: var(--lab-lime); }
 .msg.fim { background: rgba(79, 195, 247, 0.1); border: 1px solid rgba(79, 195, 247, 0.4); }
 .msg .msg-acao { margin-top: 10px; text-align: center; }
 
+/* ============ Grafo completo (pós-jogo e modo gabarito) ============ */
+.grafo-mapa { margin: 0 0 26px; }
+.grafo-titulo { font-size: 15px; font-weight: 800; margin-bottom: 8px; }
+.grafo-titulo small { display: block; font-weight: 400; font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+.board.estatico .chick { cursor: default; font-size: 12.5px; padding: 7px 8px; }
+.board.estatico .chick:hover { transform: none; border-color: rgba(242, 246, 249, 0.16); }
+.board.estatico .mini-speak { width: 22px; height: 22px; font-size: 11px; cursor: pointer; }
+.board.estatico .wire.correta { animation: acende-fio 0.6s ease backwards; }
+@keyframes acende-fio { from { opacity: 0; } }
+
 /* resultado */
 .result-emoji { font-size: 56px; text-align: center; display: block; margin-bottom: 10px; }
 .result-title { font-size: 24px; font-weight: 800; text-align: center; margin-bottom: 6px; }
@@ -302,6 +312,7 @@ h1 .lab { color: var(--lab-lime); }
 
             <div class="center">
                 <button class="btn btn-primary" id="btnComecar">Formar a primeira ligação 🔗</button>
+                <button class="btn btn-ghost" id="btnGabaritoGrafo" hidden>📜 Ver todas as ligações</button>
             </div>
         </section>
 
@@ -332,6 +343,18 @@ h1 .lab { color: var(--lab-lime); }
             <div class="msg" id="msg" role="status" aria-live="polite"></div>
         </section>
 
+        <!-- Grafo completo (pós-jogo e modo gabarito) -->
+        <section class="card screen" id="screenGrafo">
+            <span class="start-emoji" aria-hidden="true">🕸️</span>
+            <div class="result-title">A rede completa</div>
+            <p class="subtitle">Todas as ligações dos três mapas — dá pra ouvir cada nome e ver como tudo se conecta.</p>
+            <div id="grafoContainer"></div>
+            <div class="result-actions">
+                <button class="btn btn-primary" id="btnGrafoJogar">Montar a rede de novo 🔁</button>
+                <a class="btn btn-ghost" href="index.html">Mais jogos</a>
+            </div>
+        </section>
+
         <!-- Resultado -->
         <section class="card screen" id="screenResult">
             <span class="result-emoji" id="resultEmoji">⚡</span>
@@ -339,7 +362,8 @@ h1 .lab { color: var(--lab-lime); }
             <p class="result-sub" id="resultSub"></p>
             <ul class="result-list" id="resultList"></ul>
             <div class="result-actions">
-                <button class="btn btn-primary" id="btnReplay">Montar a rede de novo 🔁</button>
+                <button class="btn btn-primary" id="btnVerRede">Ver a rede completa 🧬</button>
+                <button class="btn btn-ghost" id="btnReplay">Montar a rede de novo 🔁</button>
                 <a class="btn btn-ghost" href="index.html">Mais jogos</a>
             </div>
         </section>
@@ -563,6 +587,7 @@ h1 .lab { color: var(--lab-lime); }
     const screens = {
       start: document.getElementById("screenStart"),
       board: document.getElementById("screenBoard"),
+      grafo: document.getElementById("screenGrafo"),
       result: document.getElementById("screenResult")
     };
 
@@ -683,8 +708,8 @@ h1 .lab { color: var(--lab-lime); }
     }
 
     // ---- fios ----
-    function ancora(chipEl, lado) {
-      const b = el.board.getBoundingClientRect();
+    function ancora(board, chipEl, lado) {
+      const b = board.getBoundingClientRect();
       const r = chipEl.getBoundingClientRect();
       return {
         x: (lado === "c" ? r.right : r.left) - b.left,
@@ -692,12 +717,12 @@ h1 .lab { color: var(--lab-lime); }
       };
     }
 
-    function criarFio(de, ate, classe) {
+    function criarFio(svg, de, ate, classe) {
       const linha = document.createElementNS("http://www.w3.org/2000/svg", "line");
       linha.setAttribute("x1", de.x); linha.setAttribute("y1", de.y);
       linha.setAttribute("x2", ate.x); linha.setAttribute("y2", ate.y);
       linha.setAttribute("class", classe);
-      el.wires.appendChild(linha);
+      svg.appendChild(linha);
       return linha;
     }
 
@@ -713,12 +738,12 @@ h1 .lab { color: var(--lab-lime); }
       // malha neutra da rede escondida (pula quem já está ligado)
       mapa.cientistas.forEach(c => {
         if (encontradas.some(e => e.c === c.id)) return;
-        const de = ancora(cs.find(x => x.dataset.id === c.id), "c");
+        const de = ancora(el.board, cs.find(x => x.dataset.id === c.id), "c");
         mapa.marcos.forEach(m => {
           if (encontradas.some(e => e.m === m.id)) return;
           let classe = "wire";
           if (GABARITO && m.dona === c.id) classe = "wire gabarito";
-          const linha = criarFio(de, ancora(ms.find(x => x.dataset.id === m.id), "m"), classe);
+          const linha = criarFio(el.wires, de, ancora(el.board, ms.find(x => x.dataset.id === m.id), "m"), classe);
           if (GABARITO && m.dona === c.id) { linha.dataset.c = c.id; linha.dataset.m = m.id; }
         });
       });
@@ -726,8 +751,9 @@ h1 .lab { color: var(--lab-lime); }
       // ligações corretas já formadas
       encontradas.forEach(e => {
         const linha = criarFio(
-          ancora(cs.find(x => x.dataset.id === e.c), "c"),
-          ancora(ms.find(x => x.dataset.id === e.m), "m"),
+          el.wires,
+          ancora(el.board, cs.find(x => x.dataset.id === e.c), "c"),
+          ancora(el.board, ms.find(x => x.dataset.id === e.m), "m"),
           "wire correta" + (cadeiaAtiva ? " cadeia" : "")
         );
         linha.dataset.c = e.c;
@@ -785,9 +811,9 @@ h1 .lab { color: var(--lab-lime); }
       el.board.querySelectorAll(".chick.selecionado").forEach(c => c.classList.remove("selecionado"));
       selecionado = null;
 
-      const de = ancora(chipC, "c");
-      const ate = ancora(chipM, "m");
-      const candidata = criarFio(de, ate, "wire candidata");
+      const de = ancora(el.board, chipC, "c");
+      const ate = ancora(el.board, chipM, "m");
+      const candidata = criarFio(el.wires, de, ate, "wire candidata");
 
       const acertou = marco.dona === cId;
       setTimeout(() => {
@@ -803,7 +829,7 @@ h1 .lab { color: var(--lab-lime); }
           erros++;
           el.pillErr.hidden = false;
           el.pillErr.textContent = erros + (erros === 1 ? " tentativa errada" : " tentativas erradas");
-          const errada = criarFio(de, ate, "wire errada");
+          const errada = criarFio(el.wires, de, ate, "wire errada");
           setTimeout(() => errada.remove(), 900);
           el.msg.className = "msg show erro";
           el.msg.textContent = "❌ Essa ligação não fecha. Dica: " + marco.dica;
@@ -884,12 +910,127 @@ h1 .lab { color: var(--lab-lime); }
       show("board");
     });
 
+    // ============================================================
+    // Grafo completo — mostra os 3 mapas com todas as ligações
+    // (aparece no fim do jogo e direto pelo modo gabarito)
+    // ============================================================
+    const grafoEstatico = []; // {board, mapa} p/ redesenhar no resize
+
+    function chipEstatico(lado, item) {
+      const d = document.createElement("div");
+      d.className = "chick";
+      d.innerHTML = '<span class="ch-emoji" aria-hidden="true">' + item.emoji + '</span><span class="ch-nome"></span>';
+      d.querySelector(".ch-nome").textContent = lado === "c" ? item.nome : item.label;
+      if (lado === "c") {
+        const nomeAudio = item.audio || item.nome;
+        if (PRONUNCIAS[nomeAudio]) {
+          const sp = document.createElement("button");
+          sp.type = "button";
+          sp.className = "mini-speak";
+          sp.setAttribute("aria-label", "Ouvir a pronúncia de " + nomeAudio);
+          sp.title = "Ouvir o nome";
+          sp.textContent = "🔊";
+          sp.addEventListener("click", () => falarNome(sp, nomeAudio));
+          d.appendChild(sp);
+        }
+      }
+      return d;
+    }
+
+    function desenharGrafo(board, mapa) {
+      const svg = board.querySelector("svg");
+      svg.innerHTML = "";
+      const cs = [...board.querySelectorAll('.chick[data-lado="c"]')];
+      const ms = [...board.querySelectorAll('.chick[data-lado="m"]')];
+      mapa.marcos.forEach((m, i) => {
+        const linha = criarFio(
+          svg,
+          ancora(board, cs.find(x => x.dataset.id === m.dona), "c"),
+          ancora(board, ms.find(x => x.dataset.id === m.id), "m"),
+          "wire correta"
+        );
+        linha.style.animationDelay = (i * 90) + "ms"; // acende em cascata
+      });
+    }
+
+    function montarGrafo() {
+      const cont = document.getElementById("grafoContainer");
+      cont.innerHTML = "";
+      grafoEstatico.length = 0;
+
+      MAPAS.forEach((mapa, idx) => {
+        const bloco = document.createElement("div");
+        bloco.className = "grafo-mapa";
+        const titulo = document.createElement("div");
+        titulo.className = "grafo-titulo";
+        titulo.innerHTML = "Mapa " + (idx + 1) + " · " + mapa.nome
+          + "<small>" + mapa.marcos.length + " ligações</small>";
+        bloco.appendChild(titulo);
+
+        const board = document.createElement("div");
+        board.className = "board estatico";
+        const colC = document.createElement("div"); colC.className = "col";
+        const colM = document.createElement("div"); colM.className = "col";
+        const tC = document.createElement("div"); tC.className = "col-title"; tC.textContent = "Cientistas";
+        const tM = document.createElement("div"); tM.className = "col-title"; tM.textContent = "Descobertas";
+        colC.appendChild(tC);
+        colM.appendChild(tM);
+        shuffle(mapa.cientistas).forEach(p => {
+          const ch = chipEstatico("c", p);
+          ch.dataset.lado = "c"; ch.dataset.id = p.id;
+          colC.appendChild(ch);
+        });
+        shuffle(mapa.marcos).forEach(m => {
+          const ch = chipEstatico("m", m);
+          ch.dataset.lado = "m"; ch.dataset.id = m.id;
+          colM.appendChild(ch);
+        });
+        const meio = document.createElement("div");
+        meio.setAttribute("aria-hidden", "true");
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("class", "wires");
+        svg.setAttribute("aria-hidden", "true");
+        board.append(colC, meio, colM, svg);
+        bloco.appendChild(board);
+        cont.appendChild(bloco);
+        grafoEstatico.push({ board, mapa });
+      });
+
+      // deixa o layout assentar antes de medir os chips
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        grafoEstatico.forEach(g => desenharGrafo(g.board, g.mapa));
+      }));
+    }
+
+    document.getElementById("btnVerRede").addEventListener("click", () => {
+      montarGrafo();
+      show("grafo");
+    });
+    document.getElementById("btnGrafoJogar").addEventListener("click", () => {
+      im = 0;
+      mapasFeitos = [];
+      montarMapa();
+      show("board");
+    });
+    if (GABARITO) {
+      const btnGrafo = document.getElementById("btnGabaritoGrafo");
+      btnGrafo.hidden = false;
+      btnGrafo.addEventListener("click", () => {
+        montarGrafo();
+        show("grafo");
+      });
+    }
+
     // redraw dos fios quando a tela muda de tamanho (rotação/celular)
     let resizeTimer = null;
     window.addEventListener("resize", () => {
-      if (!screens.board.classList.contains("active") || im < 0) return;
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(redesenhar, 150);
+      resizeTimer = setTimeout(() => {
+        if (screens.board.classList.contains("active") && im >= 0) redesenhar();
+        if (screens.grafo.classList.contains("active")) {
+          grafoEstatico.forEach(g => desenharGrafo(g.board, g.mapa));
+        }
+      }, 150);
     });
     </script>
 </body>
