@@ -65,6 +65,7 @@ Regra de ouro herdada de 2025: **o hub só lista jogo publicado**. Nada de card 
 - **Mecânica:** grade 8×8, um rover coletor de amostras; o jogador monta programas com **blocos visuais** (avançar, girar ⟲⟳, repetir N×) que executam animados; 8-10 níveis com obstáculos (estantes, microscópios) e amostras; estrelas por eficiência (menos blocos).
 - **Diferença de 2025:** construção de solução (programar), não seleção de resposta.
 - **Gatilho:** só começa se os 3 primeiros estiverem publicados **até ~02/nov**. Senão, vira pós-evento ou 2027.
+- *Execução (27/10/2026): **PUBLICADO** — `/jogos/ada`* com 8 níveis (avançar → girar → laços → serpentina → diagonal), estrelas por eficiência (≤ par = 3★), laço `REPETIR N×` de um nível (sem aninhamento), memos de laboratório por nível com os fatos já curados (Ada, Grace, Hedy, Katherine, Mayana, Bertha, Marie, Dorothy) e 🔊 de pronúncia, progresso em `localStorage`, modo `?gabarito` (badge + botão que carrega a solução ideal).
 
 #### Sugestões extras (pedidas na conversa — não estão no pipeline)
 
@@ -78,8 +79,8 @@ Regra de ouro herdada de 2025: **o hub só lista jogo publicado**. Nada de card 
 | 22–23/out | Re-skin do esquenta (Laboratório Vivo) + publicação do esquenta | ✅ feito (22/out) |
 | 22–26/out | **Duelo de Laboratório** no ar | ✅ feito (22/out, `/jogos`) |
 | 27–29/out | **Diário de Cientista** no ar | ✅ feito (22/out, `/jogos/diario`) |
-| 30/out–02/nov | **Ligações da Ciência** no ar | — |
-| 03/nov+ | **Código de Ada** — só se os 3 acima estiverem publicados | — |
+| 30/out–02/nov | **Ligações da Ciência** no ar | ✅ feito (27/out, `/jogos/ligacoes`) |
+| 03/nov+ | **Código de Ada** — só se os 3 acima estiverem publicados | ✅ feito (27/out, `/jogos/ada`) |
 | semana do evento | Arena Gamer usa o portal; banner no site oficial | — |
 
 *Nota de infra (22/out): o portal está publicando dentro do worker `expoxp` em `/jogos/` (deploy direto com wrangler; builds do git seguem quebrados). O repo/CNAME dedicado `jogosdaciencia.arraial.rj.gov.br` fica como migração futura quando o dash for consertado.*

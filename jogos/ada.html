@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Código de Ada — programe o engenho coletor com cartões (avançar, girar, repetir) e colete as amostras do laboratório. Jogos da Ciência · Expo XP 2026, Arraial do Cabo.">
+    <title>Código de Ada — Jogos da Ciência · Expo XP 2026</title>
+    <style>
+:root {
+  --lab-navy: #0B1420;
+  --lab-navy-2: #111F30;
+  --lab-lime: #AEEA00;
+  --lab-blue: #4FC3F7;
+  --text: #F2F6F9;
+  --text-dim: rgba(242, 246, 249, 0.65);
+  --success: #AED581;
+  --error: #FF6B77;
+  --radius: 14px;
+  --font: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+body {
+  font-family: var(--font);
+  background:
+    linear-gradient(rgba(174, 234, 0, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(174, 234, 0, 0.035) 1px, transparent 1px),
+    radial-gradient(ellipse at 50% -20%, #16324e 0%, var(--lab-navy) 60%);
+  background-size: 32px 32px, 32px 32px, 100% 100%;
+  background-attachment: fixed;
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.topbar a { color: var(--text-dim); text-decoration: none; font-size: 14px; font-weight: 600; }
+.topbar a:hover { color: var(--lab-lime); }
+.topbar .brand { color: var(--text); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+.topbar .brand span { color: var(--lab-lime); }
+
+.stage { flex: 1; width: 100%; max-width: 860px; margin: 0 auto; padding: 8px 20px 48px; }
+
+.card {
+  background: var(--lab-navy-2);
+  border: 1px solid rgba(174, 234, 0, 0.22);
+  border-radius: var(--radius);
+  padding: 26px 22px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+}
+
+.screen { display: none; }
+.screen.active { display: block; animation: entrada 400ms ease; }
+
+@keyframes entrada { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+h1 { font-size: clamp(26px, 6vw, 38px); text-align: center; line-height: 1.15; margin-bottom: 8px; }
+h1 .lab { color: var(--lab-lime); }
+
+.subtitle { text-align: center; color: var(--text-dim); font-size: 16px; margin-bottom: 24px; line-height: 1.6; }
+
+.center { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; }
+
+.btn {
+  display: inline-block;
+  font-family: var(--font);
+  font-size: 17px;
+  font-weight: 700;
+  border: none;
+  border-radius: 999px;
+  padding: 13px 28px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 150ms ease, filter 150ms ease;
+}
+.btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+.btn-primary { background: var(--lab-lime); color: #0B1420; }
+.btn-ghost { background: transparent; color: var(--text); border: 2px solid rgba(242, 246, 249, 0.4); }
+.btn-mini { font-size: 14px; padding: 9px 18px; }
+
+.start-emoji { font-size: 54px; text-align: center; display: block; margin-bottom: 12px; }
+
+.rules { list-style: none; margin: 0 auto 24px; max-width: 470px; display: flex; flex-direction: column; gap: 10px; }
+.rules li { display: flex; gap: 10px; color: var(--text-dim); font-size: 15px; line-height: 1.5; align-items: baseline; }
+.rules li strong { color: var(--text); }
+
+/* ---- seleção de níveis ---- */
+.niveis-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; max-width: 560px; margin: 0 auto; }
+.nivel-btn {
+  font-family: var(--font);
+  background: var(--lab-navy);
+  border: 2px solid rgba(242, 246, 249, 0.16);
+  border-radius: 12px;
+  padding: 10px 6px 8px;
+  cursor: pointer;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+.nivel-btn:hover:not(:disabled) { border-color: var(--lab-lime); transform: translateY(-2px); }
+.nivel-btn .n-num { font-size: 22px; font-weight: 800; color: var(--lab-lime); }
+.nivel-btn .n-nome { font-size: 11px; line-height: 1.25; text-align: center; min-height: 28px; display: flex; align-items: center; }
+.nivel-btn .n-estrelas { font-size: 12px; letter-spacing: 1px; }
+.nivel-btn:disabled { opacity: 0.38; cursor: default; }
+.nivel-btn:disabled .n-num { color: var(--text-dim); }
+
+.voltar { display: block; margin: 0 auto 18px; background: none; border: none; color: var(--text-dim); font-family: var(--font); font-size: 14px; font-weight: 600; cursor: pointer; }
+.voltar:hover { color: var(--lab-lime); }
+
+/* ---- tela de jogo ---- */
+.map-head { text-align: center; margin-bottom: 6px; }
+.map-step { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--lab-lime); }
+.map-name { font-size: clamp(22px, 5vw, 30px); font-weight: 800; margin: 2px 0 4px; }
+.map-sub { text-align: center; color: var(--text-dim); font-size: 14px; line-height: 1.5; margin-bottom: 14px; }
+
+.map-status { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; font-size: 13px; color: var(--text-dim); }
+.map-status b { color: var(--text); }
+.map-status .ok { color: var(--success); }
+
+.msg { min-height: 24px; text-align: center; font-size: 14px; line-height: 1.45; margin: 0 auto 14px; max-width: 480px; color: var(--text-dim); }
+.msg.boa { color: var(--success); }
+.msg.ruim { color: var(--error); }
+
+/* tabuleiro 8×8 */
+.lab-wrap { display: flex; justify-content: center; margin-bottom: 16px; }
+.lab-board {
+  position: relative;
+  width: min(88vw, 400px);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  gap: 2px;
+  padding: 6px;
+  background: var(--lab-navy);
+  border: 1px solid rgba(174, 234, 0, 0.22);
+  border-radius: 12px;
+}
+.cel {
+  background: rgba(242, 246, 249, 0.03);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(13px, 3.4vw, 20px);
+}
+.cel.estante { background: rgba(242, 246, 249, 0.07); }
+.cel .amostra { animation: pulsa-amostra 1.6s ease infinite; }
+.cel .amostra.colhida { animation: colhe 0.45s ease forwards; pointer-events: none; }
+@keyframes pulsa-amostra { 0%, 100% { filter: drop-shadow(0 0 0 rgba(174, 234, 0, 0)); } 50% { filter: drop-shadow(0 0 5px rgba(174, 234, 0, 0.9)); } }
+@keyframes colhe { to { transform: scale(1.9); opacity: 0; } }
+
+/* o engenho (rover) — posicionado por calc() pra respeitar o gap do grid */
+.rover {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  width: calc((100% - 26px) / 8);   /* 26px = padding (12) + gaps (14) */
+  aspect-ratio: 1 / 1;
+  transition: left 300ms ease, top 300ms ease;
+  z-index: 2;
+}
+.rover-core {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(174, 234, 0, 0.14);
+  border: 2px solid var(--lab-lime);
+  border-radius: 7px;
+  font-size: clamp(13px, 3.4vw, 20px);
+  box-shadow: 0 0 10px rgba(174, 234, 0, 0.35);
+  transition: transform 260ms ease;
+}
+.rover-core::after {               /* seta que aponta pra frente */
+  content: "";
+  position: absolute;
+  right: 3px;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-right: 6px solid var(--lab-lime);
+}
+.rover.bateu .rover-core { animation: treme 0.4s ease; border-color: var(--error); }
+@keyframes treme { 0%, 100% { transform: translateX(0) rotate(var(--giro, 0deg)); } 25% { transform: translateX(-4px) rotate(var(--giro, 0deg)); } 75% { transform: translateX(4px) rotate(var(--giro, 0deg)); } }
+
+/* vinheta de vitória por cima do tabuleiro */
+.vinheta {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(11, 20, 32, 0.82);
+  border-radius: 12px;
+  animation: entrada 300ms ease;
+}
+.vinheta-card { text-align: center; padding: 14px; width: 100%; }
+.vinheta .v-estrelas { font-size: 34px; letter-spacing: 6px; margin-bottom: 6px; }
+.vinheta .v-titulo { font-size: 20px; font-weight: 800; color: var(--lab-lime); margin-bottom: 8px; }
+.memo {
+  background: rgba(242, 246, 249, 0.05);
+  border: 1px dashed rgba(174, 234, 0, 0.45);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-dim);
+  margin: 0 auto 14px;
+  max-width: 340px;
+  text-align: left;
+}
+.memo b { color: var(--text); }
+.vinheta .center { gap: 8px; }
+
+/* ---- fita de cartões (o programa) ---- */
+.fita-zone { max-width: 560px; margin: 0 auto; }
+.fita {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  min-height: 62px;
+  padding: 8px;
+  background: var(--lab-navy);
+  border: 1px dashed rgba(242, 246, 249, 0.25);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  scrollbar-width: thin;
+}
+.fita.vazia { align-items: center; color: var(--text-dim); font-size: 13px; justify-content: center; }
+.tile {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 52px;
+  height: 44px;
+  padding: 0 10px;
+  border-radius: 9px;
+  border: 1px solid rgba(242, 246, 249, 0.3);
+  background: rgba(242, 246, 249, 0.06);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+}
+.tile:hover { border-color: var(--error); opacity: 0.85; }
+.tile .t-icone { font-size: 15px; }
+.tile.rep { border-color: rgba(174, 234, 0, 0.55); background: rgba(174, 234, 0, 0.08); }
+.tile.rep .t-n { color: var(--lab-lime); }
+.tile.fim { border-style: dashed; }
+.tile.dentro { margin-bottom: 10px; box-shadow: inset 0 -3px 0 rgba(174, 234, 0, 0.5); }
+.tile.ativo { background: var(--lab-lime); color: #0B1420; border-color: var(--lab-lime); }
+.tile.ativo .t-n { color: #0B1420; }
+
+.palette { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 12px; }
+.pbtn {
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--lab-navy);
+  border: 2px solid rgba(242, 246, 249, 0.25);
+  border-radius: 999px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+.pbtn:hover:not(:disabled) { border-color: var(--lab-lime); transform: translateY(-1px); }
+.pbtn:disabled { opacity: 0.35; cursor: default; }
+.pbtn .p-icone { margin-right: 4px; }
+.pbtn.rep { border-color: rgba(174, 234, 0, 0.5); }
+
+.run-bar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.ajuda { text-align: center; font-size: 12px; color: var(--text-dim); margin-top: 10px; line-height: 1.5; }
+
+/* 🔊 pronúncia */
+.mini-speak {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-left: 6px;
+  border-radius: 999px;
+  background: rgba(174, 234, 0, 0.1);
+  border: 1px solid rgba(174, 234, 0, 0.45);
+  font-size: 12px;
+  cursor: pointer;
+  vertical-align: middle;
+}
+.mini-speak.tocando { animation: pulsa-som 0.8s ease infinite; }
+@keyframes pulsa-som { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(174, 234, 0, 0.5); } 50% { transform: scale(1.12); box-shadow: 0 0 0 6px rgba(174, 234, 0, 0); } }
+
+/* badge do modo gabarito */
+.gabarito-badge {
+  display: none;
+  margin: 0 auto 8px;
+  width: max-content;
+  max-width: 100%; /* em telas estreitas o texto quebra em vez de esticar a página */
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--lab-lime);
+  border: 1px dashed var(--lab-lime);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+.gabarito-badge.on { display: block; }
+
+.footer-note { text-align: center; color: var(--text-dim); font-size: 12px; padding: 20px; line-height: 1.6; }
+.footer-note a { color: var(--text-dim); }
+
+/* tela inicial cabe na viewport: compacta o ritmo vertical em telas baixas ou estreitas */
+@media (max-width: 560px), (max-height: 740px) {
+  .stage { padding: 6px 20px 14px; }
+  .card { padding-block: 12px; }
+  .topbar { padding: 8px 16px; }
+  .gabarito-badge { margin-bottom: 6px; }
+  .start-emoji { font-size: 34px; margin-bottom: 4px; }
+  .gabarito #screenStart .start-emoji { display: none; } /* QA: abre espaço pra badge + botão extra */
+  h1 { margin-bottom: 4px; }
+  .subtitle { font-size: 15px; margin-bottom: 8px; }
+  .rules { gap: 6px; margin-bottom: 10px; }
+  .rules li { font-size: 14px; line-height: 1.45; }
+  .btn { padding: 10px 24px; }
+  .center { gap: 10px; }
+  .footer-note { padding: 4px; }
+}
+
+@media (max-width: 560px) {
+  .topbar { flex-wrap: wrap; }
+  .topbar .brand { order: 3; flex-basis: 100%; text-align: center; }
+  .card { padding: 18px 12px; }
+  .map-status { margin-bottom: 10px; }
+  .fita { min-height: 56px; }
+  .tile { min-width: 46px; height: 40px; font-size: 12px; }
+  .pbtn { padding: 9px 13px; font-size: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen.active { animation: none; }
+  .cel .amostra { animation: none; }
+  .rover, .rover-core { transition: none; }
+  .mini-speak.tocando { animation: none; }
+  .btn:hover, .nivel-btn:hover, .pbtn:hover { transform: none; }
+}
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <a href="index.html">← Jogos</a>
+        <div class="brand">Expo XP <span>2026</span> · Mulheres na Ciência</div>
+        <a href="../index.html">Esquenta ↑</a>
+    </div>
+
+    <main class="stage">
+        <div class="gabarito-badge" id="gabaritoBadge">👀 Modo gabarito — o botão de solução carrega o programa ideal do nível</div>
+
+        <!-- Tela inicial -->
+        <section class="card screen active" id="screenStart">
+            <span class="start-emoji" aria-hidden="true">⚙️</span>
+            <h1>Código de <span class="lab">Ada</span></h1>
+            <p class="subtitle">Em 1843, Ada Lovelace escreveu o primeiro programa da história. Agora é a sua vez: mande no engenho coletor com cartões perfurados.</p>
+
+            <ul class="rules">
+                <li><span aria-hidden="true">🧩</span><span>Monte um programa na <strong>fita de cartões</strong>: avançar, girar e <strong>repetir N×</strong></span></li>
+                <li><span aria-hidden="true">🤖</span><span>O <strong>engenho de Ada</strong> executa a fita e coleta as <strong>amostras</strong> do laboratório</span></li>
+                <li><span aria-hidden="true">⭐</span><span><strong>Menos cartões, mais estrelas</strong> — laços valem ouro (bater na estante não vale)</span></li>
+                <li><span aria-hidden="true">🧾</span><span>Cada nível concluído abre um <strong>memo de uma cientista</strong> de verdade 🔊</span></li>
+            </ul>
+
+            <div class="center">
+                <button class="btn btn-primary" id="btnComecar">Começar a programar 🚀</button>
+                <button class="btn btn-ghost" id="btnVerNiveis" hidden>📊 Níveis</button>
+                <a class="btn btn-ghost" href="index.html">Mais jogos</a>
+            </div>
+        </section>
+
+        <!-- Seleção de níveis -->
+        <section class="card screen" id="screenNiveis">
+            <button class="voltar" id="btnNiveisInicio">← Início</button>
+            <div class="map-head">
+                <span class="map-step">Laboratório de Ada</span>
+                <div class="map-name">Níveis</div>
+            </div>
+            <p class="map-sub">Cada nível guarda um memo de laboratório. Três estrelas = programa enxuto.</p>
+            <div class="niveis-grid" id="niveisGrid"></div>
+        </section>
+
+        <!-- Jogo -->
+        <section class="card screen" id="screenJogo">
+            <button class="voltar" id="btnJogoNiveis">← Níveis</button>
+            <div class="map-head">
+                <span class="map-step" id="jogoStep">Nível 1 de 8</span>
+                <div class="map-name" id="jogoNome"></div>
+            </div>
+            <p class="map-sub" id="jogoDica"></p>
+
+            <div class="map-status" id="jogoStatus"></div>
+            <div class="msg" id="msg" role="status" aria-live="polite"></div>
+
+            <div class="lab-wrap">
+                <div class="lab-board" id="board"></div>
+            </div>
+
+            <div class="fita-zone">
+                <div class="fita" id="fita" aria-label="Fita de cartões — o programa"></div>
+                <div class="palette" id="palette">
+                    <button class="pbtn" type="button" data-t="AV"><span class="p-icone" aria-hidden="true">⬆</span>Avançar</button>
+                    <button class="pbtn" type="button" data-t="GE"><span class="p-icone" aria-hidden="true">⟲</span>Girar</button>
+                    <button class="pbtn" type="button" data-t="GD"><span class="p-icone" aria-hidden="true">⟳</span>Girar</button>
+                    <button class="pbtn rep" type="button" data-t="REP"><span class="p-icone" aria-hidden="true">🔁</span>Repetir</button>
+                    <button class="pbtn" type="button" data-t="FIM">Fim</button>
+                </div>
+                <div class="run-bar">
+                    <button class="btn btn-primary btn-mini" id="btnRun">▶ Executar</button>
+                    <button class="btn btn-ghost btn-mini" id="btnStop" hidden>⏹ Parar</button>
+                    <button class="btn btn-ghost btn-mini" id="btnLimpar">🗑 Limpar</button>
+                    <button class="btn btn-ghost btn-mini" id="btnSolucao" hidden>👀 Solução</button>
+                </div>
+                <p class="ajuda">Toque num cartão da fita pra tirá-lo · toque no <b>Repetir</b> da fita pra mudar quantas vezes (2× a 9×)</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-note">
+        Jogos da Ciência · Subsecretaria de Ciência e Tecnologia<br>
+        Expo XP 2026 — Mulheres na Ciência · <a href="../index.html">expoxp.arraial.rj.gov.br</a>
+    </footer>
+
+    <script>
+    // ============================================================
+    // Pronúncia 🔊 (mesmos MP3s da casa)
+    // ============================================================
+    const PRONUNCIAS = {
+      "Ada Lovelace":      { a: "ada-lovelace",    v: "en-US", f: "Ada Lovelace" },
+      "Grace Hopper":      { a: "grace-hopper",    v: "en-US", f: "Grace Hopper" },
+      "Hedy Lamarr":       { a: "hedy-lamarr",     v: "de-DE", f: "Hedy Lamarr" },
+      "Katherine Johnson": { a: "katherine-johnson", v: "en-US", f: "Katherine Johnson" },
+      "Mayana Zatz":       { a: "mayana-zatz",     v: "pt-BR", f: "Mayana Zatz" },
+      "Bertha Lutz":       { a: "bertha-lutz",     v: "pt-BR", f: "Bertha Lutz" },
+      "Marie Curie":       { a: "marie-curie",     v: "fr-FR", f: "Marie Curie" },
+      "Dorothy Hodgkin":   { a: "dorothy-hodgkin", v: "en-US", f: "Dorothy Hodgkin" }
+    };
+
+    let audioAtual = null;
+    let pulsoTimer = null;
+
+    function pararFalas() {
+      if (audioAtual) { audioAtual.pause(); audioAtual = null; }
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+      clearTimeout(pulsoTimer);
+      document.querySelectorAll(".tocando").forEach(el => el.classList.remove("tocando"));
+    }
+
+    function falarComVozDoNavegador(alvo, texto, idioma) {
+      if (!("speechSynthesis" in window)) return;
+      const fala = new SpeechSynthesisUtterance(texto);
+      fala.lang = idioma || "pt-BR";
+      const prefixo = fala.lang.split("-")[0].toLowerCase();
+      const vozes = window.speechSynthesis.getVoices();
+      const voz = vozes.find(v => v.lang === fala.lang)
+               || vozes.find(v => (v.lang || "").toLowerCase().startsWith(prefixo));
+      if (voz) fala.voice = voz;
+      fala.rate = 0.85;
+      fala.onend = () => alvo.classList.remove("tocando");
+      fala.onerror = () => alvo.classList.remove("tocando");
+      pulsoTimer = setTimeout(() => alvo.classList.remove("tocando"), 1500 + texto.length * 250);
+      window.speechSynthesis.speak(fala);
+    }
+
+    function falarNome(alvo, nome) {
+      const info = PRONUNCIAS[nome];
+      if (!info) return;
+      pararFalas();
+      alvo.classList.add("tocando");
+      const parar = () => alvo.classList.remove("tocando");
+      const audio = new Audio("../audio/nomes/" + info.a + ".mp3");
+      audioAtual = audio;
+      audio.onended = () => { parar(); if (audioAtual === audio) audioAtual = null; };
+      const falhou = () => {
+        if (audioAtual === audio) audioAtual = null;
+        parar();
+        falarComVozDoNavegador(alvo, info.f, info.v);
+      };
+      audio.onerror = falhou;
+      audio.play().catch(falhou);
+      pulsoTimer = setTimeout(parar, 8000);
+    }
+
+    // ============================================================
+    // Motor do jogo
+    // ============================================================
+    const GABARITO = new URLSearchParams(location.search).has("gabarito");
+    if (GABARITO) {
+      document.documentElement.classList.add("gabarito");
+      document.getElementById("gabaritoBadge").classList.add("on");
+    }
+
+    // direções: 0=→ 1=↓ 2=← 3=↑
+    const DX = [1, 0, -1, 0];
+    const DY = [0, 1, 0, -1];
+    const PASSO_MS = 360;
+
+    // níveis: 8 linhas por grade — '.' vazio, '#' estante, 'S' amostra
+    // sol = programa ideal (conta de cartões = par das estrelas)
+    const NIVEIS = [
+      {
+        nome: "Primeiros passos",
+        dica: "Só existe um cartão que importa aqui: AVANÇAR. Empilhe até colher as duas amostras.",
+        grade: [
+          "........",
+          "........",
+          "........",
+          ".R.S.S..",
+          "........",
+          "........",
+          "........",
+          "........"
+        ],
+        sol: ["AV", "AV", "AV", "AV"],
+        memo: { quem: "Ada Lovelace", fato: "Em 1843, Ada Lovelace escreveu o primeiro algoritmo da história — antes de existir computador para rodá-lo." }
+      },
+      {
+        nome: "Quina do laboratório",
+        dica: "O caminho dobra. Use GIRAR ⟳ para o engenho virar à direita e seguir até a última amostra.",
+        grade: [
+          "........",
+          ".R..S...",
+          "........",
+          "........",
+          "....S...",
+          "........",
+          "........",
+          "........"
+        ],
+        sol: ["AV", "AV", "AV", "GD", "AV", "AV", "AV"],
+        memo: { quem: "Grace Hopper", fato: "Grace Hopper criou o primeiro compilador: um programa que traduz o que escrevemos para a linguagem da máquina." }
+      },
+      {
+        nome: "O corredor",
+        dica: "Seis passos iguais? Cartão REPETIR 6× com um AVANÇAR dentro resolve — a fita fica curta e você ganha estrela.",
+        grade: [
+          "........",
+          "........",
+          "........",
+          ".RSSSSSS",
+          "........",
+          "........",
+          "........",
+          "........"
+        ],
+        sol: ["REP:6", "AV", "FIM"],
+        memo: { quem: "Hedy Lamarr", fato: "Hedy Lamarr inventou o salto de frequência — repetir o sinal pulando de canal — a base do Wi-Fi de hoje." }
+      },
+      {
+        nome: "Duas alas",
+        dica: "Duas retas e uma curva: um REPETIR para cada ala, GIRAR ⟳ no meio do caminho.",
+        grade: [
+          "........",
+          ".RSSS...",
+          "....S...",
+          "....S...",
+          "....S...",
+          "........",
+          "........",
+          "........"
+        ],
+        sol: ["REP:3", "AV", "FIM", "GD", "REP:3", "AV", "FIM"],
+        memo: { quem: "Katherine Johnson", fato: "Katherine Johnson calculou à mão as trajetórias das missões Apollo: rota certa, órbita certa." }
+      },
+      {
+        nome: "Escada da Ada",
+        dica: "A escada desce na diagonal: REPETIR 3× com AVANÇAR, GIRAR ⟳, AVANÇAR, GIRAR ⟲ dentro.",
+        grade: [
+          "R.......",
+          ".S......",
+          "..S.....",
+          "...S....",
+          "........",
+          "........",
+          "........",
+          "........"
+        ],
+        sol: ["REP:3", "AV", "GD", "AV", "GE", "FIM"],
+        memo: { quem: "Mayana Zatz", fato: "Mayana Zatz é referência mundial em distrofias musculares: ciência feita passo a passo, com as famílias." }
+      },
+      {
+        nome: "Desvio da estante",
+        dica: "A estante bloqueou o corredor. Desvie por baixo e volte a subir — REPETIR ajuda em cada perna.",
+        grade: [
+          "........",
+          "........",
+          "....#...",
+          ".RSS#S..",
+          "....#...",
+          "........",
+          "........",
+          "........"
+        ],
+        sol: ["REP:2", "AV", "FIM", "GD", "AV", "AV", "GE", "REP:2", "AV", "FIM", "GE", "REP:2", "AV", "FIM"],
+        memo: { quem: "Bertha Lutz", fato: "Bertha Lutz liderou a luta pelo voto feminino no Brasil: quando o caminho fecha, abre-se outro." }
+      },
+      {
+        nome: "Serpentina do acervo",
+        dica: "Corredores separados por estantes: desça pela direita, volte pela esquerda, desça de novo. Três REPETIR longos.",
+        grade: [
+          "R......S",
+          "#######.",
+          "S....S..",
+          ".#######",
+          "..S..S..",
+          "#######.",
+          "........",
+          "........"
+        ],
+        sol: ["REP:7", "AV", "FIM", "GD", "AV", "AV", "GD", "REP:7", "AV", "FIM", "GE", "AV", "AV", "GE", "REP:5", "AV", "FIM"],
+        memo: { quem: "Marie Curie", fato: "Marie Curie ganhou o Nobel em DUAS ciências diferentes — física e química. Persistência em série." }
+      },
+      {
+        nome: "A diagonal da Ada",
+        dica: "Sete amostras na diagonal — e um programa de só 6 cartões resolve. É o poder do laço bem-feito.",
+        grade: [
+          "R...#...",
+          ".S....#.",
+          "..S...#.",
+          "...S....",
+          "....S...",
+          ".....S.#",
+          ".#....S.",
+          ".......S"
+        ],
+        sol: ["REP:7", "AV", "GD", "AV", "GE", "FIM"],
+        memo: { quem: "Dorothy Hodgkin", fato: "Dorothy Hodgkin revelou a estrutura da penicilina e da vitamina B12: enxergar o que é minúsculo." }
+      }
+    ];
+
+    const screens = {
+      start: document.getElementById("screenStart"),
+      niveis: document.getElementById("screenNiveis"),
+      jogo: document.getElementById("screenJogo")
+    };
+
+    const el = {
+      niveisGrid: document.getElementById("niveisGrid"),
+      board: document.getElementById("board"),
+      fita: document.getElementById("fita"),
+      palette: document.getElementById("palette"),
+      msg: document.getElementById("msg"),
+      jogoStep: document.getElementById("jogoStep"),
+      jogoNome: document.getElementById("jogoNome"),
+      jogoDica: document.getElementById("jogoDica"),
+      jogoStatus: document.getElementById("jogoStatus"),
+      btnRun: document.getElementById("btnRun"),
+      btnStop: document.getElementById("btnStop"),
+      btnLimpar: document.getElementById("btnLimpar"),
+      btnSolucao: document.getElementById("btnSolucao"),
+      btnVerNiveis: document.getElementById("btnVerNiveis")
+    };
+
+    // ---- progresso (estrelas por nível) ----
+    const CHAVE = "ada-estrelas";
+    let estrelas = {};
+    try { estrelas = JSON.parse(localStorage.getItem(CHAVE) || "{}"); } catch (e) { estrelas = {}; }
+
+    function salvarEstrelas() {
+      try { localStorage.setItem(CHAVE, JSON.stringify(estrelas)); } catch (e) { /* modo privado: segue sem salvar */ }
+    }
+
+    function nivelLiberado(i) {
+      return i === 0 || (estrelas[i - 1] || 0) >= 1;
+    }
+
+    // ---- navegação entre telas ----
+    function show(nome) {
+      pararFalas();
+      pararPrograma(true);
+      Object.values(screens).forEach(s => s.classList.remove("active"));
+      screens[nome].classList.add("active");
+    }
+
+    document.getElementById("btnComecar").addEventListener("click", () => {
+      const proximo = NIVEIS.findIndex((n, i) => nivelLiberado(i) && !estrelas[i]);
+      montarNiveis();
+      show("niveis");
+      if (proximo >= 0) setTimeout(() => abrirNivel(proximo), 50); // segue de onde parou
+    });
+    el.btnVerNiveis.addEventListener("click", () => { montarNiveis(); show("niveis"); });
+    document.getElementById("btnNiveisInicio").addEventListener("click", () => show("start"));
+    document.getElementById("btnJogoNiveis").addEventListener("click", () => { montarNiveis(); show("niveis"); });
+    if (Object.keys(estrelas).length) el.btnVerNiveis.hidden = false;
+
+    // ---- seleção de níveis ----
+    function estrelasTxt(n) {
+      const cheias = "★".repeat(n);
+      const vazias = "☆".repeat(3 - n);
+      return cheias + vazias;
+    }
+
+    function montarNiveis() {
+      el.niveisGrid.innerHTML = "";
+      NIVEIS.forEach((nv, i) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "nivel-btn";
+        b.disabled = !nivelLiberado(i);
+        const num = document.createElement("span");
+        num.className = "n-num";
+        num.textContent = nivelLiberado(i) ? i + 1 : "🔒";
+        const nome = document.createElement("span");
+        nome.className = "n-nome";
+        nome.textContent = nv.nome;
+        const est = document.createElement("span");
+        est.className = "n-estrelas";
+        est.textContent = estrelas[i] ? estrelasTxt(estrelas[i]) : "";
+        est.setAttribute("aria-label", estrelas[i] ? estrelas[i] + " de 3 estrelas" : "sem estrelas ainda");
+        b.append(num, nome, est);
+        b.addEventListener("click", () => abrirNivel(i));
+        el.niveisGrid.appendChild(b);
+      });
+    }
+
+    // ---- estado da partida ----
+    let nivel = null;        // índice do nível atual
+    let grade = null;        // matriz de chars sem o rover
+    let totalAmostras = 0;
+    let coletadas = 0;
+    let rx = 0, ry = 0, rdir = 0, rang = 0;
+    let roverEl = null;
+    let programa = [];       // [{t:'AV'|'GE'|'GD'|'REP'|'FIM', n?:2..9}]
+    let rodando = false;
+    let timerPasso = null;
+
+    function abrirNivel(i) {
+      nivel = i;
+      const nv = NIVEIS[i];
+      grade = nv.grade.map(l => l.split(""));
+      totalAmostras = 0;
+      coletadas = 0;
+      grade.forEach(linha => linha.forEach(c => { if (c === "S") totalAmostras++; }));
+
+      // posição/direção iniciais
+      rdir = 0; rang = 0;
+      grade.forEach((linha, y) => linha.forEach((c, x) => {
+        if (c === "R") { rx = x; ry = y; linha[x] = "."; }
+      }));
+
+      programa = [];
+      el.jogoStep.textContent = "Nível " + (i + 1) + " de " + NIVEIS.length;
+      el.jogoNome.textContent = nv.nome;
+      el.jogoDica.textContent = nv.dica;
+      el.btnSolucao.hidden = !GABARITO;
+      montarBoard();
+      renderFita();
+      atualizarStatus();
+      setMsg("");
+      show("jogo");
+    }
+
+    function montarBoard() {
+      el.board.innerHTML = "";
+      for (let y = 0; y < 8; y++) {
+        for (let x = 0; x < 8; x++) {
+          const cel = document.createElement("div");
+          cel.className = "cel";
+          cel.dataset.x = x;
+          cel.dataset.y = y;
+          const c = grade[y][x];
+          if (c === "#") {
+            cel.classList.add("estante");
+            cel.textContent = "🗄️";
+            cel.setAttribute("aria-label", "estante");
+          } else if (c === "S") {
+            const am = document.createElement("span");
+            am.className = "amostra";
+            am.textContent = "🧪";
+            cel.appendChild(am);
+            cel.setAttribute("aria-label", "amostra");
+          }
+          el.board.appendChild(cel);
+        }
+      }
+      roverEl = document.createElement("div");
+      roverEl.className = "rover";
+      roverEl.setAttribute("aria-hidden", "true");
+      const core = document.createElement("div");
+      core.className = "rover-core";
+      core.textContent = "🤖";
+      roverEl.appendChild(core);
+      el.board.appendChild(roverEl);
+      posicionarRover(false);
+    }
+
+    function posicionarRover(animar) {
+      if (!animar) roverEl.style.transition = "none";
+      // cada passo = 1 célula + 1 gap (o calc respeita o espaçamento do grid)
+      roverEl.style.left = "calc(" + rx + " * ((100% - 26px) / 8 + 2px) + 6px)";
+      roverEl.style.top = "calc(" + ry + " * ((100% - 26px) / 8 + 2px) + 6px)";
+      roverEl.querySelector(".rover-core").style.transform = "rotate(" + rang + "deg)";
+      if (!animar) {
+        // reacorda a transição no próximo quadro
+        requestAnimationFrame(() => { roverEl.style.transition = ""; });
+      }
+    }
+
+    function atualizarStatus() {
+      el.jogoStatus.innerHTML =
+        '<span>🧪 Amostras: <b>' + coletadas + "</b>/<b>" + totalAmostras + "</b></span>" +
+        '<span>🧾 Cartões: <b>' + programa.length + "</b> · ideal <b>≤ " + (nivel !== null ? NIVEIS[nivel].sol.length : "?") + "</b></span>";
+    }
+
+    function setMsg(txt, tipo) {
+      el.msg.textContent = txt;
+      el.msg.className = "msg" + (tipo ? " " + tipo : "");
+    }
+
+    // ---- fita de cartões ----
+    function repAberto() {
+      return programa.some(t => t.t === "REP") && !programa.some(t => t.t === "FIM");
+    }
+
+    function renderFita() {
+      el.fita.innerHTML = "";
+      el.fita.classList.toggle("vazia", programa.length === 0);
+      if (programa.length === 0) {
+        el.fita.textContent = "A fita está vazia — toque nos cartões abaixo para montar o programa";
+        return;
+      }
+      let dentro = false;
+      programa.forEach((t, i) => {
+        const d = document.createElement("button");
+        d.type = "button";
+        d.className = "tile" + (dentro ? " dentro" : "");
+        d.dataset.i = i;
+        if (t.t === "REP") {
+          d.classList.add("rep");
+          d.innerHTML = '<span class="t-icone" aria-hidden="true">🔁</span>REPETIR <span class="t-n">' + t.n + "×</span>";
+          d.setAttribute("aria-label", "repetir " + t.n + " vezes — toque para mudar");
+          dentro = true;
+        } else if (t.t === "FIM") {
+          d.classList.add("fim");
+          d.textContent = "FIM";
+          dentro = false;
+        } else if (t.t === "AV") {
+          d.innerHTML = '<span class="t-icone" aria-hidden="true">⬆</span>AVANÇAR';
+        } else {
+          d.innerHTML = '<span class="t-icone" aria-hidden="true">' + (t.t === "GD" ? "⟳" : "⟲") + "</span>GIRAR";
+        }
+        d.addEventListener("click", () => tocarTile(i));
+        el.fita.appendChild(d);
+      });
+      atualizarStatus();
+      atualizarPalette();
+    }
+
+    function tocarTile(i) {
+      if (rodando) return;
+      const t = programa[i];
+      if (t.t === "REP") {
+        t.n = t.n >= 9 ? 2 : t.n + 1; // ciclo 2..9
+        renderFita();
+        return;
+      }
+      programa.splice(i, 1);
+      renderFita();
+    }
+
+    function atualizarPalette() {
+      const aberto = repAberto();
+      el.palette.querySelector('[data-t="REP"]').disabled = aberto; // laço dentro de laço fica pra próxima
+      el.palette.querySelector('[data-t="FIM"]').disabled = !aberto;
+    }
+
+    el.palette.addEventListener("click", e => {
+      const btn = e.target.closest(".pbtn");
+      if (!btn || btn.disabled || rodando) return;
+      const t = btn.dataset.t;
+      if (t === "REP") programa.push({ t: "REP", n: 3 });
+      else if (t === "FIM") programa.push({ t: "FIM" });
+      else programa.push({ t: t });
+      renderFita();
+      el.fita.scrollLeft = el.fita.scrollWidth;
+    });
+
+    el.btnLimpar.addEventListener("click", () => {
+      if (rodando) return;
+      programa = [];
+      renderFita();
+    });
+
+    el.btnSolucao.addEventListener("click", () => {
+      if (rodando) return;
+      programa = NIVEIS[nivel].sol.map(s => s.startsWith("REP:")
+        ? { t: "REP", n: parseInt(s.slice(4), 10) }
+        : { t: s });
+      renderFita();
+      el.fita.scrollLeft = el.fita.scrollWidth;
+      setMsg("👀 Solução carregada — toque em Executar pra conferir.", "");
+    });
+
+    // ---- compilação: fita → lista de operações com referência ao cartão ----
+    function compilar() {
+      const ops = [];
+      let corpo = null; // {n, ops, ti}
+      programa.forEach((t, ti) => {
+        if (t.t === "REP") {
+          corpo = { n: t.n, ops: [], ti };
+        } else if (t.t === "FIM") {
+          if (corpo) {
+            for (let k = 0; k < corpo.n; k++) corpo.ops.forEach(o => ops.push(o));
+            corpo = null;
+          }
+        } else if (corpo) {
+          corpo.ops.push({ op: t.t, ti });
+        } else {
+          ops.push({ op: t.t, ti });
+        }
+      });
+      if (corpo) for (let k = 0; k < corpo.n; k++) corpo.ops.forEach(o => ops.push(o)); // FIM implícito
+      return ops;
+    }
+
+    // ---- execução ----
+    function destacarTile(ti) {
+      el.fita.querySelectorAll(".tile.ativo").forEach(x => x.classList.remove("ativo"));
+      const tile = el.fita.querySelector('.tile[data-i="' + ti + '"]');
+      if (tile) {
+        tile.classList.add("ativo");
+        // rola só a fita (scrollIntoView arrastaria a página toda no celular)
+        const fl = el.fita;
+        const tEsq = tile.offsetLeft, tDir = tEsq + tile.offsetWidth;
+        if (tDir > fl.scrollLeft + fl.clientWidth) fl.scrollLeft = tDir - fl.clientWidth;
+        else if (tEsq < fl.scrollLeft) fl.scrollLeft = tEsq;
+      }
+    }
+
+    function resetarPartida() {
+      coletadas = 0;
+      NIVEIS[nivel].grade.forEach((linha, y) => linha.split("").forEach((c, x) => {
+        const cel = el.board.querySelector('.cel[data-x="' + x + '"][data-y="' + y + '"]');
+        const am = cel.querySelector(".amostra");
+        if (c === "S" && am) am.classList.remove("colhida");
+      }));
+      grade = NIVEIS[nivel].grade.map(l => l.split(""));
+      grade.forEach((linha, y) => linha.forEach((c, x) => { if (c === "R") { rx = x; ry = y; linha[x] = "."; } }));
+      rdir = 0; rang = 0;
+      roverEl.classList.remove("bateu");
+      posicionarRover(false);
+      atualizarStatus();
+    }
+
+    el.btnRun.addEventListener("click", () => {
+      if (rodando) return;
+      if (!programa.length) { setMsg("Monte um programa com os cartões antes de executar.", "ruim"); return; }
+      pararFalas();
+      rodando = true;
+      el.btnRun.hidden = true;
+      el.btnStop.hidden = false;
+      resetarPartida();
+      setMsg("Executando a fita…", "");
+      const ops = compilar();
+      passo(0, ops);
+    });
+
+    el.btnStop.addEventListener("click", () => pararPrograma(false));
+
+    function pararPrograma(silencioso) {
+      clearTimeout(timerPasso);
+      if (rodando || !silencioso) {
+        rodando = false;
+        el.btnRun.hidden = false;
+        el.btnStop.hidden = true;
+        el.fita.querySelectorAll(".tile.ativo").forEach(x => x.classList.remove("ativo"));
+      }
+    }
+
+    function passo(i, ops) {
+      if (!rodando) return;
+      if (i >= ops.length) { fimDePrograma(); return; }
+      const { op, ti } = ops[i];
+      destacarTile(ti);
+      if (op === "AV") {
+        const nx = rx + DX[rdir];
+        const ny = ry + DY[rdir];
+        const bateu = ny < 0 || ny > 7 || nx < 0 || nx > 7 || grade[ny][nx] === "#";
+        if (bateu) {
+          rang += 0; // mantém o ângulo
+          roverEl.style.setProperty("--giro", rang + "deg");
+          roverEl.classList.add("bateu");
+          const onde = (ny < 0 || ny > 7 || nx < 0 || nx > 7) ? "na parede" : "na estante";
+          setTimeout(() => setMsg("💥 O engenho bateu " + onde + "! Ajuste os cartões e tente de novo.", "ruim"), 300);
+          setTimeout(() => pararPrograma(false), 900);
+          return;
+        }
+        rx = nx; ry = ny;
+        posicionarRover(true);
+        const cel = el.board.querySelector('.cel[data-x="' + rx + '"][data-y="' + ry + '"]');
+        const am = cel.querySelector(".amostra:not(.colhida)");
+        if (am) {
+          am.classList.add("colhida");
+          coletadas++;
+          atualizarStatus();
+          if (coletadas >= totalAmostras) {
+            setTimeout(() => vitoria(), 480);
+            return;
+          }
+        }
+      } else {
+        rdir = (rdir + (op === "GD" ? 1 : 3)) % 4;
+        rang += op === "GD" ? 90 : -90;
+        roverEl.querySelector(".rover-core").style.transform = "rotate(" + rang + "deg)";
+      }
+      timerPasso = setTimeout(() => passo(i + 1, ops), PASSO_MS);
+    }
+
+    function fimDePrograma() {
+      pararPrograma(false);
+      if (coletadas < totalAmostras) {
+        setMsg("A fita acabou e faltaram " + (totalAmostras - coletadas) + " amostra" + (totalAmostras - coletadas > 1 ? "s" : "") + ". Some cartões ou mude a rota!", "ruim");
+      }
+    }
+
+    function calcularEstrelas() {
+      const par = NIVEIS[nivel].sol.length;
+      if (programa.length <= par) return 3;
+      if (programa.length <= par + 3) return 2;
+      return 1;
+    }
+
+    function vitoria() {
+      pararPrograma(false);
+      const n = calcularEstrelas();
+      if (n > (estrelas[nivel] || 0)) {
+        estrelas[nivel] = n;
+        salvarEstrelas();
+      }
+      el.btnVerNiveis.hidden = false;
+      const nv = NIVEIS[nivel];
+      const ultima = nivel === NIVEIS.length - 1;
+
+      const vinheta = document.createElement("div");
+      vinheta.className = "vinheta";
+      const card = document.createElement("div");
+      card.className = "vinheta-card";
+      const est = document.createElement("div");
+      est.className = "v-estrelas";
+      est.setAttribute("aria-label", n + " de 3 estrelas");
+      est.textContent = estrelasTxt(n);
+      const tit = document.createElement("div");
+      tit.className = "v-titulo";
+      tit.textContent = "Coleta completa!";
+      const memo = document.createElement("div");
+      memo.className = "memo";
+      const quem = nv.memo.quem;
+      memo.innerHTML = "🧾 <b>Memo de laboratório — " + quem + "</b>";
+      if (PRONUNCIAS[quem]) {
+        const sp = document.createElement("button");
+        sp.type = "button";
+        sp.className = "mini-speak";
+        sp.setAttribute("aria-label", "Ouvir a pronúncia de " + quem);
+        sp.title = "Ouvir o nome";
+        sp.textContent = "🔊";
+        sp.addEventListener("click", () => falarNome(sp, quem));
+        memo.appendChild(sp);
+      }
+      memo.appendChild(document.createElement("br"));
+      memo.appendChild(document.createTextNode(nv.memo.fato));
+      const acoes = document.createElement("div");
+      acoes.className = "center";
+      if (!ultima) {
+        const prox = document.createElement("button");
+        prox.className = "btn btn-primary btn-mini";
+        prox.textContent = "Próximo nível →";
+        prox.addEventListener("click", () => abrirNivel(nivel + 1));
+        acoes.appendChild(prox);
+      }
+      const denovo = document.createElement("button");
+      denovo.className = "btn btn-ghost btn-mini";
+      denovo.textContent = "Jogar de novo ↺";
+      denovo.addEventListener("click", () => abrirNivel(nivel));
+      const niv = document.createElement("button");
+      niv.className = "btn btn-ghost btn-mini";
+      niv.textContent = "📊 Níveis";
+      niv.addEventListener("click", () => { montarNiveis(); show("niveis"); });
+      acoes.append(denovo, niv);
+      card.append(est, tit, memo, acoes);
+      vinheta.appendChild(card);
+      el.board.appendChild(vinheta);
+      setMsg("");
+    }
+    </script>
+</body>
+</html>
