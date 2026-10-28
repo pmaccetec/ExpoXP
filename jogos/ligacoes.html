@@ -163,6 +163,9 @@ h1 .lab { color: var(--lab-lime); }
   overflow-wrap: break-word;
 }
 
+/* padrão do jogo: nome da cientista em duas linhas (nome / sobrenome) */
+.chick[data-lado="c"] .ch-nome span { display: block; line-height: 1.25; }
+
 .chick:hover { border-color: var(--lab-lime); transform: translateY(-1px); }
 
 .chick.selecionado { border-color: var(--lab-lime); background: rgba(174, 234, 0, 0.12); box-shadow: 0 0 0 3px rgba(174, 234, 0, 0.18); }
@@ -362,7 +365,7 @@ h1 .lab { color: var(--lab-lime); }
   .card { padding: 18px 12px; }
   .map-sub { font-size: 13px; }
   .map-status { margin-bottom: 12px; }
-  .board { grid-template-columns: minmax(104px, 1fr) 24px minmax(140px, 1.35fr); gap: 5px; }
+  .board { grid-template-columns: minmax(148px, 1.15fr) 24px minmax(120px, 1fr); gap: 5px; }
   .col { gap: 6px; }
   .col-title { font-size: 10px; letter-spacing: 0.08em; }
   .chick { font-size: 12px; padding: 7px 8px; gap: 6px; min-height: 38px; }
@@ -370,9 +373,8 @@ h1 .lab { color: var(--lab-lime); }
   .mini-speak { width: 22px; height: 22px; font-size: 11px; }
   .ch-check { width: 22px; height: 22px; font-size: 14px; }
   .map-name { font-size: 19px; }
-  /* rede estática: cientista em linha única (sem quebrar), descoberta encolhe */
-  .board.estatico { grid-template-columns: minmax(200px, 1.9fr) 14px minmax(80px, 1fr); }
-  .board.estatico .chick[data-lado="c"] .ch-nome { font-size: 11.5px; white-space: nowrap; }
+  /* rede estática: nomes em duas linhas liberam largura pra descoberta */
+  .board.estatico { grid-template-columns: minmax(150px, 1.15fr) 14px minmax(110px, 1fr); }
   .board.estatico .chick[data-lado="m"] .ch-nome { font-size: 11.5px; overflow-wrap: anywhere; }
   .lista-lig li { font-size: 13px; padding: 8px 10px; grid-template-columns: 144px auto minmax(0, 1fr); }
   .lista-lig .mini-speak { width: 20px; height: 20px; font-size: 10px; }
@@ -741,15 +743,30 @@ h1 .lab { color: var(--lab-lime); }
       return a;
     }
 
+    // nome em duas linhas (nome em cima, sobrenome embaixo) — padrão do jogo:
+    // o chip fica mais estreito e a descoberta ganha espaço
+    function nomeDuasLinhas(nome) {
+      const frag = document.createDocumentFragment();
+      const partes = nome.split(" ");
+      const l1 = document.createElement("span");
+      l1.textContent = partes.slice(0, -1).join(" ");
+      const l2 = document.createElement("span");
+      l2.textContent = partes[partes.length - 1];
+      if (l1.textContent) frag.appendChild(l1);
+      frag.appendChild(l2);
+      return frag;
+    }
+
     function chip(lado, item) {
       const b = document.createElement("button");
       b.type = "button";
       b.className = "chick";
       b.dataset.lado = lado;
       b.dataset.id = item.id;
-      const rotulo = lado === "c" ? item.nome : item.label;
       b.innerHTML = '<span class="ch-emoji" aria-hidden="true">' + item.emoji + '</span><span class="ch-nome"></span>';
-      b.querySelector(".ch-nome").textContent = rotulo;
+      const nomeEl = b.querySelector(".ch-nome");
+      if (lado === "c") nomeEl.appendChild(nomeDuasLinhas(item.nome));
+      else nomeEl.textContent = item.label;
 
       if (lado === "c") {
         const nomeAudio = item.audio || item.nome;
@@ -1043,7 +1060,9 @@ h1 .lab { color: var(--lab-lime); }
       const d = document.createElement("div");
       d.className = "chick";
       d.innerHTML = '<span class="ch-emoji" aria-hidden="true">' + item.emoji + '</span><span class="ch-nome"></span>';
-      d.querySelector(".ch-nome").textContent = lado === "c" ? item.nome : item.label;
+      const nomeEl = d.querySelector(".ch-nome");
+      if (lado === "c") nomeEl.appendChild(nomeDuasLinhas(item.nome));
+      else nomeEl.textContent = item.label;
       if (lado === "c") {
         const nomeAudio = item.audio || item.nome;
         if (PRONUNCIAS[nomeAudio]) {
@@ -1188,13 +1207,7 @@ h1 .lab { color: var(--lab-lime); }
           // feito sempre começa do lado, alinhado com os outros
           const llNome = document.createElement("span");
           llNome.className = "ll-nome";
-          const partes = p.nome.split(" ");
-          const l1 = document.createElement("span");
-          l1.textContent = partes.slice(0, -1).join(" ");
-          const l2 = document.createElement("span");
-          l2.textContent = partes[partes.length - 1];
-          if (l1.textContent) llNome.appendChild(l1);
-          llNome.appendChild(l2);
+          llNome.appendChild(nomeDuasLinhas(p.nome));
           const nomeAudio = p.audio || p.nome;
           if (PRONUNCIAS[nomeAudio]) {
             const sp = document.createElement("button");
