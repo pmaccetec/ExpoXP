@@ -138,6 +138,7 @@ h1 .lab { color: var(--lab-lime); }
 }
 
 .chick {
+  position: relative; /* âncora do selo ✓ */
   font-family: var(--font);
   font-size: 13.5px;
   font-weight: 600;
@@ -163,8 +164,12 @@ h1 .lab { color: var(--lab-lime); }
   overflow-wrap: break-word;
 }
 
-/* padrão do jogo: nome da cientista em duas linhas (nome / sobrenome) */
-.chick[data-lado="c"] .ch-nome span { display: block; line-height: 1.25; }
+/* padrão do jogo: nome da cientista em duas linhas (nome / sobrenome),
+   cada linha inteira — nunca quebra no meio */
+.chick[data-lado="c"] .ch-nome span { display: block; line-height: 1.15; white-space: nowrap; }
+
+/* card da cientista um pouco mais compacto */
+.chick[data-lado="c"] { padding: 6px 10px; }
 
 .chick:hover { border-color: var(--lab-lime); transform: translateY(-1px); }
 
@@ -187,20 +192,25 @@ h1 .lab { color: var(--lab-lime); }
 .chick.ligado { border-color: var(--success); background: rgba(174, 213, 129, 0.1); cursor: default; }
 .chick.ligado:hover { transform: none; }
 
-/* ✓ de ligação formada: mesma caixa 24px do 🔊, glifo centralizado —
-   os dois ficam lado a lado alinhados no eixo do chip */
+/* ✓ de ligação formada: selo no canto do chip — fora do fluxo,
+   pra não roubar a largura do nome/da descoberta */
 .ch-check {
-  flex-shrink: 0;
+  position: absolute;
+  top: -8px;
+  right: -8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
-  color: var(--success);
+  width: 20px;
+  height: 20px;
+  color: #0B1420;
+  background: var(--success);
+  border: 2px solid var(--lab-navy-2);
+  border-radius: 999px;
   font-weight: 800;
-  font-size: 15px;
+  font-size: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
 }
-.chick[data-lado="m"] .ch-check { margin-left: auto; }
 
 /* fios da rede (SVG por cima do tabuleiro) */
 .wires {
@@ -365,16 +375,20 @@ h1 .lab { color: var(--lab-lime); }
   .card { padding: 18px 12px; }
   .map-sub { font-size: 13px; }
   .map-status { margin-bottom: 12px; }
-  .board { grid-template-columns: minmax(148px, 1.15fr) 24px minmax(120px, 1fr); gap: 5px; }
+  .board { grid-template-columns: minmax(148px, 1fr) 24px minmax(124px, 1.15fr); gap: 5px; }
   .col { gap: 6px; }
   .col-title { font-size: 10px; letter-spacing: 0.08em; }
   .chick { font-size: 12px; padding: 7px 8px; gap: 6px; min-height: 38px; }
+  .chick[data-lado="c"] { padding: 5px 7px; gap: 4px; min-height: 0; }
+  .chick[data-lado="c"] .ch-emoji { font-size: 12px; }
+  .chick[data-lado="c"] .mini-speak { width: 20px; height: 20px; font-size: 10px; }
   .chick .ch-emoji { font-size: 14px; }
   .mini-speak { width: 22px; height: 22px; font-size: 11px; }
-  .ch-check { width: 22px; height: 22px; font-size: 14px; }
+  .ch-check { width: 17px; height: 17px; font-size: 10px; top: -7px; right: -7px; border-width: 2px; }
   .map-name { font-size: 19px; }
   /* rede estática: nomes em duas linhas liberam largura pra descoberta */
-  .board.estatico { grid-template-columns: minmax(150px, 1.15fr) 14px minmax(110px, 1fr); }
+  .board.estatico { grid-template-columns: minmax(150px, 1fr) 14px minmax(112px, 1.1fr); }
+  .board.estatico .chick[data-lado="c"] .ch-nome { font-size: 12px; }
   .board.estatico .chick[data-lado="m"] .ch-nome { font-size: 11.5px; overflow-wrap: anywhere; }
   .lista-lig li { font-size: 13px; padding: 8px 10px; grid-template-columns: 144px auto minmax(0, 1fr); }
   .lista-lig .mini-speak { width: 20px; height: 20px; font-size: 10px; }
