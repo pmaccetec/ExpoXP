@@ -70,7 +70,7 @@ Regra de ouro herdada de 2025: **o hub só lista jogo publicado**. Nada de card 
 #### Jogo-bandeira da feira — Guardiãs da Ciência *(externo · fora do pipeline)*
 
 - **Execução (29/10/2026): integrado ao portal e à home.** Jogo maior construído à parte (Claude artifact) e publicado em domínio próprio: **`guardioes-expo.arraial.rio.br`** — "A manhã sem nomes": cerração apaga os nomes das 22 cientistas espalhadas pelos locais reais de Arraial; o jogador as encontra, refaz as descobertas e devolve os nomes. Contas por apelido (sem senha/e-mail), salvamento por QR code/código de 6 letras, mapa OpenStreetMap, pixel art, chat só com frases prontas até um adulto guardar a conta.
-- No portal (`/jogos`) e na seção Jogos da home entra como **card de destaque no topo** (🧭, borda e selo "★ O grande jogo da feira") — link externo direto, sem iframe. A ordem pedagógica dos 4 jogos nativos permanece: Ligações → Diário → Ada → Duelo.
+- No portal (`/jogos`) e na seção Jogos da home entra como **card de destaque** (🧭, borda e selo "★ O grande jogo da feira") — link externo direto, sem iframe. A ordem pedagógica dos 4 jogos nativos permanece: Ligações → Diário → Ada → Duelo. *Ajuste (29/10 à tarde): o card saiu do topo e passou a **fechar as duas listas** — no celular ele sozinho ocupava a primeira dobra e os jogos rápidos morriam embaixo; agora é o grande final, mantendo o visual de destaque.*
 
 #### Sugestões extras (pedidas na conversa — não estão no pipeline)
 
