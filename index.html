@@ -856,6 +856,41 @@ body {
   flex-shrink: 0;
 }
 
+/* Jogo-bandeira da feira (externo, mais elaborado) */
+.game-cta.destaque {
+  grid-column: 1 / -1;
+  border: 2px solid var(--lab-lime-glow);
+  background:
+    linear-gradient(135deg, var(--lab-lime-soft), rgba(2, 119, 189, 0.08)),
+    var(--color-surface);
+  padding: var(--space-24) var(--space-20);
+}
+
+.game-cta.destaque:hover {
+  box-shadow: var(--shadow-lg), 0 0 26px rgba(174, 234, 0, 0.18);
+}
+
+.game-cta.destaque .game-emoji {
+  width: 68px;
+  height: 68px;
+  font-size: 34px;
+}
+
+.game-cta.destaque h3 { font-size: var(--font-size-xl); }
+
+.game-tag {
+  display: inline-block;
+  margin-top: var(--space-8);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #0B1420;
+  background: var(--lab-lime);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+
 .games-portal {
   text-align: center;
 }
@@ -1508,6 +1543,15 @@ body {
                 <p class="section-subtitle">Feitos pela Subsecretaria de Ciência e Tecnologia para a 3ª edição — jogue, aprenda e compartilhe</p>
 
                 <div class="games-grid">
+                    <a class="game-cta destaque" href="https://guardioes-expo.arraial.rio.br/">
+                        <div class="game-emoji" aria-hidden="true">🧭</div>
+                        <div>
+                            <h3>Guardiãs da Ciência</h3>
+                            <p>Uma cerração apagou os nomes das cientistas. Percorra o mapa de Arraial do Cabo, encontre as 22 guardiãs e devolva seus nomes — jogue no celular e continue na feira.</p>
+                            <span class="game-tag">★ O grande jogo da feira</span>
+                        </div>
+                        <div class="game-arrow" aria-hidden="true">→</div>
+                    </a>
                     <a class="game-cta" href="jogos/ligacoes.html">
                         <div class="game-emoji" aria-hidden="true">🧬</div>
                         <div>
@@ -1521,6 +1565,14 @@ body {
                         <div>
                             <h3>Diário de Cientista</h3>
                             <p>Uma história interativa com três finais: suas escolhas levam de um caderno na Expo XP a uma carreira científica.</p>
+                        </div>
+                        <div class="game-arrow" aria-hidden="true">→</div>
+                    </a>
+                    <a class="game-cta" href="jogos/ada.html">
+                        <div class="game-emoji" aria-hidden="true">⚙️</div>
+                        <div>
+                            <h3>Código de Ada</h3>
+                            <p>Programe o engenho coletor com cartões — avançar, girar, repetir — e colete as amostras do laboratório. Oito níveis, estrelas por programa enxuto.</p>
                         </div>
                         <div class="game-arrow" aria-hidden="true">→</div>
                     </a>

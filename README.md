@@ -24,7 +24,7 @@ Abrir `http://localhost:8000`. Não há build, `package.json` nem dependências.
 |---|---|
 | `/` | Home 2026 "Mulheres na Ciência": hero + contagem regressiva (**feira: 3 e 4/11/2026**), tema+estatísticas, 12 cards de cientistas com 🔊 pronúncia, seção Jogos, edições anteriores |
 | `/edicoes` | Site das edições 2023/2025 (histórico, sem newsletter; ponte de volta pro 2026) |
-| `/jogos` | Portal Jogos da Ciência, em ordem pedagógica (do mais fácil pro mais difícil): **Ligações da Ciência** (rede de descobertas, 3 mapas + grafo completo no fim) → **Diário de Cientista** (narrativa interativa, 3 finais) → **Duelo de Laboratório** (hotseat 2 jogadores) — o hub só lista jogo publicado, nunca "em breve" |
+| `/jogos` | Portal Jogos da Ciência: **Guardiãs da Ciência** em card de destaque no topo (jogo-bandeira da feira, externo — `guardioes-expo.arraial.rio.br`, mapa de Arraial com 22 cientistas, contas por apelido) e, em ordem pedagógica (do mais fácil pro mais difícil): **Ligações da Ciência** (rede de descobertas, 3 mapas + grafo completo no fim) → **Diário de Cientista** (narrativa interativa, 3 finais) → **Código de Ada** (programação visual, 8 níveis) → **Duelo de Laboratório** (hotseat 2 jogadores) — o hub só lista jogo publicado, nunca "em breve" |
 | `/audio/nomes/` | MP3s de pronúncia 🔊 dos nomes das cientistas (no idioma original de cada uma) — usados por home e jogos |
 
 ## Onde editar as coisas importantes

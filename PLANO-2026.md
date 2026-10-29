@@ -67,6 +67,11 @@ Regra de ouro herdada de 2025: **o hub só lista jogo publicado**. Nada de card 
 - **Gatilho:** só começa se os 3 primeiros estiverem publicados **até ~02/nov**. Senão, vira pós-evento ou 2027.
 - *Execução (27/10/2026): **PUBLICADO** — `/jogos/ada`* com 8 níveis (avançar → girar → laços → serpentina → diagonal), estrelas por eficiência (≤ par = 3★), laço `REPETIR N×` de um nível (sem aninhamento), memos de laboratório por nível com os fatos já curados (Ada, Grace, Hedy, Katherine, Mayana, Bertha, Marie, Dorothy) e 🔊 de pronúncia, progresso em `localStorage`, modo `?gabarito` (badge + botão que carrega a solução ideal).
 
+#### Jogo-bandeira da feira — Guardiãs da Ciência *(externo · fora do pipeline)*
+
+- **Execução (29/10/2026): integrado ao portal e à home.** Jogo maior construído à parte (Claude artifact) e publicado em domínio próprio: **`guardioes-expo.arraial.rio.br`** — "A manhã sem nomes": cerração apaga os nomes das 22 cientistas espalhadas pelos locais reais de Arraial; o jogador as encontra, refaz as descobertas e devolve os nomes. Contas por apelido (sem senha/e-mail), salvamento por QR code/código de 6 letras, mapa OpenStreetMap, pixel art, chat só com frases prontas até um adulto guardar a conta.
+- No portal (`/jogos`) e na seção Jogos da home entra como **card de destaque no topo** (🧭, borda e selo "★ O grande jogo da feira") — link externo direto, sem iframe. A ordem pedagógica dos 4 jogos nativos permanece: Ligações → Diário → Ada → Duelo.
+
 #### Sugestões extras (pedidas na conversa — não estão no pipeline)
 
 - **Mastermind das Cientistas** *(dedução · custo baixo)*: adivinhe a cientista secreta por atributos (século/área/país) com feedback lógico estilo Mastermind/Guess Who. Mecânica dedutiva inédita; cabe como 4º barato se Ada cair.
@@ -81,6 +86,7 @@ Regra de ouro herdada de 2025: **o hub só lista jogo publicado**. Nada de card 
 | 27–29/out | **Diário de Cientista** no ar | ✅ feito (22/out, `/jogos/diario`) |
 | 30/out–02/nov | **Ligações da Ciência** no ar | ✅ feito (27/out, `/jogos/ligacoes`) |
 | 03/nov+ | **Código de Ada** — só se os 3 acima estiverem publicados | ✅ feito (27/out, `/jogos/ada`) |
+| 29/out | **Guardiãs da Ciência** (externa) no portal e na home como destaque | ✅ feito (29/out, card destaque) |
 | semana do evento | Arena Gamer usa o portal; banner no site oficial | — |
 
 *Nota de infra (22/out): o portal está publicando dentro do worker `expoxp` em `/jogos/` (deploy direto com wrangler; builds do git seguem quebrados). O repo/CNAME dedicado `jogosdaciencia.arraial.rj.gov.br` fica como migração futura quando o dash for consertado.*
