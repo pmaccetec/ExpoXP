@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Duelo de Laboratório — jogo de duelo de conhecimentos sobre mulheres na ciência, para 2 jogadores no mesmo aparelho. Jogos da Ciência da Expo XP 2026, Arraial do Cabo.">
+    <meta name="description" content="Duelo de Laboratório — jogo de duelo de conhecimentos sobre mulheres na ciência, para 2 jogadores no mesmo dispositivo. Jogos da Ciência da Expo XP 2026, Arraial do Cabo.">
     <title>Duelo de Laboratório — Jogos da Ciência · Expo XP 2026</title>
     <style>
 :root {
@@ -233,7 +233,7 @@ h1 .lab { color: var(--lab-lime); }
 .name-field input:focus { outline: none; border-color: var(--lab-lime); }
 .name-field.p2 input:focus { border-color: var(--lab-blue); }
 
-/* Intermediária (passe o celular) */
+/* Intermediária (dê a vez) */
 .turn-emoji { font-size: 52px; text-align: center; display: block; margin-bottom: 14px; }
 
 .turn-title { font-size: 24px; font-weight: 800; text-align: center; margin-bottom: 8px; }
@@ -495,10 +495,10 @@ h1 .lab { color: var(--lab-lime); }
         <section class="card screen active" id="screenStart">
             <span class="start-emoji" aria-hidden="true">⚗️</span>
             <h1>Duelo de <span class="lab">Laboratório</span></h1>
-            <p class="subtitle">Duas pessoas, um celular, doze perguntas. Quem enche o tubo primeiro?</p>
+            <p class="subtitle">Duas pessoas, um dispositivo, doze perguntas. Quem enche o tubo primeiro?</p>
 
             <ul class="rules">
-                <li><span aria-hidden="true">📱</span><span><strong>Passe o celular:</strong> cada pergunta é de quem está jogando, na sua vez</span></li>
+                <li><span aria-hidden="true">➡️</span><span><strong>Dê a vez:</strong> cada pergunta é de quem está jogando, na sua vez</span></li>
                 <li><span aria-hidden="true">🧪</span><span><strong>10 perguntas normais</strong> (1 ponto) sobre mulheres que fizeram a ciência</span></li>
                 <li><span aria-hidden="true">⚡</span><span><strong>Reação Rápida:</strong> as 2 últimas valem <strong>2 pontos</strong> e o tempo corre!</span></li>
                 <li><span aria-hidden="true">👑</span><span>No fim, quem vencer leva o <strong>título de cientista</strong> do duelo</span></li>
@@ -530,11 +530,11 @@ h1 .lab { color: var(--lab-lime); }
             </div>
         </section>
 
-        <!-- Intermediária: passe o celular -->
+        <!-- Intermediária: dê a vez -->
         <section class="card screen" id="screenTurn">
-            <span class="turn-emoji" aria-hidden="true">📱</span>
+            <span class="turn-emoji" aria-hidden="true">➡️</span>
             <div class="turn-title" id="turnTitle">Nome</div>
-            <p class="turn-sub" id="turnSub">Passe o celular</p>
+            <p class="turn-sub" id="turnSub">Dê a vez</p>
             <div class="center">
                 <button class="btn btn-primary" id="btnReady">Sou eu! Vamos lá 🧪</button>
             </div>
@@ -882,7 +882,7 @@ h1 .lab { color: var(--lab-lime); }
       el.turnTitle.className = "turn-title " + (current === 0 ? "p1" : "p2");
       const fastNow = idx >= FAST_FROM;
       el.turnSub.textContent = "Pergunta " + (idx + 1) + " de 12 — "
-        + (fastNow ? "⚡ REAÇÃO RÁPIDA, vale " + FAST_POINTS + " pontos!" : "passe o celular para " + names[current] + " responder");
+        + (fastNow ? "⚡ REAÇÃO RÁPIDA, vale " + FAST_POINTS + " pontos!" : "dê a vez para " + names[current] + " responder");
       show("turn");
       document.getElementById("btnReady").focus();
     }
