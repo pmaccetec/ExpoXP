@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Código de Ada — programe o engenho coletor com cartões (avançar, girar, repetir) e colete as amostras do laboratório. Jogos da Ciência · Expo XP 2026, Arraial do Cabo.">
+    <meta name="description" content="Código de Ada — programe o robô coletor com cartões (avançar, girar, repetir) e colete as amostras do laboratório. Jogos da Ciência · Expo XP 2026, Arraial do Cabo.">
     <title>Código de Ada — Jogos da Ciência · Expo XP 2026</title>
     <style>
 :root {
@@ -167,7 +167,7 @@ h1 .lab { color: var(--lab-lime); }
 @keyframes pulsa-amostra { 0%, 100% { filter: drop-shadow(0 0 0 rgba(174, 234, 0, 0)); } 50% { filter: drop-shadow(0 0 5px rgba(174, 234, 0, 0.9)); } }
 @keyframes colhe { to { transform: scale(1.9); opacity: 0; } }
 
-/* o engenho (rover) — posicionado por calc() pra respeitar o gap do grid */
+/* o robô (rover) — posicionado por calc() pra respeitar o gap do grid */
 .rover {
   position: absolute;
   left: 6px;
@@ -187,13 +187,13 @@ h1 .lab { color: var(--lab-lime); }
   box-shadow: 0 0 10px rgba(174, 234, 0, 0.35);
   transition: transform 260ms ease;
 }
-.rover-core::after {               /* seta que aponta pra frente */
+.rover-core::after {               /* seta que aponta pra frente — base na borda do robô, ponta pra fora */
   content: "";
   position: absolute;
-  right: 3px;
+  right: -6px;
   border-top: 4px solid transparent;
   border-bottom: 4px solid transparent;
-  border-right: 6px solid var(--lab-lime);
+  border-left: 6px solid var(--lab-lime);
 }
 .rover.bateu .rover-core { animation: treme 0.4s ease; border-color: var(--error); }
 @keyframes treme { 0%, 100% { transform: translateX(0) rotate(var(--giro, 0deg)); } 25% { transform: translateX(-4px) rotate(var(--giro, 0deg)); } 75% { transform: translateX(4px) rotate(var(--giro, 0deg)); } }
@@ -283,8 +283,8 @@ h1 .lab { color: var(--lab-lime); }
   cursor: pointer;
   transition: border-color 150ms ease, transform 150ms ease;
 }
-.pbtn:hover:not(:disabled) { border-color: var(--lab-lime); transform: translateY(-1px); }
-.pbtn:disabled { opacity: 0.35; cursor: default; }
+.pbtn:hover:not(:disabled):not([aria-disabled="true"]) { border-color: var(--lab-lime); transform: translateY(-1px); }
+.pbtn:disabled, .pbtn[aria-disabled="true"] { opacity: 0.35; cursor: default; }
 .pbtn .p-icone { margin-right: 4px; }
 .pbtn.rep { border-color: rgba(174, 234, 0, 0.5); }
 
@@ -381,11 +381,11 @@ h1 .lab { color: var(--lab-lime); }
         <section class="card screen active" id="screenStart">
             <span class="start-emoji" aria-hidden="true">⚙️</span>
             <h1>Código de <span class="lab">Ada</span></h1>
-            <p class="subtitle">Em 1843, Ada Lovelace escreveu o primeiro programa da história. Agora é a sua vez: mande no engenho coletor com cartões perfurados.</p>
+            <p class="subtitle">Em 1843, Ada Lovelace escreveu o primeiro programa da história. Agora é a sua vez: mande no robô coletor com cartões perfurados.</p>
 
             <ul class="rules">
-                <li><span aria-hidden="true">🧩</span><span>Monte um programa na <strong>fita de cartões</strong>: avançar, girar e <strong>repetir N×</strong></span></li>
-                <li><span aria-hidden="true">🤖</span><span>O <strong>engenho de Ada</strong> executa a fita e coleta as <strong>amostras</strong> do laboratório</span></li>
+                <li><span aria-hidden="true">🧩</span><span>Monte o programa na <strong>fita de cartões</strong>: avançar, girar e <strong>repetir N×</strong> — o Repetir vem antes e abraça os cartões seguintes até o <strong>Fechar laço</strong></span></li>
+                <li><span aria-hidden="true">🤖</span><span>O <strong>robô de Ada</strong> executa a fita e coleta as <strong>amostras</strong> do laboratório</span></li>
                 <li><span aria-hidden="true">⭐</span><span><strong>Menos cartões, mais estrelas</strong> — laços valem ouro (bater na estante não vale)</span></li>
                 <li><span aria-hidden="true">🧾</span><span>Cada nível concluído abre um <strong>memo de uma cientista</strong> de verdade 🔊</span></li>
             </ul>
@@ -431,7 +431,7 @@ h1 .lab { color: var(--lab-lime); }
                     <button class="pbtn" type="button" data-t="GE"><span class="p-icone" aria-hidden="true">⟲</span>Girar</button>
                     <button class="pbtn" type="button" data-t="GD"><span class="p-icone" aria-hidden="true">⟳</span>Girar</button>
                     <button class="pbtn rep" type="button" data-t="REP"><span class="p-icone" aria-hidden="true">🔁</span>Repetir</button>
-                    <button class="pbtn" type="button" data-t="FIM">Fim</button>
+                    <button class="pbtn" type="button" data-t="FIM"><span class="p-icone" aria-hidden="true">⏹</span>Fechar laço</button>
                 </div>
                 <div class="run-bar">
                     <button class="btn btn-primary btn-mini" id="btnRun">▶ Executar</button>
@@ -439,7 +439,7 @@ h1 .lab { color: var(--lab-lime); }
                     <button class="btn btn-ghost btn-mini" id="btnLimpar">🗑 Limpar</button>
                     <button class="btn btn-ghost btn-mini" id="btnSolucao" hidden>👀 Solução</button>
                 </div>
-                <p class="ajuda">Toque num cartão da fita pra tirá-lo · toque no <b>Repetir</b> da fita pra mudar quantas vezes (2× a 9×)</p>
+                <p class="ajuda">Toque num cartão da fita pra tirá-lo · toque no <b>Repetir</b> da fita pra mudar quantas vezes (2× a 9×) · o <b>Repetir</b> repete os cartões seguintes até o <b>FIM</b></p>
             </div>
         </section>
     </main>
@@ -544,7 +544,7 @@ h1 .lab { color: var(--lab-lime); }
       },
       {
         nome: "Quina do laboratório",
-        dica: "O caminho dobra. Use GIRAR ⟳ para o engenho virar à direita e seguir até a última amostra.",
+        dica: "O caminho dobra. Use GIRAR ⟳ para o robô virar à direita e seguir até a última amostra.",
         grade: [
           "........",
           ".R..S...",
@@ -751,8 +751,10 @@ h1 .lab { color: var(--lab-lime); }
     let programa = [];       // [{t:'AV'|'GE'|'GD'|'REP'|'FIM', n?:2..9}]
     let rodando = false;
     let timerPasso = null;
+    let timerRetorno = null; // retorno do robô ao início após falha
 
     function abrirNivel(i) {
+      clearTimeout(timerRetorno);
       nivel = i;
       const nv = NIVEIS[i];
       grade = nv.grade.map(l => l.split(""));
@@ -888,13 +890,21 @@ h1 .lab { color: var(--lab-lime); }
 
     function atualizarPalette() {
       const aberto = repAberto();
-      el.palette.querySelector('[data-t="REP"]').disabled = aberto; // laço dentro de laço fica pra próxima
-      el.palette.querySelector('[data-t="FIM"]').disabled = !aberto;
+      // laço dentro de laço fica pra próxima — usa aria-disabled (e não disabled)
+      // pra que o toque no botão bloqueado mostre o motivo na mensagem
+      el.palette.querySelector('[data-t="REP"]').setAttribute("aria-disabled", String(aberto));
+      el.palette.querySelector('[data-t="FIM"]').setAttribute("aria-disabled", String(!aberto));
     }
 
     el.palette.addEventListener("click", e => {
       const btn = e.target.closest(".pbtn");
-      if (!btn || btn.disabled || rodando) return;
+      if (!btn || rodando) return;
+      if (btn.getAttribute("aria-disabled") === "true") {
+        setMsg(btn.dataset.t === "REP"
+          ? "Já existe um REPETIR aberto — feche o laço atual com o FECHAR LAÇO antes de abrir outro."
+          : "FECHAR LAÇO serve para fechar um REPETIR aberto — adicione primeiro o cartão Repetir.", "");
+        return;
+      }
       const t = btn.dataset.t;
       if (t === "REP") programa.push({ t: "REP", n: 3 });
       else if (t === "FIM") programa.push({ t: "FIM" });
@@ -905,8 +915,11 @@ h1 .lab { color: var(--lab-lime); }
 
     el.btnLimpar.addEventListener("click", () => {
       if (rodando) return;
+      clearTimeout(timerRetorno);
       programa = [];
+      resetarPartida();
       renderFita();
+      setMsg("Fita limpa — o robô voltou ao início do nível.", "");
     });
 
     el.btnSolucao.addEventListener("click", () => {
@@ -972,6 +985,7 @@ h1 .lab { color: var(--lab-lime); }
 
     el.btnRun.addEventListener("click", () => {
       if (rodando) return;
+      clearTimeout(timerRetorno);
       if (!programa.length) { setMsg("Monte um programa com os cartões antes de executar.", "ruim"); return; }
       pararFalas();
       rodando = true;
@@ -1009,8 +1023,9 @@ h1 .lab { color: var(--lab-lime); }
           roverEl.style.setProperty("--giro", rang + "deg");
           roverEl.classList.add("bateu");
           const onde = (ny < 0 || ny > 7 || nx < 0 || nx > 7) ? "na parede" : "na estante";
-          setTimeout(() => setMsg("💥 O engenho bateu " + onde + "! Ajuste os cartões e tente de novo.", "ruim"), 300);
+          setTimeout(() => setMsg("💥 O robô bateu " + onde + "! Ajuste os cartões — o robô volta ao início sozinho.", "ruim"), 300);
           setTimeout(() => pararPrograma(false), 900);
+          timerRetorno = setTimeout(resetarPartida, 1500);
           return;
         }
         rx = nx; ry = ny;
@@ -1037,7 +1052,8 @@ h1 .lab { color: var(--lab-lime); }
     function fimDePrograma() {
       pararPrograma(false);
       if (coletadas < totalAmostras) {
-        setMsg("A fita acabou e faltaram " + (totalAmostras - coletadas) + " amostra" + (totalAmostras - coletadas > 1 ? "s" : "") + ". Some cartões ou mude a rota!", "ruim");
+        setMsg("A fita acabou e faltaram " + (totalAmostras - coletadas) + " amostra" + (totalAmostras - coletadas > 1 ? "s" : "") + ". Some cartões ou mude a rota — o robô volta ao início sozinho!", "ruim");
+        timerRetorno = setTimeout(resetarPartida, 700);
       }
     }
 
