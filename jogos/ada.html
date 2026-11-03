@@ -391,6 +391,7 @@ h1 .lab { color: var(--lab-lime); }
             </ul>
 
             <div class="center">
+                <button class="btn btn-primary" id="btnContinuar" hidden></button>
                 <button class="btn btn-primary" id="btnComecar">Começar a programar 🚀</button>
                 <button class="btn btn-ghost" id="btnVerNiveis" hidden>📊 Níveis</button>
                 <a class="btn btn-ghost" href="index.html">Mais jogos</a>
@@ -676,7 +677,8 @@ h1 .lab { color: var(--lab-lime); }
       btnStop: document.getElementById("btnStop"),
       btnLimpar: document.getElementById("btnLimpar"),
       btnSolucao: document.getElementById("btnSolucao"),
-      btnVerNiveis: document.getElementById("btnVerNiveis")
+      btnVerNiveis: document.getElementById("btnVerNiveis"),
+      btnContinuar: document.getElementById("btnContinuar")
     };
 
     // ---- progresso (estrelas por nível) ----
@@ -700,16 +702,38 @@ h1 .lab { color: var(--lab-lime); }
       screens[nome].classList.add("active");
     }
 
+    function proximoNivel() {
+      return NIVEIS.findIndex((n, i) => nivelLiberado(i) && !estrelas[i]);
+    }
+
+    // tela inicial: com progresso salvo, oferece Continuar (onde parou) ou Recomeçar (nível 1)
+    function atualizarComecar() {
+      const temProgresso = proximoNivel() > 0;
+      el.btnContinuar.hidden = !temProgresso;
+      if (temProgresso) {
+        el.btnContinuar.textContent = "▶ Continuar · Nível " + (proximoNivel() + 1);
+        el.btnContinuar.className = "btn btn-primary";
+        document.getElementById("btnComecar").className = "btn btn-ghost";
+        document.getElementById("btnComecar").textContent = "↺ Recomeçar do Nível 1";
+      } else {
+        document.getElementById("btnComecar").className = "btn btn-primary";
+        document.getElementById("btnComecar").textContent = "Começar a programar 🚀";
+      }
+    }
+
     document.getElementById("btnComecar").addEventListener("click", () => {
-      const proximo = NIVEIS.findIndex((n, i) => nivelLiberado(i) && !estrelas[i]);
       montarNiveis();
-      show("niveis");
-      if (proximo >= 0) setTimeout(() => abrirNivel(proximo), 50); // segue de onde parou
+      abrirNivel(0); // sempre do início
+    });
+    el.btnContinuar.addEventListener("click", () => {
+      const proximo = proximoNivel();
+      if (proximo >= 0) abrirNivel(proximo); // segue de onde parou
     });
     el.btnVerNiveis.addEventListener("click", () => { montarNiveis(); show("niveis"); });
-    document.getElementById("btnNiveisInicio").addEventListener("click", () => show("start"));
+    document.getElementById("btnNiveisInicio").addEventListener("click", () => { atualizarComecar(); show("start"); });
     document.getElementById("btnJogoNiveis").addEventListener("click", () => { montarNiveis(); show("niveis"); });
     if (Object.keys(estrelas).length) el.btnVerNiveis.hidden = false;
+    atualizarComecar();
 
     // ---- seleção de níveis ----
     function estrelasTxt(n) {
@@ -839,7 +863,14 @@ h1 .lab { color: var(--lab-lime); }
 
     // ---- fita de cartões ----
     function repAberto() {
-      return programa.some(t => t.t === "REP") && !programa.some(t => t.t === "FIM");
+      // percorre a fita como uma maquininha de estados: REP abre, FIM fecha.
+      // (o some() antigo via QUALQUER FIM e travava o 2º laço pra sempre)
+      let aberto = false;
+      programa.forEach(t => {
+        if (t.t === "REP") aberto = true;
+        else if (t.t === "FIM") aberto = false;
+      });
+      return aberto;
     }
 
     function renderFita() {
@@ -906,7 +937,7 @@ h1 .lab { color: var(--lab-lime); }
         return;
       }
       const t = btn.dataset.t;
-      if (t === "REP") programa.push({ t: "REP", n: 3 });
+      if (t === "REP") programa.push({ t: "REP", n: 2 });
       else if (t === "FIM") programa.push({ t: "FIM" });
       else programa.push({ t: t });
       renderFita();
