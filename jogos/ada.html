@@ -477,7 +477,7 @@ h1 .lab { color: var(--lab-lime); }
                     <button class="btn btn-ghost btn-mini" id="btnLimpar">🗑 Limpar</button>
                     <button class="btn btn-ghost btn-mini" id="btnSolucao" hidden>👀 Solução</button>
                 </div>
-                <p class="ajuda">Toque num cartão da fita pra tirá-lo · toque no <b>Repetir</b> da fita pra mudar quantas vezes (2× a 9×) · o <b>Repetir</b> repete os cartões seguintes até o <b>FIM</b></p>
+                <p class="ajuda">Toque num cartão da fita pra tirá-lo · no <b>Repetir</b> da fita, o toque aumenta as vezes (2× a 9×) e um toque depois do 9× tira o cartão · o <b>Repetir</b> repete os cartões seguintes até o <b>FIM</b></p>
             </div>
         </section>
     </main>
@@ -926,7 +926,7 @@ h1 .lab { color: var(--lab-lime); }
         if (t.t === "REP") {
           d.classList.add("rep");
           d.innerHTML = '<span class="t-icone" aria-hidden="true">🔁</span>REPETIR <span class="t-n">' + t.n + "×</span>";
-          d.setAttribute("aria-label", "repetir " + t.n + " vezes — toque para mudar");
+          d.setAttribute("aria-label", "repetir " + t.n + " vezes — toque aumenta; um toque depois do 9× tira o cartão");
           dentro = true;
         } else if (t.t === "FIM") {
           d.classList.add("fim");
@@ -948,7 +948,9 @@ h1 .lab { color: var(--lab-lime); }
       if (rodando) return;
       const t = programa[i];
       if (t.t === "REP") {
-        t.n = t.n >= 9 ? 2 : t.n + 1; // ciclo 2..9
+        // sobe 2→9; um toque além do 9× TIRA o cartão — igual aos outros (todo cartão sai)
+        if (t.n >= 9) programa.splice(i, 1);
+        else t.n = t.n + 1;
         renderFita();
         return;
       }
