@@ -915,6 +915,8 @@ h1 .lab { color: var(--lab-lime); }
       el.fita.classList.toggle("vazia", programa.length === 0);
       if (programa.length === 0) {
         el.fita.textContent = "A fita está vazia — toque nos cartões abaixo para montar o programa";
+        atualizarStatus();
+        atualizarPalette(); // sem isto a paleta congelava o estado do laço ao esvaziar a fita
         return;
       }
       let dentro = false;
@@ -949,8 +951,14 @@ h1 .lab { color: var(--lab-lime); }
       const t = programa[i];
       if (t.t === "REP") {
         // sobe 2→9; um toque além do 9× TIRA o cartão — igual aos outros (todo cartão sai)
-        if (t.n >= 9) programa.splice(i, 1);
-        else t.n = t.n + 1;
+        if (t.n >= 9) {
+          programa.splice(i, 1);
+          // tira junto o FECHAR LAÇO correspondente (primeiro FIM depois do REP) — não sobra FIM órfão
+          const j = programa.findIndex((tt, k) => k >= i && tt.t === "FIM");
+          if (j >= 0) programa.splice(j, 1);
+        } else {
+          t.n = t.n + 1;
+        }
         renderFita();
         return;
       }
